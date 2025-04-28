@@ -8,6 +8,7 @@ class Block {
   List<String> links;
   String label;
   Map<String, String> context;
+  String? parentId;
 
   Block({
     required this.id,
@@ -17,5 +18,6 @@ class Block {
     this.links = const [],
     this.label = "Done",
     this.context = const {"context": ""},
+    this.parentId,
   });
 }
