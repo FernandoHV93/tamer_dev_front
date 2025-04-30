@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/views/article_builder/article_builder.dart';
 import 'package:ia_web_front/views/roadmap/roadmap_screen.dart';
 
 class HomeCenterDesing extends StatelessWidget {
@@ -31,13 +32,23 @@ class HomeCenterDesing extends StatelessWidget {
                 function: () {},
               ),
               MiddleHomeElement(
+                headerTitle: 'Roadmap',
+                subTitle: 'View the development roadmap',
+                function: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RoadmapScreen()));
+                },
+              ),
+              MiddleHomeElement(
                 headerTitle: 'Article Builder',
                 subTitle: 'Create new content',
                 function: () {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const RoadmapScreen()));
+                          builder: (context) => const ArticleBuilderScreen()));
                 },
               ),
               MiddleHomeElement(
