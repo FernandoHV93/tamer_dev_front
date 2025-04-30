@@ -15,7 +15,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateRoute: RouteGenerator.onGenerate,
-      initialRoute: WebRoutes.home,
+      initialRoute: WebRoutes.articleBuilder,
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
     );
   }
 }

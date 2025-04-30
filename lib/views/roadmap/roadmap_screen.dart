@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/utils/roadmap_builder.dart';
 import 'package:ia_web_front/domain/entities/block.dart';
 import 'package:ia_web_front/domain/entities/connection.dart';
+import 'package:ia_web_front/domain/entities/leveldata.dart';
 import 'package:ia_web_front/views/roadmap/components/block_widget.dart';
+import 'package:ia_web_front/views/roadmap/components/buildLevelWidget.dart';
+import 'package:ia_web_front/views/roadmap/components/childOptionsButton.dart';
 import 'package:ia_web_front/views/roadmap/components/connection_painter.dart';
 import 'package:ia_web_front/views/roadmap/components/status_section.dart';
 
@@ -58,7 +61,7 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
       builder: (context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(8),
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -190,13 +193,13 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
   }
 
   void addBlock() {
-    final newBlock = Block(
-      id: UniqueKey().toString(),
-      position: const Offset(100, 100),
-      title: 'New Block',
-    );
+    final newRoot = Block(
+        id: UniqueKey().toString(),
+        position: const Offset(100, 100),
+        title: 'Root Block',
+        parentId: null);
     setState(() {
-      blocks.add(newBlock);
+      blocks.add(newRoot);
     });
   }
 
@@ -204,6 +207,182 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
     setState(() {
       connections.add(Connection(fromId: from.id, toId: to.id));
     });
+  }
+
+  void _showChildOptionsDialog(Block parent) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: const Text(
+              'Add Content',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+            ),
+            content: Column(mainAxisSize: MainAxisSize.min, children: [
+              ChildOptionButton(
+                title: 'Single Child',
+                description:
+                    'Add a single article node. Best for adding individual pieces of content',
+                borderColor: Colors.blueAccent,
+                textColor: const Color.fromARGB(255, 104, 164, 213),
+                onPressed: () {
+                  Navigator.pop(context);
+                  addConnectedBlock(parent);
+                },
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              ChildOptionButton(
+                title: 'Bulk Generate',
+                description:
+                    'Generate multiple articles at once. Perfect for planning content clusters',
+                borderColor: Colors.pinkAccent,
+                textColor: Colors.pinkAccent,
+                onPressed: () {
+                  Navigator.pop(context);
+                  _showBulkGenerateDialog(parent);
+                },
+              ),
+            ]),
+          );
+        });
+  }
+
+  void _showBulkGenerateDialog(Block root) {
+    List<NivelData> niveles = [
+      NivelData(title: "Nivel 1", parentId: root.id),
+    ];
+    Map<int, List<Block>> createdBlocksPerLevel = {};
+
+    showDialog(
+      context: context,
+      builder: (_) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Bulk Generate'),
+              backgroundColor: Colors.white,
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ...niveles.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final nivel = entry.value;
+
+                      List<Block> availableParents = [];
+                      if (index > 0) {
+                        availableParents =
+                            createdBlocksPerLevel[index - 1] ?? [];
+                      }
+
+                      return BuildNivelWidget(
+                        nivel: nivel,
+                        index: index,
+                        availableParents: availableParents,
+                        onToggleExpanded: () {
+                          setState(() {
+                            nivel.expanded = !nivel.expanded;
+                          });
+                        },
+                        onAddChildTitle: (value) {
+                          if (value.isNotEmpty) {
+                            setState(() {
+                              nivel.childTitles = [...nivel.childTitles, value];
+                            });
+                          }
+                        },
+                        onChangeParent: (value) {
+                          setState(() {
+                            nivel.parentId = value;
+                          });
+                        },
+                      );
+                    }).toList(),
+                    const SizedBox(height: 12),
+                  ],
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple[200],
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      niveles
+                          .add(NivelData(title: "Nivel ${niveles.length + 1}"));
+                    });
+                  },
+                  child: const Text("Agregar Nivel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancelar'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _generarNiveles(root, niveles);
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[300]),
+                  child: const Text('Generar'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _generarNiveles(Block root, List<NivelData> niveles) {
+    Map<String, Block> idToBlock = {root.id: root};
+    Map<int, List<Block>> createdBlocksPerLevel = {
+      0: [root]
+    };
+
+    for (var levelIndex = 0; levelIndex < niveles.length; levelIndex++) {
+      final nivel = niveles[levelIndex];
+      final List<Block> currentLevelBlocks = [];
+
+      for (var title in nivel.childTitles) {
+        Block parentBlock;
+
+        if (nivel.parentId != null && idToBlock.containsKey(nivel.parentId)) {
+          parentBlock = idToBlock[nivel.parentId!]!;
+        } else {
+          parentBlock = root;
+        }
+
+        final newBlock = Block(
+          id: UniqueKey().toString(),
+          position: parentBlock.position +
+              Offset(0, 150 * (currentLevelBlocks.length + 1)),
+          title: title,
+          parentId: parentBlock.id,
+        );
+
+        final newConnection =
+            Connection(fromId: parentBlock.id, toId: newBlock.id);
+
+        setState(() {
+          blocks.add(newBlock);
+          connections.add(newConnection);
+        });
+
+        idToBlock[newBlock.id] = newBlock;
+        currentLevelBlocks.add(newBlock);
+      }
+
+      createdBlocksPerLevel[levelIndex + 1] = currentLevelBlocks;
+    }
   }
 
   @override
@@ -222,7 +401,7 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: addBlock,
-                      child: const Text('Add New Block'),
+                      child: const Text('Add New Root Block'),
                     ),
                     const SizedBox(height: 20),
                     Expanded(
@@ -313,22 +492,22 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
                                 });
                               },
                               child: BlockWidget(
-                                block: block,
-                                isSelected: selectedBlock == block,
-                                onEdit: () {
-                                  openEditDialog(block);
-                                },
-                                onDelete: () {
-                                  setState(() {
-                                    connections.removeWhere((c) =>
-                                        c.fromId == block.id ||
-                                        c.toId == block.id);
-                                    blocks.remove(block);
-                                    selectedBlock = null;
-                                  });
-                                },
-                                onAddConnected: () => addConnectedBlock(block),
-                              ),
+                                  block: block,
+                                  isSelected: selectedBlock == block,
+                                  onEdit: () {
+                                    openEditDialog(block);
+                                  },
+                                  onDelete: () {
+                                    setState(() {
+                                      connections.removeWhere((c) =>
+                                          c.fromId == block.id ||
+                                          c.toId == block.id);
+                                      blocks.remove(block);
+                                      selectedBlock = null;
+                                    });
+                                  },
+                                  onAddConnected: () =>
+                                      _showChildOptionsDialog(block)),
                             ),
                           );
                         }),
