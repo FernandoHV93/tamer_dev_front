@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/domain/entities/article_builder_entities.dart';
 
 class TopTitleCard extends StatelessWidget {
-  const TopTitleCard({super.key});
+  final ArticleBuilderEntity articleBuilderEntity;
+  final VoidCallback onSave;
+  const TopTitleCard({
+    super.key,
+    required this.articleBuilderEntity,
+    required this.onSave,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,7 @@ class TopTitleCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: onSave,
                 child: Text(
                   'Save Data',
                   style: TextStyle(fontSize: 15, color: Colors.white),
