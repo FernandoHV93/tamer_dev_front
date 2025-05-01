@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/routes/web_routes.dart';
+import 'package:ia_web_front/views/article_builder/article_builder.dart';
 import 'package:ia_web_front/views/home/home_screen.dart';
 import 'package:ia_web_front/views/roadmap/roadmap_screen.dart';
 
@@ -11,6 +12,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case WebRoutes.roadmap:
         return MaterialPageRoute(builder: (_) => const RoadmapScreen());
+      case WebRoutes.articleBuilder:
+        return MaterialPageRoute(builder: (_) => ArticleBuilderScreen());
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
     }

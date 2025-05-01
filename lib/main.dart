@@ -16,6 +16,9 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       onGenerateRoute: RouteGenerator.onGenerate,
       initialRoute: WebRoutes.home,
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
     );
   }
 }
