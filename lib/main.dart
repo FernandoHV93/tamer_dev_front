@@ -4,7 +4,7 @@ import 'package:ia_web_front/core/routes/route_generator.dart';
 import 'package:ia_web_front/core/routes/web_routes.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   runApp(const MainApp());
 }
 
