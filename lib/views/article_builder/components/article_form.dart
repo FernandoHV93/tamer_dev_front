@@ -1,36 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/core/desing/app_constant.dart';
+import 'package:ia_web_front/domain/entities/article_builder_entities.dart';
 import 'package:ia_web_front/views/article_builder/components/custom_dropdown.dart';
 import 'package:ia_web_front/views/article_builder/components/input_with_button.dart';
 
 class ArticleForm extends StatefulWidget {
-  const ArticleForm({super.key});
+  final ArticleBuilderEntity articleBuilderEntity;
+
+  const ArticleForm({
+    super.key,
+    required this.articleBuilderEntity,
+  });
 
   @override
   State<ArticleForm> createState() => _ArticleFormState();
 }
 
 class _ArticleFormState extends State<ArticleForm> {
-  String? selectedLanguage = 'English(US)';
-  String? selectedArticleType = 'None';
+  late TextEditingController keywordController;
+  late TextEditingController titleController;
 
-  final Map<String, String> languages = {
-    'English(US)': 'assets/images/flags/usa.png',
-    'Spanish': 'assets/images/flags/spain.png',
-    'French': 'assets/images/flags/france.png',
-    'German': 'assets/images/flags/germany.png',
-    'Italian': 'assets/images/flags/italy.png',
-  };
+  @override
+  void initState() {
+    super.initState();
+    // Inicializamos los controladores con los valores actuales de la entidad
+    keywordController = TextEditingController(
+      text: widget
+          .articleBuilderEntity.articleGeneratorGeneral.articleMainKeyword,
+    );
+    titleController = TextEditingController(
+      text: widget.articleBuilderEntity.articleGeneratorGeneral.articleTitle,
+    );
+  }
 
-  final Map<String, IconData> articleTypes = {
-    'None': Icons.do_not_disturb_alt,
-    'How-to Guide': Icons.menu_book,
-    'Listicle': Icons.format_list_bulleted,
-    'Product Review': Icons.work,
-    'News': Icons.newspaper,
-  };
-
-  final TextEditingController keywordController = TextEditingController();
-  final TextEditingController titleController = TextEditingController();
+  @override
+  void dispose() {
+    // Liberamos los controladores al destruir el widget
+    keywordController.dispose();
+    titleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,17 +60,23 @@ class _ArticleFormState extends State<ArticleForm> {
                       const Text(
                         'Language',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w800),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                       const SizedBox(height: 10),
                       CustomDropdownTile(
                         label: 'Select Language',
-                        items: languages.keys.toList(),
-                        selectedValue: selectedLanguage,
-                        onChanged: (val) => setState(() {
-                          selectedLanguage = val;
-                        }),
-                        images: languages.values
+                        items: AppConstants.languages.keys.toList(),
+                        selectedValue: widget.articleBuilderEntity
+                            .articleGeneratorGeneral.language,
+                        onChanged: (val) {
+                          setState(() {
+                            widget.articleBuilderEntity.articleGeneratorGeneral
+                                .language = val!;
+                          });
+                        },
+                        images: AppConstants.languages.values
                             .map((path) => Image.asset(
                                   path,
                                   width: 20,
@@ -81,17 +96,23 @@ class _ArticleFormState extends State<ArticleForm> {
                       const Text(
                         'Article Type',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w800),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                       const SizedBox(height: 10),
                       CustomDropdownTile(
                         label: 'Select Article Type',
-                        items: articleTypes.keys.toList(),
-                        selectedValue: selectedArticleType,
-                        onChanged: (val) => setState(() {
-                          selectedArticleType = val;
-                        }),
-                        icons: articleTypes.values.toList(),
+                        items: AppConstants.articleTypes.keys.toList(),
+                        selectedValue: widget.articleBuilderEntity
+                            .articleGeneratorGeneral.articleType,
+                        onChanged: (val) {
+                          setState(() {
+                            widget.articleBuilderEntity.articleGeneratorGeneral
+                                .articleType = val!;
+                          });
+                        },
+                        icons: AppConstants.articleTypes.values.toList(),
                       ),
                     ],
                   ),
@@ -105,7 +126,9 @@ class _ArticleFormState extends State<ArticleForm> {
               hint: 'Enter main keywords',
               buttonLabel: 'Analysis',
               onPressed: () {
-                // Acción del botón para análisis de palabras clave
+                // Actualizamos los datos en la entidad
+                widget.articleBuilderEntity.articleGeneratorGeneral
+                    .articleMainKeyword = keywordController.text;
               },
             ),
             const SizedBox(height: 20),
@@ -115,7 +138,9 @@ class _ArticleFormState extends State<ArticleForm> {
               hint: 'Enter title',
               buttonLabel: 'Run Analysis First',
               onPressed: () {
-                // Acción del botón para analizar título
+                // Actualizamos los datos en la entidad
+                widget.articleBuilderEntity.articleGeneratorGeneral
+                    .articleTitle = titleController.text;
               },
             ),
           ],

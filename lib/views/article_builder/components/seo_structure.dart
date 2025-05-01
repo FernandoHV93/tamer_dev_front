@@ -1,34 +1,44 @@
-// Archivo: views/article_builder/components/seo_structure.dart
-
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
+import 'package:ia_web_front/domain/entities/article_builder_entities.dart';
 import 'package:ia_web_front/views/article_builder/components/custom_dropdown.dart';
 import 'package:ia_web_front/views/article_builder/components/section_header.dart';
 
 class SeoStructure extends StatefulWidget {
-  const SeoStructure({super.key});
+  final ArticleBuilderEntity articleBuilderEntity;
+
+  const SeoStructure({
+    super.key,
+    required this.articleBuilderEntity,
+  });
 
   @override
   State<SeoStructure> createState() => _SeoStructureState();
 }
 
 class _SeoStructureState extends State<SeoStructure> {
-  final TextEditingController keywordsController = TextEditingController();
-  final TextEditingController hookBriefController = TextEditingController();
+  late TextEditingController keywordsController;
+  late TextEditingController hookBriefController;
 
-  String? selectedHookOption;
+  @override
+  void initState() {
+    super.initState();
+    // Inicializamos los controladores con los valores actuales de la entidad
+    keywordsController = TextEditingController(
+      text: widget.articleBuilderEntity.articleSEO.keywords.join(', '),
+    );
+    hookBriefController = TextEditingController(
+      text: widget.articleBuilderEntity.articleStructure.introductoryHookBrief,
+    );
+  }
 
-  String? conclusion = 'No';
-  String? tables = 'No';
-  String? h3 = 'No';
-  String? lists = 'No';
-  String? italics = 'No';
-  String? quotes = 'No';
-  String? keyTakeaways = 'No';
-  String? faq = 'No';
-  String? bold = 'No';
-  String? stats = 'No';
-  String? realPeopleOpinion = 'No';
+  @override
+  void dispose() {
+    // Liberamos los controladores al destruir el widget
+    keywordsController.dispose();
+    hookBriefController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +61,50 @@ class _SeoStructureState extends State<SeoStructure> {
               decoration: InputDecoration(
                 labelText: 'Keywords to include in the text',
                 border: const OutlineInputBorder(),
-                suffixIcon: TextButton(
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.add),
                   onPressed: () {
-                    // Implement NLP keywords generation logic
+                    final keyword = keywordsController.text.trim();
+                    if (keyword != '') {
+                      setState(() {
+                        widget.articleBuilderEntity.articleSEO.keywords
+                            .add(keyword);
+                        keywordsController.clear();
+                      });
+                    }
                   },
-                  child: const Text('NLP keywords generation'),
                 ),
               ),
+              onSubmitted: (val) {
+                final keyword = val.trim();
+                if (keyword.isNotEmpty) {
+                  setState(() {
+                    // Agregamos la palabra clave a la lista
+                    widget.articleBuilderEntity.articleSEO.keywords
+                        .add(keyword);
+                    keywordsController.clear(); // Limpiamos el campo de entrada
+                  });
+                }
+              },
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: widget.articleBuilderEntity.articleSEO.keywords
+                  .map((keyword) {
+                return Chip(
+                  label: Text(keyword),
+                  deleteIcon: const Icon(Icons.close),
+                  onDeleted: () {
+                    setState(() {
+                      // Eliminamos la palabra clave de la lista
+                      widget.articleBuilderEntity.articleSEO.keywords
+                          .remove(keyword);
+                    });
+                  },
+                );
+              }).toList(),
             ),
             const SizedBox(height: 20),
             const SectionHeader(
@@ -74,44 +121,28 @@ class _SeoStructureState extends State<SeoStructure> {
               spacing: 8,
               runSpacing: 8,
               children: AppConstants.hookOptions.map((hook) {
-                final isSelected = selectedHookOption == hook;
+                final isSelected =
+                    widget.articleBuilderEntity.articleStructure.typeOfHook ==
+                        hook;
                 return ChoiceChip(
                   label: Text(hook),
                   selected: isSelected,
                   onSelected: (selected) {
                     setState(() {
                       if (selected) {
-                        selectedHookOption = hook;
+                        widget.articleBuilderEntity.articleStructure
+                            .typeOfHook = hook;
                         hookBriefController.text =
                             AppConstants.hookPrompts[hook] ?? '';
                       } else {
-                        selectedHookOption = null;
+                        widget.articleBuilderEntity.articleStructure
+                            .typeOfHook = "";
                         hookBriefController.clear();
                       }
                     });
                   },
                 );
               }).toList(),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Introductory Hook Brief',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-                TextButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      selectedHookOption = null;
-                      hookBriefController.clear();
-                    });
-                  },
-                  icon: const Icon(Icons.clear, size: 16),
-                  label: const Text('Clear'),
-                )
-              ],
             ),
             const SizedBox(height: 10),
             TextField(
@@ -123,6 +154,10 @@ class _SeoStructureState extends State<SeoStructure> {
                     'Enter the type of hook for the article\'s opening sentence',
                 border: OutlineInputBorder(),
               ),
+              onChanged: (val) {
+                widget.articleBuilderEntity.articleStructure
+                    .introductoryHookBrief = val;
+              },
             ),
             const SizedBox(height: 20),
             const SectionHeader(
@@ -138,33 +173,22 @@ class _SeoStructureState extends State<SeoStructure> {
               return Wrap(
                 spacing: 10,
                 runSpacing: 8,
-                children: [
-                  _buildYesNoDropdown('Conclusion', conclusion,
-                      (val) => setState(() => conclusion = val), itemWidth),
-                  _buildYesNoDropdown('Tables', tables,
-                      (val) => setState(() => tables = val), itemWidth),
-                  _buildYesNoDropdown(
-                      'H3', h3, (val) => setState(() => h3 = val), itemWidth),
-                  _buildYesNoDropdown('Lists', lists,
-                      (val) => setState(() => lists = val), itemWidth),
-                  _buildYesNoDropdown('Italics', italics,
-                      (val) => setState(() => italics = val), itemWidth),
-                  _buildYesNoDropdown('Quotes', quotes,
-                      (val) => setState(() => quotes = val), itemWidth),
-                  _buildYesNoDropdown('Key Takeaways', keyTakeaways,
-                      (val) => setState(() => keyTakeaways = val), itemWidth),
-                  _buildYesNoDropdown('FAQ', faq,
-                      (val) => setState(() => faq = val), itemWidth),
-                  _buildYesNoDropdown('Bold', bold,
-                      (val) => setState(() => bold = val), itemWidth),
-                  _buildYesNoDropdown('Stats', stats,
-                      (val) => setState(() => stats = val), itemWidth),
-                  _buildYesNoDropdown(
-                      'Real People Opinion',
-                      realPeopleOpinion,
-                      (val) => setState(() => realPeopleOpinion = val),
-                      itemWidth),
-                ],
+                children: widget
+                    .articleBuilderEntity.articleStructure.contentOptions.keys
+                    .map((option) {
+                  return _buildYesNoDropdown(
+                    option,
+                    widget.articleBuilderEntity.articleStructure
+                        .contentOptions[option],
+                    (val) {
+                      setState(() {
+                        widget.articleBuilderEntity.articleStructure
+                            .contentOptions[option] = val ?? false;
+                      });
+                    },
+                    itemWidth,
+                  );
+                }).toList(),
               );
             }),
           ],
@@ -175,8 +199,8 @@ class _SeoStructureState extends State<SeoStructure> {
 
   Widget _buildYesNoDropdown(
     String label,
-    String? selected,
-    void Function(String?) onChanged,
+    bool? selected,
+    void Function(bool?) onChanged,
     double width,
   ) {
     return ConstrainedBox(
@@ -184,8 +208,10 @@ class _SeoStructureState extends State<SeoStructure> {
       child: CustomDropdownTile(
         label: label,
         items: AppConstants.yesNoOptions,
-        selectedValue: selected,
-        onChanged: onChanged,
+        selectedValue: selected == true ? 'Yes' : 'No',
+        onChanged: (val) {
+          onChanged(val == 'Yes');
+        },
       ),
     );
   }

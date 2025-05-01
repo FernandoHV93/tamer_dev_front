@@ -16,6 +16,14 @@ class AppConstants {
     'Italian': 'assets/images/flags/italy.png',
   };
 
+  static Map<String, IconData> articleTypes = {
+    'None': Icons.do_not_disturb_alt,
+    'How-to Guide': Icons.menu_book,
+    'Listicle': Icons.format_list_bulleted,
+    'Product Review': Icons.work,
+    'News': Icons.newspaper,
+  };
+
   static Map<String, String> sizeDetails = {
     'X-Small': '600-1200 words, H2 headings',
     'Small': '1200-2400 words, H2 headings',
@@ -89,7 +97,7 @@ class AppConstants {
 
   static const List<String> aiImagesOptions = ['Yes', 'No'];
 
-  static const List<int> numberOfImagesOptions = [1, 2, 3, 4, 5, 6, 7, 8];
+  static const List<int> numberOfImagesOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
   static const List<String> imageStyles = [
     'None',
@@ -117,13 +125,27 @@ class AppConstants {
 
   static const List<String> youtubeVideosOptions = ['Yes', 'No'];
 
-  static const List<int> numberOfVideosOptions = [1, 2, 3];
+  static const List<int> numberOfVideosOptions = [0, 1, 2, 3];
 
   static const List<String> layoutOptions = [
     'One column',
     '2 columns',
     'Alternate image and video',
     'First image and then videos',
+  ];
+
+  static const List<String> contentOptions = [
+    'Conclusion',
+    'Tables',
+    'H3',
+    'Lists',
+    'Italics',
+    'Quotes',
+    'Key Takeaways',
+    'FAQ',
+    'Bold',
+    'Stats',
+    'Real People Opinion'
   ];
 
   static const List<String> yesNoOptions = ['Yes', 'No'];

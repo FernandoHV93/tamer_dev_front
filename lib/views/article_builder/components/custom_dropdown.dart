@@ -46,6 +46,7 @@ class CustomDropdownTile extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         DropdownButtonFormField<String>(
+          hint: const Text('Select an option'),
           value: selectedValue,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
