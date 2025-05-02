@@ -121,17 +121,17 @@ class ArticleStructure {
   String typeOfHook;
   String introductoryHookBrief;
   Map<String, bool?> contentOptions = {
-    'conclusion': false,
-    'tables': false,
-    'heading3': false,
-    'lists': false,
-    'italics': false,
-    'quotes': false,
-    'keyTakeaways': false,
-    'faqs': false,
-    'bold': false,
-    'stats': false,
-    'realPeopleOpinion': false
+    'Conclusion': false,
+    'Tables': false,
+    'Heading3': false,
+    'Lists': false,
+    'Italics': false,
+    'Quotes': false,
+    'KeyTakeaways': false,
+    'FAQS': false,
+    'Bold': false,
+    'Stats': false,
+    'RealPeopleOpinion': false
   };
 
   ArticleStructure({
@@ -144,17 +144,17 @@ class ArticleStructure {
     return {
       'typeOfHook': typeOfHook,
       'introductoryHookBrief': [introductoryHookBrief],
-      'conclusion': contentOptions['conclusion'],
-      'tables': contentOptions['tables'],
-      'heading3': contentOptions['heading3'],
-      'lists': contentOptions['lists'],
-      'italics': contentOptions['italics'],
-      'quotes': contentOptions['quotes'],
-      'keyTakeaways': contentOptions['keyTakeaways'],
-      'faqs': contentOptions['faqs'],
-      'bold': contentOptions['bold'],
-      'stats': contentOptions['stats'],
-      'realPeopleOpinion': contentOptions['realPeopleOpinion'],
+      'conclusion': contentOptions['Conclusion'],
+      'tables': contentOptions['Tables'],
+      'heading3': contentOptions['Heading3'],
+      'lists': contentOptions['Lists'],
+      'italics': contentOptions['Italics'],
+      'quotes': contentOptions['Quotes'],
+      'keyTakeaways': contentOptions['KeyTakeaways'],
+      'faqs': contentOptions['FAQS'],
+      'bold': contentOptions['Bold'],
+      'stats': contentOptions['Stats'],
+      'realPeopleOpinion': contentOptions['RealPeopleOpinion'],
     };
   }
 }

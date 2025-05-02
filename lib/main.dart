@@ -11,12 +11,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: RouteGenerator.onGenerate,
-      initialRoute: WebRoutes.home,
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return MaterialApp(
+          onGenerateRoute: RouteGenerator.onGenerate,
+          initialRoute: WebRoutes.home,
+          theme: ThemeData(
+            useMaterial3: true,
+            textTheme: constraints.maxWidth < 600
+                ? ThemeData.light().textTheme.apply(
+                    fontSizeFactor: 0.8) // Escala para pantallas pequeñas
+                : ThemeData.light().textTheme,
+          ),
+        );
+      },
     );
   }
 }

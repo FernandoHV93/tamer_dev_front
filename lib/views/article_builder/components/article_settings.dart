@@ -157,7 +157,7 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                             .toList(),
                       ),
                     ]),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 6),
                     rowOrColumn([
                       CustomDropdownTile(
                         label: 'AI Model',
@@ -187,7 +187,7 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                         itemDescriptions: AppConstants.humanDescriptions,
                       ),
                     ]),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 6),
                     rowOrColumn([
                       CustomDropdownTile(
                         label: 'Point of View',

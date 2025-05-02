@@ -5,32 +5,38 @@ class HomeAppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      TopBarElement(
-        text: 'Websites',
-        onPressed: () {},
-      ),
-      TopBarElement(
-        text: 'Content',
-        onPressed: () {},
-      ),
-      TopBarElement(
-        text: 'Article Builder',
-        onPressed: () {},
-      ),
-      TopBarElement(
-        text: 'Article Editor',
-        onPressed: () {},
-      ),
-      TopBarElement(
-        text: 'Brand Voice',
-        onPressed: () {},
-      ),
-      TopBarElement(
-        text: 'API Settings',
-        onPressed: () {},
-      ),
-    ]);
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Wrap(
+      spacing: screenWidth < 600 ? 10 : 20,
+      alignment: WrapAlignment.center,
+      children: [
+        TopBarElement(
+          text: 'Websites',
+          onPressed: () {},
+        ),
+        TopBarElement(
+          text: 'Content',
+          onPressed: () {},
+        ),
+        TopBarElement(
+          text: 'Article Builder',
+          onPressed: () {},
+        ),
+        TopBarElement(
+          text: 'Article Editor',
+          onPressed: () {},
+        ),
+        TopBarElement(
+          text: 'Brand Voice',
+          onPressed: () {},
+        ),
+        TopBarElement(
+          text: 'API Settings',
+          onPressed: () {},
+        ),
+      ],
+    );
   }
 }
 
