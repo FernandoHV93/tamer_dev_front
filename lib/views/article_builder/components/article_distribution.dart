@@ -20,19 +20,14 @@ class ArticleDistributionSection extends StatefulWidget {
 class _ArticleDistributionSectionState
     extends State<ArticleDistributionSection> {
   late TextEditingController linkController;
-  late TextEditingController internalLinkController;
-  late TextEditingController externalLinkController;
   @override
   void initState() {
     super.initState();
-    internalLinkController = TextEditingController();
-    externalLinkController = TextEditingController();
+    linkController = TextEditingController();
   }
 
   @override
   void dispose() {
-    internalLinkController.dispose();
-    externalLinkController.dispose();
     super.dispose();
   }
 
@@ -46,39 +41,39 @@ class _ArticleDistributionSectionState
           tooltip: '',
         ),
         const SizedBox(height: 8),
-        // CustomDropdownTile(
-        //   label: 'Source Links',
-        //   selectedValue:
-        //       widget.articleBuilderEntity.articleDistribution.sourceLinks
-        //           ? 'True'
-        //           : 'False',
-        //   items: AppConstants.yesNoOptions,
-        //   onChanged: (val) {
-        //     setState(() {
-        //       widget.articleBuilderEntity.articleDistribution.sourceLinks =
-        //           val == 'True';
-        //     });
-        //   },
-        //   note:
-        //       'At the bottom of the article, a list of used sources will be displayed. You can choose the format in which these sources are presented.',
-        // ),
-        // const SizedBox(height: 12),
-        // CustomDropdownTile(
-        //   label: 'Citations ✨',
-        //   selectedValue:
-        //       widget.articleBuilderEntity.articleDistribution.citations
-        //           ? 'True'
-        //           : 'False',
-        //   items: AppConstants.yesNoOptions,
-        //   onChanged: (val) {
-        //     setState(() {
-        //       widget.articleBuilderEntity.articleDistribution.citations =
-        //           val == 'True';
-        //     });
-        //   },
-        //   note:
-        //       'At the end of the sentence, it includes a citation link to the source of the factual data utilized in crafting the content.',
-        // ),
+        CustomDropdownTile(
+          label: 'Source Links',
+          selectedValue:
+              widget.articleBuilderEntity.articleDistribution.sourceLinks
+                  ? 'Yes'
+                  : 'No',
+          items: AppConstants.yesNoOptions,
+          onChanged: (val) {
+            setState(() {
+              widget.articleBuilderEntity.articleDistribution.sourceLinks =
+                  val == 'True';
+            });
+          },
+          note:
+              'At the bottom of the article, a list of used sources will be displayed. You can choose the format in which these sources are presented.',
+        ),
+        const SizedBox(height: 12),
+        CustomDropdownTile(
+          label: 'Citations ✨',
+          selectedValue:
+              widget.articleBuilderEntity.articleDistribution.citations
+                  ? 'Yes'
+                  : 'No',
+          items: AppConstants.yesNoOptions,
+          onChanged: (val) {
+            setState(() {
+              widget.articleBuilderEntity.articleDistribution.citations =
+                  val == 'True';
+            });
+          },
+          note:
+              'At the end of the sentence, it includes a citation link to the source of the factual data utilized in crafting the content.',
+        ),
         const SizedBox(height: 20),
         _buildLinkingCard(
           title: 'Internal Linking',

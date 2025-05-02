@@ -44,6 +44,7 @@ class _SeoStructureState extends State<SeoStructure> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
+      color: Color(0xFFF9F9F9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -51,10 +52,10 @@ class _SeoStructureState extends State<SeoStructure> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SectionHeader(
-              title: 'SEO',
+              title: 'Seo',
               tooltip: 'Keywords will be used to generate relevant content.',
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             TextField(
               controller: keywordsController,
               maxLength: 150,
@@ -111,7 +112,7 @@ class _SeoStructureState extends State<SeoStructure> {
               title: 'Structure',
               tooltip: 'Define the structure of the article.',
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             const Text(
               'Introductory Hook Brief',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),

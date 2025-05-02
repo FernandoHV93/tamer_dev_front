@@ -46,6 +46,7 @@ class _ArticleFormState extends State<ArticleForm> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      color: Color(0xFFF9F9F9),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
