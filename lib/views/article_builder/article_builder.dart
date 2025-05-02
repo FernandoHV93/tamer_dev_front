@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
+import 'package:ia_web_front/data/repository_impl/article_impl.dart';
 import 'package:ia_web_front/domain/entities/article_builder_entities.dart';
+import 'package:ia_web_front/domain/use_cases/save_form.dart';
 import 'package:ia_web_front/views/article_builder/components/article_distribution.dart';
 import 'package:ia_web_front/views/article_builder/components/article_form.dart';
 import 'package:ia_web_front/views/article_builder/components/article_settings.dart';
@@ -16,6 +18,8 @@ class ArticleBuilderScreen extends StatefulWidget {
 }
 
 class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
+  final SaveForm _saveFormUseCase = SaveForm(ArticleFuncImpl());
+
   final ArticleBuilderEntity _articleBuilderEntity = ArticleBuilderEntity(
     sessionId: 'session123',
     userId: 'user456',
@@ -71,13 +75,20 @@ class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
       citations: false,
       internalLinking: [],
       externalLinking: [],
-      articleSydication: AppConstants.selectedSyndication,
+      articleSydication:
+          Map<String, bool>.from(AppConstants.selectedSyndication),
     ),
   );
 
-  void _handleSave() {
-    // Aquí puedes ejecutar el caso de uso para enviar los datos al backend
-    debugPrint("Generated JSON:\n${_articleBuilderEntity.toJson()}");
+  void _handleSave() async {
+    debugPrint("Guardando datos...");
+    debugPrint("Datos a enviar: ${_articleBuilderEntity.toJson()}");
+    try {
+      await _saveFormUseCase.execute(_articleBuilderEntity);
+      debugPrint("Datos enviados exitosamente al servidor.");
+    } catch (e) {
+      debugPrint("Error al enviar los datos: $e");
+    }
   }
 
   @override
@@ -85,7 +96,7 @@ class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(200, 10, 200, 10),
+          padding: const EdgeInsets.fromLTRB(200, 10, 200, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

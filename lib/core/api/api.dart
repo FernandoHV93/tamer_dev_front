@@ -63,7 +63,7 @@ class API implements PUT, GET, DELETE, POST {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: data,
+      body: json.encode(data),
     );
     if (response.statusCode != 200) return {'error': response.statusCode};
     return json.decode(response.body);

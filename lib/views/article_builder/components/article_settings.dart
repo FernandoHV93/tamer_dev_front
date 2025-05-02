@@ -20,6 +20,7 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
+      color: Color(0xFFF9F9F9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
