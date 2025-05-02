@@ -7,20 +7,26 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight:
+            screenWidth < 600 ? 70 : 100, // Ajusta la altura del AppBar
         backgroundColor: Colors.indigo[50],
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(12),
-          bottomRight: Radius.circular(12),
-        )),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(12),
+            bottomRight: Radius.circular(12),
+          ),
+        ),
         title: Padding(
-            padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
-            child: HomeAppBarTitle()),
+          padding:
+              EdgeInsets.symmetric(horizontal: screenWidth < 600 ? 20 : 50),
+          child: const HomeAppBarTitle(),
+        ),
       ),
-      body: HomeCenterDesing(),
+      body: const HomeCenterDesing(),
     );
   }
 }

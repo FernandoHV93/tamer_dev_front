@@ -43,7 +43,7 @@ class _MediaHubCardState extends State<MediaHubCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      color: Color(0xFFF9F9F9),
+      color: const Color(0xFFF9F9F9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -55,70 +55,136 @@ class _MediaHubCardState extends State<MediaHubCard> {
                 const Text(
                   'Media Hub',
                   style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Color.fromARGB(255, 110, 110, 110)),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: Color.fromARGB(255, 110, 110, 110),
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Icon(Icons.info_outline, size: 18, color: Colors.grey.shade600),
               ],
             ),
             const SizedBox(height: 20),
-            CustomDropdownTile(
-              label: 'AI Images',
-              items: AppConstants.aiImagesOptions,
-              selectedValue:
-                  widget.articleBuilderEntity.articleMediaHub.aiImages
-                      ? 'Yes'
-                      : 'No',
-              onChanged: (val) {
-                setState(() {
-                  widget.articleBuilderEntity.articleMediaHub.aiImages =
-                      val == 'Yes';
-                });
-              },
+
+            // AI Images y Select Number of Images en una fila
+            Row(
+              children: [
+                Expanded(
+                  child: CustomDropdownTile(
+                    label: 'AI Images',
+                    items: AppConstants.aiImagesOptions,
+                    selectedValue:
+                        widget.articleBuilderEntity.articleMediaHub.aiImages
+                            ? 'Yes'
+                            : 'No',
+                    onChanged: (val) {
+                      setState(() {
+                        widget.articleBuilderEntity.articleMediaHub.aiImages =
+                            val == 'Yes';
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: CustomDropdownTile(
+                    label: 'Select Number of Images',
+                    items: AppConstants.numberOfImagesOptions
+                        .map((e) => e.toString())
+                        .toList(),
+                    selectedValue: widget
+                        .articleBuilderEntity.articleMediaHub.numberOfImages
+                        .toString(),
+                    onChanged: (val) {
+                      setState(() {
+                        widget.articleBuilderEntity.articleMediaHub
+                            .numberOfImages = int.parse(val!);
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
-            CustomDropdownTile(
-              label: 'Select Number of Images',
-              items: AppConstants.numberOfImagesOptions
-                  .map((e) => e.toString())
-                  .toList(),
-              selectedValue: widget
-                  .articleBuilderEntity.articleMediaHub.numberOfImages
-                  .toString(),
-              onChanged: (val) {
-                setState(() {
-                  widget.articleBuilderEntity.articleMediaHub.numberOfImages =
-                      int.parse(val!);
-                });
-              },
+
+            // Select Image Style y Select Image Size en una fila
+            Row(
+              children: [
+                Expanded(
+                  child: CustomDropdownTile(
+                    label: 'Select Image Style',
+                    items: AppConstants.imageStyles,
+                    selectedValue:
+                        widget.articleBuilderEntity.articleMediaHub.imageStyle,
+                    onChanged: (val) {
+                      setState(() {
+                        widget.articleBuilderEntity.articleMediaHub.imageStyle =
+                            val!;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: CustomDropdownTile(
+                    label: 'Select Image Size',
+                    items: AppConstants.imageSizes,
+                    selectedValue:
+                        widget.articleBuilderEntity.articleMediaHub.imageSize,
+                    onChanged: (val) {
+                      setState(() {
+                        widget.articleBuilderEntity.articleMediaHub.imageSize =
+                            val!;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
-            CustomDropdownTile(
-              label: 'Select Image Style',
-              items: AppConstants.imageStyles,
-              selectedValue:
-                  widget.articleBuilderEntity.articleMediaHub.imageStyle,
-              onChanged: (val) {
-                setState(() {
-                  widget.articleBuilderEntity.articleMediaHub.imageStyle = val!;
-                });
-              },
+
+            // Select YouTube Videos y Select Number of Videos en una fila
+            Row(
+              children: [
+                Expanded(
+                  child: CustomDropdownTile(
+                    label: 'Select YouTube Videos',
+                    items: AppConstants.youtubeVideosOptions,
+                    selectedValue: widget
+                            .articleBuilderEntity.articleMediaHub.youtubeVideos
+                        ? 'Yes'
+                        : 'No',
+                    onChanged: (val) {
+                      setState(() {
+                        widget.articleBuilderEntity.articleMediaHub
+                            .youtubeVideos = val == 'Yes';
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: CustomDropdownTile(
+                    label: 'Select Number of Videos',
+                    items: AppConstants.numberOfVideosOptions
+                        .map((e) => e.toString())
+                        .toList(),
+                    selectedValue: widget
+                        .articleBuilderEntity.articleMediaHub.numberOfVideos
+                        .toString(),
+                    onChanged: (val) {
+                      setState(() {
+                        widget.articleBuilderEntity.articleMediaHub
+                            .numberOfVideos = int.parse(val!);
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
-            CustomDropdownTile(
-              label: 'Select Image Size',
-              items: AppConstants.imageSizes,
-              selectedValue:
-                  widget.articleBuilderEntity.articleMediaHub.imageSize,
-              onChanged: (val) {
-                setState(() {
-                  widget.articleBuilderEntity.articleMediaHub.imageSize = val!;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
+
+            // Additional Instructions
             TextField(
               controller: additionalInstructionsController,
               maxLength: 100,
@@ -133,6 +199,8 @@ class _MediaHubCardState extends State<MediaHubCard> {
               },
             ),
             const SizedBox(height: 16),
+
+            // Brand Name
             TextField(
               controller: brandNameController,
               maxLength: 30,
@@ -146,6 +214,8 @@ class _MediaHubCardState extends State<MediaHubCard> {
               },
             ),
             const SizedBox(height: 16),
+
+            // Include Keywords Checkbox
             Row(
               children: [
                 Checkbox(
@@ -167,50 +237,8 @@ class _MediaHubCardState extends State<MediaHubCard> {
               ],
             ),
             const SizedBox(height: 16),
-            CustomDropdownTile(
-              label: 'Select YouTube Videos',
-              items: AppConstants.youtubeVideosOptions,
-              selectedValue:
-                  widget.articleBuilderEntity.articleMediaHub.youtubeVideos
-                      ? 'Yes'
-                      : 'No',
-              onChanged: (val) {
-                setState(() {
-                  widget.articleBuilderEntity.articleMediaHub.youtubeVideos =
-                      val as bool;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            CustomDropdownTile(
-              label: 'Select Number of Videos',
-              items: AppConstants.numberOfVideosOptions
-                  .map((e) => e.toString())
-                  .toList(),
-              selectedValue: widget
-                  .articleBuilderEntity.articleMediaHub.numberOfVideos
-                  .toString(),
-              onChanged: (val) {
-                setState(() {
-                  widget.articleBuilderEntity.articleMediaHub.numberOfVideos =
-                      int.parse(val!);
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            CustomDropdownTile(
-              label: 'Select Layout Option',
-              items: AppConstants.layoutOptions,
-              selectedValue:
-                  widget.articleBuilderEntity.articleMediaHub.layoutOption,
-              onChanged: (val) {
-                setState(() {
-                  widget.articleBuilderEntity.articleMediaHub.layoutOption =
-                      val!;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
+
+            // Place Under Headings Checkbox
             Row(
               children: [
                 Checkbox(
