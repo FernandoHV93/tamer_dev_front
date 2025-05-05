@@ -1,12 +1,13 @@
-import 'package:ia_web_front/data/models/roadmap_model.dart';
+import 'package:ia_web_front/domain/entities/article_editor_entity.dart';
 import 'package:ia_web_front/domain/repository/article_repo.dart';
 
-class GenerateArticleFromRoadmap {
+class GetGeneratedArticle {
   final ArticleFunc repository;
 
-  GenerateArticleFromRoadmap(this.repository);
+  GetGeneratedArticle(this.repository);
 
-  Future<void> execute(RoadmapModel model) async {
-    await repository.postRoadmapJson(model);
+  Future<List<ArticleEditorEntity>> execute(
+      String sessionID, String userID) async {
+    return await repository.getGeneratedArticle(sessionID, userID);
   }
 }

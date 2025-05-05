@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/views/article_builder/article_builder.dart';
+import 'package:ia_web_front/views/article_editor/article_editor_screen.dart';
 import 'package:ia_web_front/views/roadmap/roadmap_screen.dart';
 
 class HomeCenterDesing extends StatelessWidget {
@@ -68,7 +69,14 @@ class HomeCenterDesing extends StatelessWidget {
                 MiddleHomeElement(
                   headerTitle: 'Article Editor',
                   subTitle: 'Edit existing articles',
-                  function: () {},
+                  function: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ArticleEditorScreen(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

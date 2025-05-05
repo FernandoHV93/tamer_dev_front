@@ -1,7 +1,5 @@
-// app_constants.dart
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppConstants {
   static const double kHorizontalPadding = 200;
@@ -14,6 +12,83 @@ class AppConstants {
     'French': 'assets/images/flags/france.png',
     'German': 'assets/images/flags/germany.png',
     'Italian': 'assets/images/flags/italy.png',
+  };
+
+  static const articleEditorleftButtons = ['Download', 'Export'];
+
+  // Botones del lado derecho
+  static const articleEditorightButtons = ['Publish', 'Save Draft', 'Done'];
+
+  static const List<Map<String, dynamic>> articleEditorformatButtons = [
+    {
+      'icon': FontAwesomeIcons.bold,
+      'key': 'isBold', // Clave para identificar el estado
+    },
+    {
+      'icon': FontAwesomeIcons.italic,
+      'key': 'isItalic',
+    },
+    {
+      'icon': FontAwesomeIcons.underline,
+      'key': 'isUnderline',
+    },
+  ];
+
+  // Tamaños de texto
+  static const List<String> articleEditortextSizes = [
+    'P',
+    'H1',
+    'H2',
+    'H3',
+    'H4'
+  ];
+
+  // Botones de alineación y listas
+  static const List<Map<String, dynamic>> articleEditoralignmentButtons = [
+    {
+      'icon': FontAwesomeIcons.alignLeft,
+      'key': TextAlign.left,
+    },
+    {
+      'icon': FontAwesomeIcons.alignCenter,
+      'key': TextAlign.center,
+    },
+    {
+      'icon': FontAwesomeIcons.alignRight,
+      'key': TextAlign.right,
+    },
+    {
+      'icon': FontAwesomeIcons.listUl,
+      'key': 'bulletedList', // Clave para listas con puntos
+    },
+    {
+      'icon': FontAwesomeIcons.listOl,
+      'key': 'numberedList', // Clave para listas numeradas
+    },
+  ];
+
+  static Map<String, String> textIconButton = {
+    'Download': 'assets/images/icons/download.svg',
+    'Export': 'assets/images/icons/export.svg',
+    'Publish': 'assets/images/icons/publish.svg',
+    'Save Draft': 'assets/images/icons/save_draft.svg',
+    'Done': 'assets/images/icons/check.svg'
+  };
+
+  static Map<String, Color> textButtonIconColors = {
+    'Download': Colors.white,
+    'Export': Colors.white,
+    'Publish': Colors.lightBlue,
+    'Save Draft': Colors.orangeAccent,
+    'Done': Colors.green
+  };
+
+  static Map<String, Color> textButtonColors = {
+    'Download': const Color.fromARGB(193, 26, 25, 25),
+    'Export': Color.fromARGB(193, 26, 25, 25),
+    'Publish': const Color.fromARGB(41, 82, 147, 233),
+    'Save Draft': const Color.fromARGB(41, 241, 222, 95),
+    'Done': const Color.fromARGB(42, 130, 213, 131)
   };
 
   static Map<String, IconData> articleTypes = {
