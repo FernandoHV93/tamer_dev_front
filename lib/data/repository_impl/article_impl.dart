@@ -14,8 +14,8 @@ class ArticleFuncImpl implements ArticleFunc {
   }) async {
     try {
       final response = await api.get(
-        BackendUrls.generateArticle, // o el endpoint correspondiente
-        {
+        BackendUrls.generateArticle,
+        queryParams: {
           'sessionID': sessionID,
           'userID': userID,
         },
