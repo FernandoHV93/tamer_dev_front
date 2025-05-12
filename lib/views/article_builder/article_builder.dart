@@ -153,6 +153,7 @@ class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(200, 10, 200, 20),

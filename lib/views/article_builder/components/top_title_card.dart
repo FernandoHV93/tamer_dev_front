@@ -16,13 +16,17 @@ class TopTitleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      color: Color(0xFFF9F9F9),
+      color: const Color.fromARGB(255, 41, 41, 41),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            const Icon(Icons.edit_document, size: 35),
+            const Icon(
+              Icons.edit_document,
+              size: 35,
+              color: Colors.blue,
+            ),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,16 +34,16 @@ class TopTitleCard extends StatelessWidget {
                 Text(
                   'Article Generator',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white),
                 ),
                 Text(
                   'Generate and publish article with just 1 click',
                   style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white),
                 ),
               ],
             ),

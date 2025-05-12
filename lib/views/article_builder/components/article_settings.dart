@@ -20,7 +20,7 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      color: Color(0xFFF9F9F9),
+      color: const Color.fromARGB(255, 41, 41, 41),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -32,7 +32,7 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
-                color: Colors.grey.shade600,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 20),
@@ -111,14 +111,16 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                           const Text(
                             'Size Details',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue),
                           ),
                           const SizedBox(height: 6),
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF2F2F2),
+                              color: const Color.fromARGB(255, 82, 80, 80),
                               borderRadius: BorderRadius.circular(6),
                               border: Border.all(color: Colors.grey),
                             ),

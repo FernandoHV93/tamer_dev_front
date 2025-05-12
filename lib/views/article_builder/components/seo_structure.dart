@@ -44,7 +44,7 @@ class _SeoStructureState extends State<SeoStructure> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      color: Color(0xFFF9F9F9),
+      color: const Color.fromARGB(255, 41, 41, 41),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -58,9 +58,11 @@ class _SeoStructureState extends State<SeoStructure> {
             const SizedBox(height: 12),
             TextField(
               controller: keywordsController,
+              style: TextStyle(color: Colors.white),
               maxLength: 150,
               decoration: InputDecoration(
                 labelText: 'Keywords to include in the text',
+                labelStyle: TextStyle(fontSize: 14, color: Colors.white),
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add),
@@ -115,7 +117,10 @@ class _SeoStructureState extends State<SeoStructure> {
             const SizedBox(height: 12),
             const Text(
               'Introductory Hook Brief',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
             ),
             const SizedBox(height: 10),
             Wrap(
@@ -127,6 +132,10 @@ class _SeoStructureState extends State<SeoStructure> {
                         hook;
                 return ChoiceChip(
                   label: Text(hook),
+                  labelStyle: TextStyle(color: Colors.white),
+                  backgroundColor: const Color.fromARGB(255, 67, 67, 67),
+                  checkmarkColor: Colors.white,
+                  selectedColor: const Color.fromARGB(234, 4, 73, 129),
                   selected: isSelected,
                   onSelected: (selected) {
                     setState(() {
@@ -148,6 +157,7 @@ class _SeoStructureState extends State<SeoStructure> {
             const SizedBox(height: 10),
             TextField(
               controller: hookBriefController,
+              style: TextStyle(color: Colors.white),
               maxLength: 500,
               maxLines: 6,
               decoration: const InputDecoration(

@@ -16,13 +16,13 @@ class SectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+          style: const TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white),
         ),
         const SizedBox(width: 8),
         Tooltip(
           message: tooltip,
-          child:
-              Icon(Icons.info_outline, size: 18, color: Colors.grey.shade600),
+          child: Icon(Icons.info_outline, size: 18, color: Colors.white),
         ),
       ],
     );

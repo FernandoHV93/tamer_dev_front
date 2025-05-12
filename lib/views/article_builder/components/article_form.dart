@@ -46,7 +46,7 @@ class _ArticleFormState extends State<ArticleForm> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      color: Color(0xFFF9F9F9),
+      color: const Color.fromARGB(255, 41, 41, 41),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -61,9 +61,9 @@ class _ArticleFormState extends State<ArticleForm> {
                       const Text(
                         'Language',
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                        ),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white),
                       ),
                       const SizedBox(height: 10),
                       CustomDropdownTile(
@@ -97,9 +97,9 @@ class _ArticleFormState extends State<ArticleForm> {
                       const Text(
                         'Article Type',
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                        ),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white),
                       ),
                       const SizedBox(height: 10),
                       CustomDropdownTile(

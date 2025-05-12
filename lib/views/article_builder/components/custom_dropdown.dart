@@ -33,14 +33,14 @@ class CustomDropdownTile extends StatelessWidget {
           children: [
             if (leadingIcon != null)
               Icon(leadingIcon,
-                  size: 20, color: const Color.fromARGB(255, 5, 46, 80)),
+                  size: 20, color: const Color.fromARGB(255, 29, 133, 218)),
             if (leadingIcon != null) const SizedBox(width: 6),
             Text(
               label,
               style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 14, 76, 126)),
+                  color: Color.fromARGB(255, 29, 133, 218)),
             ),
           ],
         ),
@@ -53,6 +53,7 @@ class CustomDropdownTile extends StatelessWidget {
             isDense: false,
             contentPadding: EdgeInsets.fromLTRB(12, 0, 0, 2),
           ),
+          dropdownColor: const Color.fromARGB(255, 41, 41, 41),
           items: List.generate(items.length, (index) {
             final item = items[index];
             final icon =
@@ -69,7 +70,12 @@ class CustomDropdownTile extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (icon != null) Icon(icon, size: 20),
+                    if (icon != null)
+                      Icon(
+                        icon,
+                        size: 20,
+                        color: Colors.white,
+                      ),
                     if (icon == null && image != null) image,
                     if ((icon != null || image != null))
                       const SizedBox(width: 8),
@@ -77,7 +83,9 @@ class CustomDropdownTile extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(item, style: const TextStyle(fontSize: 15)),
+                          Text(item,
+                              style: const TextStyle(
+                                  fontSize: 15, color: Colors.white)),
                           if (description != null)
                             Text(
                               description,

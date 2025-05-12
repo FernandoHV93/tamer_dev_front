@@ -43,7 +43,7 @@ class _MediaHubCardState extends State<MediaHubCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      color: const Color(0xFFF9F9F9),
+      color: const Color.fromARGB(255, 41, 41, 41),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -57,11 +57,11 @@ class _MediaHubCardState extends State<MediaHubCard> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    color: Color.fromARGB(255, 110, 110, 110),
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(width: 8),
-                Icon(Icons.info_outline, size: 18, color: Colors.grey.shade600),
+                Icon(Icons.info_outline, size: 18, color: Colors.white),
               ],
             ),
             const SizedBox(height: 20),
@@ -187,11 +187,17 @@ class _MediaHubCardState extends State<MediaHubCard> {
             // Additional Instructions
             TextField(
               controller: additionalInstructionsController,
+              style: TextStyle(color: Colors.white),
               maxLength: 100,
               decoration: const InputDecoration(
                 labelText: 'Additional Instructions',
+                labelStyle: TextStyle(fontSize: 14, color: Colors.white),
                 border: OutlineInputBorder(),
                 hintText: 'Enter details or creative directions',
+                hintStyle: const TextStyle(
+                  color: Colors.grey, // Cambia este color al que desees
+                  fontSize: 14,
+                ),
               ),
               onChanged: (val) {
                 widget.articleBuilderEntity.articleMediaHub
@@ -203,11 +209,17 @@ class _MediaHubCardState extends State<MediaHubCard> {
             // Brand Name
             TextField(
               controller: brandNameController,
+              style: TextStyle(color: Colors.white),
               maxLength: 30,
               decoration: const InputDecoration(
                 labelText: 'Brand Name',
+                labelStyle: TextStyle(fontSize: 14, color: Colors.white),
                 border: OutlineInputBorder(),
                 hintText: 'Enter your brand name',
+                hintStyle: const TextStyle(
+                  color: Colors.grey, // Cambia este color al que desees
+                  fontSize: 14,
+                ),
               ),
               onChanged: (val) {
                 widget.articleBuilderEntity.articleMediaHub.brandName = val;
@@ -231,7 +243,7 @@ class _MediaHubCardState extends State<MediaHubCard> {
                 const Expanded(
                   child: Text(
                     'Include the main keyword in the first image as Alt-text.',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ),
               ],
@@ -254,7 +266,7 @@ class _MediaHubCardState extends State<MediaHubCard> {
                 const Expanded(
                   child: Text(
                     'All media elements will be placed strictly under the headings.',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ),
               ],
