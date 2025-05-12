@@ -4,10 +4,12 @@ import 'package:ia_web_front/domain/entities/article_builder_entities.dart';
 class TopTitleCard extends StatelessWidget {
   final ArticleBuilderEntity articleBuilderEntity;
   final VoidCallback onSave;
+  final VoidCallback onGenerate;
   const TopTitleCard({
     super.key,
     required this.articleBuilderEntity,
     required this.onSave,
+    required this.onGenerate,
   });
 
   @override
@@ -64,9 +66,7 @@ class TopTitleCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {
-                // Aquí va la lógica de generación de artículo
-              },
+              onPressed: onGenerate,
               child: const Text(
                 'RUN',
                 style: TextStyle(fontSize: 15, color: Colors.white),

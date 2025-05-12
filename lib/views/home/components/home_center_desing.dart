@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/views/article_builder/article_builder.dart';
+import 'package:ia_web_front/views/article_editor_finish/article_editor_screen.dart';
 import 'package:ia_web_front/views/roadmap/roadmap_screen.dart';
 
 class HomeCenterDesing extends StatelessWidget {
@@ -7,6 +8,8 @@ class HomeCenterDesing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userID = 'session123';
+    final sessionID = 'user456';
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
@@ -60,7 +63,10 @@ class HomeCenterDesing extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ArticleBuilderScreen(),
+                        builder: (context) => ArticleBuilderScreen(
+                          sessionID: sessionID,
+                          userID: userID,
+                        ),
                       ),
                     );
                   },
@@ -68,7 +74,17 @@ class HomeCenterDesing extends StatelessWidget {
                 MiddleHomeElement(
                   headerTitle: 'Article Editor',
                   subTitle: 'Edit existing articles',
-                  function: () {},
+                  function: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ArticleEditorScreen(
+                          sessionID: sessionID,
+                          userID: userID,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
