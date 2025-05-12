@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
       builder: (context, constraints) {
         return MaterialApp(
           onGenerateRoute: RouteGenerator.onGenerate,
-          initialRoute: WebRoutes.articleEditor,
+          initialRoute: WebRoutes.home,
           theme: ThemeData(
             useMaterial3: true,
             textTheme: constraints.maxWidth < 600
