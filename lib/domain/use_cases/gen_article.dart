@@ -1,13 +1,13 @@
-import 'package:ia_web_front/domain/entities/article_editor_entity.dart';
+import 'package:ia_web_front/domain/entities/article_entity_dto.dart';
 import 'package:ia_web_front/domain/repository/article_repo.dart';
 
-class GetGeneratedArticle {
+class FetchGeneratedArticle {
   final ArticleFunc repository;
 
-  GetGeneratedArticle(this.repository);
+  FetchGeneratedArticle(this.repository);
 
-  Future<List<ArticleEditorEntity>> execute(
-      String sessionID, String userID) async {
-    return await repository.getGeneratedArticle(sessionID, userID);
+  Future<ArticleDto> execute(String sessionID, String userID) async {
+    return await repository.fetchArticleBuilderJson(
+        sessionID: sessionID, userID: userID);
   }
 }

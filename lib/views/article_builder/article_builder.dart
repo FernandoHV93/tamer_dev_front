@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
-import 'package:ia_web_front/core/routes/web_routes.dart';
 import 'package:ia_web_front/data/repository_impl/article_impl.dart';
 import 'package:ia_web_front/domain/entities/article_builder_entities.dart';
-import 'package:ia_web_front/domain/use_cases/gen_article.dart';
 import 'package:ia_web_front/domain/use_cases/save_form.dart';
+import 'package:ia_web_front/domain/use_cases/send_default_data.dart';
 import 'package:ia_web_front/views/article_builder/components/article_distribution.dart';
 import 'package:ia_web_front/views/article_builder/components/article_form.dart';
 import 'package:ia_web_front/views/article_builder/components/article_settings.dart';
@@ -21,8 +20,7 @@ class ArticleBuilderScreen extends StatefulWidget {
 
 class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
   final SaveForm _saveFormUseCase = SaveForm(ArticleFuncImpl());
-  final GetGeneratedArticle _getGeneratedArticleUseCase =
-      GetGeneratedArticle(ArticleFuncImpl());
+  final SendDefaultData _defaultData = SendDefaultData(ArticleFuncImpl());
 
   final ArticleBuilderEntity _articleBuilderEntity = ArticleBuilderEntity(
     sessionId: 'session123',
@@ -95,19 +93,7 @@ class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
     }
   }
 
-  void _handleGenerateArticle() async {
-    debugPrint("Generando artículo...");
-    try {
-      final articleEntities = await _getGeneratedArticleUseCase.execute(
-          _articleBuilderEntity.sessionId, _articleBuilderEntity.userId);
-      Navigator.of(context).pushNamed(
-        WebRoutes.articleEditor,
-        arguments: articleEntities,
-      );
-    } catch (e) {
-      debugPrint("Error al generar el artículo: $e");
-    }
-  }
+  void _handleGenerateArticle() async {}
 
   @override
   Widget build(BuildContext context) {

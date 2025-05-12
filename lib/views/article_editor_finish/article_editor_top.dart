@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
-import 'package:ia_web_front/views/article_editor/components/top_options_button.dart';
+import 'package:ia_web_front/views/article_editor_finish/widgets/top_options_button.dart';
 
 class ArticleEditorTop extends StatelessWidget {
   const ArticleEditorTop({
