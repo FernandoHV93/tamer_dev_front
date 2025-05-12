@@ -3,6 +3,7 @@ import 'package:ia_web_front/domain/entities/article_entity_dto.dart';
 
 abstract class ArticleFunc {
   Future<void> postArticleBuilderJson(ArticleBuilderEntity model);
+
   Future<ArticleDto> fetchArticleBuilderJson(
       {required String userID, required String sessionID});
 

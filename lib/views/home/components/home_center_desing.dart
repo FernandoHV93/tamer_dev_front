@@ -8,6 +8,8 @@ class HomeCenterDesing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userID = 'session123';
+    final sessionID = 'user456';
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
@@ -61,7 +63,10 @@ class HomeCenterDesing extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ArticleBuilderScreen(),
+                        builder: (context) => ArticleBuilderScreen(
+                          sessionID: sessionID,
+                          userID: userID,
+                        ),
                       ),
                     );
                   },
@@ -73,7 +78,10 @@ class HomeCenterDesing extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ArticleEditorScreen(),
+                        builder: (context) => ArticleEditorScreen(
+                          sessionID: sessionID,
+                          userID: userID,
+                        ),
                       ),
                     );
                   },

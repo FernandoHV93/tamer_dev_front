@@ -9,7 +9,14 @@ import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_con
 import 'package:ia_web_front/views/article_editor_finish/article_editor_top.dart';
 
 class ArticleEditorScreen extends StatefulWidget {
-  const ArticleEditorScreen({super.key});
+  final String sessionID;
+  final String userID;
+
+  const ArticleEditorScreen({
+    super.key,
+    required this.sessionID,
+    required this.userID,
+  });
 
   @override
   State<ArticleEditorScreen> createState() => _ArticleEditorScreenState();
@@ -24,8 +31,8 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
     var useCase = FetchGeneratedArticle(ArticleFuncImpl());
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // Simulando los parámetros para el ejemplo
-      const sessionID = 'abc123';
-      const userID = 'user456';
+      var sessionID = widget.sessionID;
+      var userID = widget.userID;
 
       final dto = await useCase.execute(sessionID, userID);
       mapArticleDtoToBlocks(dto, _controller);

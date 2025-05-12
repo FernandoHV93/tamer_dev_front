@@ -16,9 +16,17 @@ class RouteGenerator {
       case WebRoutes.roadmap:
         return MaterialPageRoute(builder: (_) => const RoadmapScreen());
       case WebRoutes.articleBuilder:
-        return MaterialPageRoute(builder: (_) => ArticleBuilderScreen());
+        return MaterialPageRoute(
+            builder: (_) => ArticleBuilderScreen(
+                  sessionID: settings.arguments as String,
+                  userID: settings.arguments as String,
+                ));
       case WebRoutes.articleEditor:
-        return MaterialPageRoute(builder: (_) => ArticleEditorScreen());
+        return MaterialPageRoute(
+            builder: (_) => ArticleEditorScreen(
+                  sessionID: settings.arguments as String,
+                  userID: settings.arguments as String,
+                ));
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
     }
