@@ -41,3 +41,17 @@ class BlockFormat {
     this.align = TextAlign.left,
   });
 }
+
+class ImageBlock extends ArticleBlock {
+  final String url;
+  final int weight;
+  final int height;
+  final String text;
+  ImageBlock(
+      {required String id,
+      required this.url,
+      required this.height,
+      required this.weight,
+      required this.text})
+      : super(id);
+}

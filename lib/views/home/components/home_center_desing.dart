@@ -8,8 +8,6 @@ class HomeCenterDesing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userID = 'session123';
-    final sessionID = 'user456';
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(

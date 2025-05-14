@@ -18,6 +18,15 @@ QuoteBlock _convertCitationDtoToBlock(CitationDto dto) {
   );
 }
 
+ImageBlock _convertImageDtoToBlock(ImageDto dto) {
+  return ImageBlock(
+      id: const Uuid().v4(),
+      url: dto.url,
+      height: dto.properties["height"] ?? 50,
+      weight: dto.properties["height"] ?? 50,
+      text: dto.text);
+}
+
 TextAlign _parseAlignment(String alignment) {
   switch (alignment.toLowerCase()) {
     case 'center':
@@ -95,6 +104,11 @@ void mapArticleDtoToBlocks(ArticleDto article, WidgetsController controller) {
     for (final citationDto in section.citations) {
       final quoteBlock = _convertCitationDtoToBlock(citationDto);
       controller.addBlock(quoteBlock);
+    }
+
+    for (final imageDto in section.images) {
+      final imageBlock = _convertImageDtoToBlock(imageDto);
+      controller.addBlock(imageBlock);
     }
   }
 }

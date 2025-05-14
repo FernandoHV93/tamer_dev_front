@@ -138,7 +138,7 @@ class TableDto {
 
 class ImageDto extends TextFormatDto {
   final String url;
-  final Map<String, String> properties;
+  final Map<String, int> properties;
 
   ImageDto({
     required super.N,
@@ -159,7 +159,7 @@ class ImageDto extends TextFormatDto {
         aligment: json['aligment'],
         size: json['size'],
         url: json['url'],
-        properties: Map<String, String>.from(json['properties']),
+        properties: Map<String, int>.from(json['properties']),
       );
 
   @override

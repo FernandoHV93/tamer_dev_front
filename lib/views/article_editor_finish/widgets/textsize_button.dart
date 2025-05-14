@@ -17,8 +17,7 @@ class TextSizeButton extends StatefulWidget {
 }
 
 class _TextSizeButtonState extends State<TextSizeButton> {
-  bool isHovered =
-      false; // Estado para detectar si el mouse está sobre el botón
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +41,7 @@ class _TextSizeButtonState extends State<TextSizeButton> {
             color: widget.currentSize == widget.size
                 ? Colors.blue
                 : isHovered
-                    ? const Color.fromARGB(
-                        80, 34, 120, 226) // Fondo azul claro al pasar el mouse
+                    ? const Color.fromARGB(80, 34, 120, 226)
                     : Colors.transparent,
             borderRadius: BorderRadius.circular(4),
           ),
@@ -53,8 +51,7 @@ class _TextSizeButtonState extends State<TextSizeButton> {
               color: widget.currentSize == widget.size
                   ? Colors.white
                   : isHovered
-                      ? const Color.fromARGB(255, 29, 131,
-                          234) // Texto azul intenso al pasar el mouse
+                      ? const Color.fromARGB(255, 29, 131, 234)
                       : Colors.white,
               fontWeight: FontWeight.bold,
             ),

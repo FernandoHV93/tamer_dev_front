@@ -87,7 +87,45 @@ class WidgetRenderer extends StatelessWidget {
         ),
       );
     }
-
+    if (block is ImageBlock) {
+      final imageBlock = block as ImageBlock;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.network(
+            imageBlock.url,
+            width: imageBlock.weight.toDouble(),
+            height: imageBlock.height.toDouble(),
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Text(
+                'Error al cargar la imagen',
+                style: TextStyle(color: Colors.red),
+              );
+            },
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          (loadingProgress.expectedTotalBytes ?? 1)
+                      : null,
+                ),
+              );
+            },
+          ),
+          if (imageBlock.text.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                imageBlock.text,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+        ],
+      );
+    }
     if (block is QuoteBlock) {
       final quoteBlock = block as QuoteBlock;
       return GestureDetector(

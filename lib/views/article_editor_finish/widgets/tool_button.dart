@@ -17,8 +17,7 @@ class ToolButton extends StatefulWidget {
 }
 
 class _ToolButtonState extends State<ToolButton> {
-  bool isHovered =
-      false; // Estado para detectar si el mouse está sobre el botón
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +41,7 @@ class _ToolButtonState extends State<ToolButton> {
             color: widget.isActive
                 ? Colors.blue
                 : isHovered
-                    ? const Color.fromARGB(
-                        80, 34, 120, 226) // Fondo azul claro al pasar el mouse
+                    ? const Color.fromARGB(80, 34, 120, 226)
                     : Colors.transparent,
             borderRadius: BorderRadius.circular(4),
           ),
@@ -52,8 +50,7 @@ class _ToolButtonState extends State<ToolButton> {
             color: widget.isActive
                 ? Colors.white
                 : isHovered
-                    ? Colors
-                        .blue.shade700 // Ícono azul intenso al pasar el mouse
+                    ? Colors.blue.shade700
                     : Colors.white,
             size: 20,
           ),

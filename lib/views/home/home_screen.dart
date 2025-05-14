@@ -11,8 +11,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight:
-            screenWidth < 600 ? 70 : 100, // Ajusta la altura del AppBar
+        toolbarHeight: screenWidth < 600 ? 70 : 100,
         backgroundColor: Colors.indigo[50],
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

@@ -16,9 +16,9 @@ class TopOptionsButton extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         overlayColor: Colors.white,
-        backgroundColor: AppConstants.textButtonColors[text], // Fondo negro
+        backgroundColor: AppConstants.textButtonColors[text],
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5), // Bordes más cuadrados
+          borderRadius: BorderRadius.circular(5),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
