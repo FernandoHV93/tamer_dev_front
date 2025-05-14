@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/core/utils/dto_to_model.dart';
 import 'package:ia_web_front/data/repository_impl/article_impl.dart';
 import 'package:ia_web_front/domain/use_cases/gen_article.dart';
@@ -9,13 +10,8 @@ import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_con
 import 'package:ia_web_front/views/article_editor_finish/article_editor_top.dart';
 
 class ArticleEditorScreen extends StatefulWidget {
-  final String sessionID;
-  final String userID;
-
   const ArticleEditorScreen({
     super.key,
-    required this.sessionID,
-    required this.userID,
   });
 
   @override
@@ -28,13 +24,13 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
   @override
   void initState() {
     super.initState();
+    final sessionProvider = SessionProvider.of(context);
     var useCase = FetchGeneratedArticle(ArticleFuncImpl());
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // Simulando los parámetros para el ejemplo
-      var sessionID = widget.sessionID;
-      var userID = widget.userID;
-
-      final dto = await useCase.execute(sessionID, userID);
+      final dto = await useCase.execute(
+        sessionProvider.sessionID,
+        sessionProvider.userID,
+      );
       mapArticleDtoToBlocks(dto, _controller);
     });
   }

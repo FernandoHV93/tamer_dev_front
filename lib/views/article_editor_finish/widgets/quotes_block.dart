@@ -11,21 +11,37 @@ class QuoteBlockWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controllerText = TextEditingController(text: block.quote);
-    return Container(
-      color: Colors.grey.shade200,
-      padding: EdgeInsets.all(12),
-      margin: EdgeInsets.symmetric(vertical: 4),
-      child: TextField(
-        controller: controllerText,
-        maxLines: null,
-        style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16),
-        decoration:
-            InputDecoration.collapsed(hintText: 'Reference a quote here...'),
-        onChanged: (value) {
-          controller.updateBlock(
-              block.id, QuoteBlock(id: block.id, quote: value));
-        },
+    return GestureDetector(
+      onTap: () => controller.selectBlock(block.id),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          border:
+              Border(left: BorderSide(color: Colors.grey.shade600, width: 4)),
+          color: const Color.fromARGB(255, 60, 60, 60),
+        ),
+        child: TextField(
+          controller: TextEditingController.fromValue(
+            TextEditingValue(
+              text: block.quote,
+              selection: TextSelection.collapsed(offset: block.quote.length),
+            ),
+          ),
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
+            color: Colors.white70,
+            fontSize: 16,
+          ),
+          maxLines: null,
+          decoration: const InputDecoration.collapsed(hintText: 'Cita...'),
+          onChanged: (value) {
+            controller.updateBlock(
+              block.id,
+              QuoteBlock(id: block.id, quote: value),
+            );
+          },
+        ),
       ),
     );
   }

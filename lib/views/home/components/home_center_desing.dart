@@ -63,10 +63,7 @@ class HomeCenterDesing extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ArticleBuilderScreen(
-                          sessionID: sessionID,
-                          userID: userID,
-                        ),
+                        builder: (context) => ArticleBuilderScreen(),
                       ),
                     );
                   },
@@ -78,10 +75,7 @@ class HomeCenterDesing extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ArticleEditorScreen(
-                          sessionID: sessionID,
-                          userID: userID,
-                        ),
+                        builder: (context) => ArticleEditorScreen(),
                       ),
                     );
                   },

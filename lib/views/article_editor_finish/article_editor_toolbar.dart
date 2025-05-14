@@ -151,6 +151,18 @@ class ArticleEditorToolbar extends StatelessWidget {
             },
           ),
           ToolButton(
+              icon: FontAwesomeIcons.image,
+              isActive: false,
+              onPressed: () {
+                // widgetsController.addBlock(ImageLoaderBlockWidget(
+                //     id: UniqueKey().toString(), footImage: ""));
+              }),
+          ToolButton(
+            icon: FontAwesomeIcons.link,
+            isActive: false,
+            onPressed: () {},
+          ),
+          ToolButton(
             icon: FontAwesomeIcons.quoteRight,
             isActive: false,
             onPressed: () {

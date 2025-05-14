@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/core/routes/route_generator.dart';
 import 'package:ia_web_front/core/routes/web_routes.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/textformat_controller.dart';
@@ -6,10 +7,15 @@ import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_con
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => WidgetsController()),
-    ChangeNotifierProvider(create: (_) => TextFormatController())
-  ], child: const MainApp()));
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => WidgetsController()),
+        ChangeNotifierProvider(create: (_) => TextFormatController())
+      ],
+      child: SessionProvider(
+          sessionID: 'exampleSessionId',
+          userID: 'exampleUserId',
+          child: const MainApp())));
 }
 
 class MainApp extends StatelessWidget {

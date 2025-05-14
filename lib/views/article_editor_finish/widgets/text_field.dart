@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/views/article_editor_finish/controllers/textformat_controller.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_controller.dart';
 import 'package:ia_web_front/data/models/models.dart';
+import 'package:provider/provider.dart';
 
 class MyTextField extends StatefulWidget {
   final TextBlock block;
@@ -53,35 +55,39 @@ class _MyTextFieldState extends State<MyTextField> {
   Widget build(BuildContext context) {
     final block = widget.controller.blocks
         .firstWhere((b) => b.id == widget.block.id) as TextBlock;
-    final format = block.format;
 
-    return TextField(
-      controller: _textController,
-      maxLines: null,
-      textAlign: format.align,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: format.isBold ? FontWeight.bold : FontWeight.normal,
-        fontStyle: format.isItalic ? FontStyle.italic : FontStyle.normal,
-        decoration:
-            format.isUnderline ? TextDecoration.underline : TextDecoration.none,
-        fontSize: _mapFontSize(format.fontSize),
-      ),
-      decoration: const InputDecoration(
-        border: InputBorder.none,
-        hintText: 'Start typing...',
-        hintStyle: TextStyle(color: Colors.grey),
-      ),
-      onChanged: (val) {
-        widget.controller.updateBlock(
-          widget.block.id,
-          TextBlock(
-            id: widget.block.id,
-            text: val,
-            format: format,
-          ),
-        );
-      },
-    );
+    return Consumer<TextFormatController>(
+        builder: (context, textFormatController, child) {
+      final format = block.format;
+      return TextField(
+        controller: _textController,
+        maxLines: null,
+        textAlign: format.align,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: format.isBold ? FontWeight.bold : FontWeight.normal,
+          fontStyle: format.isItalic ? FontStyle.italic : FontStyle.normal,
+          decoration: format.isUnderline
+              ? TextDecoration.underline
+              : TextDecoration.none,
+          fontSize: _mapFontSize(format.fontSize),
+        ),
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Start typing...',
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
+        onChanged: (val) {
+          widget.controller.updateBlock(
+            widget.block.id,
+            TextBlock(
+              id: widget.block.id,
+              text: val,
+              format: format,
+            ),
+          );
+        },
+      );
+    });
   }
 }

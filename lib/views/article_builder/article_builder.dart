@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/data/repository_impl/article_impl.dart';
 import 'package:ia_web_front/domain/entities/article_builder_entities.dart';
 import 'package:ia_web_front/domain/entities/article_entity_dto.dart';
@@ -14,10 +15,7 @@ import 'package:ia_web_front/views/article_builder/components/seo_structure.dart
 import 'package:ia_web_front/views/article_editor_finish/article_editor_screen.dart';
 
 class ArticleBuilderScreen extends StatefulWidget {
-  final String sessionID;
-  final String userID;
-  const ArticleBuilderScreen(
-      {super.key, required this.sessionID, required this.userID});
+  const ArticleBuilderScreen({super.key});
 
   @override
   State<ArticleBuilderScreen> createState() => _ArticleBuilderScreenState();
@@ -32,9 +30,10 @@ class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
   @override
   void initState() {
     super.initState();
+    final sessionProvider = SessionProvider.of(context);
     _articleBuilderEntity = ArticleBuilderEntity(
-      sessionId: widget.sessionID,
-      userId: widget.userID,
+      sessionId: sessionProvider.sessionID,
+      userId: sessionProvider.userID,
       articleGeneratorGeneral: ArticleGeneratorGeneral(
         language: AppConstants.languages.keys.first,
         articleTitle: '',
@@ -131,10 +130,7 @@ class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ArticleEditorScreen(
-              sessionID: _articleBuilderEntity.sessionId,
-              userID: _articleBuilderEntity.userId,
-            ),
+            builder: (context) => ArticleEditorScreen(),
           ),
         );
       }
