@@ -262,21 +262,21 @@ class AppConstants {
   };
 
   static const Map<String, String> syndicationOptions = {
-    'Twitter': 'assets/images/socialmedia/gorjeo.png',
-    'LinkedIn': 'assets/images/socialmedia/linkedin.png',
-    'Facebook': 'assets/images/socialmedia/facebook.png',
-    'Email': 'assets/images/socialmedia/gmail.png',
-    'WhatsApp': 'assets/images/socialmedia/whatsapp.png',
-    'Pinterest': 'assets/images/socialmedia/pinterest.png',
+    'twitterPost': 'assets/images/socialmedia/gorjeo.png',
+    'linkedinPost': 'assets/images/socialmedia/linkedin.png',
+    'facebookPost': 'assets/images/socialmedia/facebook.png',
+    'emailNewsletter': 'assets/images/socialmedia/gmail.png',
+    'whatsappMessage': 'assets/images/socialmedia/whatsapp.png',
+    'pinterestPin': 'assets/images/socialmedia/pinterest.png',
   };
 
   static const Map<String, bool> selectedSyndication = {
-    'Twitter': false,
-    'LinkedIn': false,
-    'Facebook': false,
-    'Email': false,
-    'WhatsApp': false,
-    'Pinterest': false,
+    'twitterPost': false,
+    'linkedinPost': false,
+    'facebookPost': false,
+    'emailNewsletter': false,
+    'whatsappMessage': false,
+    'pinterestPin': false,
   };
 }
 

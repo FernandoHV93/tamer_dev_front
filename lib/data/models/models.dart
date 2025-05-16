@@ -44,14 +44,14 @@ class BlockFormat {
 
 class ImageBlock extends ArticleBlock {
   final String url;
-  final int weight;
+  final int width;
   final int height;
   final String text;
   ImageBlock(
       {required String id,
       required this.url,
       required this.height,
-      required this.weight,
+      required this.width,
       required this.text})
       : super(id);
 }

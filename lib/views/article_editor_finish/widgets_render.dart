@@ -89,17 +89,19 @@ class WidgetRenderer extends StatelessWidget {
     }
     if (block is ImageBlock) {
       final imageBlock = block as ImageBlock;
+      debugPrint('imagen url ${imageBlock.url}');
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(
             imageBlock.url,
-            width: imageBlock.weight.toDouble(),
+            width: imageBlock.width.toDouble(),
             height: imageBlock.height.toDouble(),
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) {
+              debugPrint('error cargando la imagen: $error');
               return const Text(
-                'Error al cargar la imagen',
+                'error',
                 style: TextStyle(color: Colors.red),
               );
             },
@@ -212,7 +214,7 @@ class WidgetRenderer extends StatelessWidget {
       );
     }
 
-    return const SizedBox.shrink(); // Por si acaso llega un tipo desconocido
+    return const SizedBox.shrink();
   }
 
   double _mapFontSize(String size) {

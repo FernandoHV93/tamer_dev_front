@@ -31,8 +31,7 @@ class MainApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
             textTheme: constraints.maxWidth < 600
-                ? ThemeData.light().textTheme.apply(
-                    fontSizeFactor: 0.8) // Escala para pantallas pequeñas
+                ? ThemeData.light().textTheme.apply(fontSizeFactor: 0.8)
                 : ThemeData.light().textTheme,
           ),
         );

@@ -138,7 +138,8 @@ class TableDto {
 
 class ImageDto extends TextFormatDto {
   final String url;
-  final Map<String, int> properties;
+  final bool isImage;
+  final Map<String, dynamic> properties;
 
   ImageDto({
     required super.N,
@@ -149,6 +150,7 @@ class ImageDto extends TextFormatDto {
     required super.size,
     required this.url,
     required this.properties,
+    required this.isImage,
   });
 
   factory ImageDto.fromJson(Map<String, dynamic> json) => ImageDto(
@@ -159,7 +161,8 @@ class ImageDto extends TextFormatDto {
         aligment: json['aligment'],
         size: json['size'],
         url: json['url'],
-        properties: Map<String, int>.from(json['properties']),
+        isImage: json['isImage'],
+        properties: Map<String, dynamic>.from(json['properties']),
       );
 
   @override

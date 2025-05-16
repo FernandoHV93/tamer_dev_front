@@ -31,6 +31,28 @@ class _MediaHubCardState extends State<MediaHubCard> {
     );
   }
 
+  Map<String, int> imageSizeStringToMap(String imageSize) {
+    RegExp regExp = RegExp(r'(\d+)x(\d+)');
+    Match? match = regExp.firstMatch(imageSize);
+
+    if (match != null) {
+      // Asignar los valores capturados (group 1 y group 2)
+      int height = int.parse(match.group(1)!); // 1080
+      int width = int.parse(match.group(2)!); // 1920
+
+      Map<String, int> imageSizeMap = {
+        "width": width,
+        "height": height,
+      };
+      return imageSizeMap;
+    } else {
+      return {
+        "width": 0,
+        "height": 0,
+      };
+    }
+  }
+
   @override
   void dispose() {
     // Liberamos los controladores al destruir el widget
@@ -129,12 +151,11 @@ class _MediaHubCardState extends State<MediaHubCard> {
                   child: CustomDropdownTile(
                     label: 'Select Image Size',
                     items: AppConstants.imageSizes,
-                    selectedValue:
-                        widget.articleBuilderEntity.articleMediaHub.imageSize,
+                    selectedValue: AppConstants.imageSizes.first,
                     onChanged: (val) {
                       setState(() {
                         widget.articleBuilderEntity.articleMediaHub.imageSize =
-                            val!;
+                            imageSizeStringToMap(val ?? "");
                       });
                     },
                   ),

@@ -7,6 +7,7 @@ import 'package:ia_web_front/data/models/models.dart';
 import 'package:ia_web_front/views/article_editor_finish/widgets/textsize_button.dart';
 import 'package:ia_web_front/views/article_editor_finish/widgets/tool_button.dart';
 import 'package:provider/provider.dart';
+import 'package:file_picker/file_picker.dart';
 
 class ArticleEditorToolbar extends StatelessWidget {
   const ArticleEditorToolbar({
@@ -66,6 +67,157 @@ class ArticleEditorToolbar extends StatelessWidget {
                 child: const Text("Insert"),
               ),
             ],
+          );
+        },
+      );
+    }
+
+    Future<ImageBlock?> showInsertImageDialog(BuildContext context) async {
+      String mode = 'online';
+      final urlController = TextEditingController();
+      final captionController = TextEditingController();
+      final widthController = TextEditingController(text: '50');
+      final heightController = TextEditingController(text: '50');
+      String? localImagePath;
+
+      return showDialog<ImageBlock>(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: const Text('Insert Image'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'online',
+                          groupValue: mode,
+                          onChanged: (val) => setState(() => mode = val!),
+                        ),
+                        const Text('Online'),
+                        Radio<String>(
+                          value: 'local',
+                          groupValue: mode,
+                          onChanged: (val) => setState(() => mode = val!),
+                        ),
+                        const Text('Local'),
+                      ],
+                    ),
+                    if (mode == 'online') ...[
+                      TextField(
+                        controller: urlController,
+                        decoration:
+                            const InputDecoration(labelText: 'Image URL'),
+                      ),
+                      TextField(
+                        controller: captionController,
+                        decoration: const InputDecoration(labelText: 'Caption'),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: widthController,
+                              keyboardType: TextInputType.number,
+                              decoration:
+                                  const InputDecoration(labelText: 'Width'),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: TextField(
+                              controller: heightController,
+                              keyboardType: TextInputType.number,
+                              decoration:
+                                  const InputDecoration(labelText: 'Height'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                    if (mode == 'local') ...[
+                      ElevatedButton(
+                        onPressed: () async {
+                          final result = await FilePicker.platform
+                              .pickFiles(type: FileType.image);
+                          if (result != null) {
+                            setState(() =>
+                                localImagePath = result.files.single.path);
+                            debugPrint('$localImagePath');
+                          }
+                        },
+                        child: const Text('Seleccionar imagen local'),
+                      ),
+                      if (localImagePath != null)
+                        Text('Seleccionada: $localImagePath',
+                            style: const TextStyle(fontSize: 12)),
+                      TextField(
+                        controller: captionController,
+                        decoration: const InputDecoration(labelText: 'Caption'),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: widthController,
+                              keyboardType: TextInputType.number,
+                              decoration:
+                                  const InputDecoration(labelText: 'Width'),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: TextField(
+                              controller: heightController,
+                              keyboardType: TextInputType.number,
+                              decoration:
+                                  const InputDecoration(labelText: 'Height'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cancelar'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      if (mode == 'online' && urlController.text.isNotEmpty) {
+                        Navigator.pop(
+                          context,
+                          ImageBlock(
+                            id: UniqueKey().toString(),
+                            url: urlController.text,
+                            text: captionController.text,
+                            width: int.tryParse(widthController.text) ?? 200,
+                            height: int.tryParse(heightController.text) ?? 200,
+                          ),
+                        );
+                      } else if (mode == 'local' && localImagePath != null) {
+                        Navigator.pop(
+                          context,
+                          ImageBlock(
+                            id: UniqueKey().toString(),
+                            url: localImagePath!,
+                            text: captionController.text,
+                            width: int.tryParse(widthController.text) ?? 200,
+                            height: int.tryParse(heightController.text) ?? 200,
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text('Insertar'),
+                  ),
+                ],
+              );
+            },
           );
         },
       );
@@ -153,13 +305,11 @@ class ArticleEditorToolbar extends StatelessWidget {
           ToolButton(
               icon: FontAwesomeIcons.image,
               isActive: false,
-              onPressed: () {
-                widgetsController.addBlock(ImageBlock(
-                    id: UniqueKey().toString(),
-                    text: "",
-                    url: "",
-                    height: 50,
-                    weight: 50));
+              onPressed: () async {
+                final imageBlock = await showInsertImageDialog(context);
+                if (imageBlock != null) {
+                  widgetsController.addBlock(imageBlock);
+                }
               }),
           ToolButton(
             icon: FontAwesomeIcons.link,

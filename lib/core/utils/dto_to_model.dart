@@ -22,9 +22,33 @@ ImageBlock _convertImageDtoToBlock(ImageDto dto) {
   return ImageBlock(
       id: const Uuid().v4(),
       url: dto.url,
-      height: dto.properties["height"] ?? 50,
-      weight: dto.properties["height"] ?? 50,
+      height: _stringPixelToInt(dto.properties["height"]),
+      width: _stringPixelToInt(dto.properties["width"]),
       text: dto.text);
+}
+
+int _stringPixelToInt(String pixeles) {
+  String numericString = RegExp(r'\d+').stringMatch(pixeles) ?? '50';
+
+  // Convertir a entero
+  int result = int.parse(numericString);
+
+  return result;
+}
+
+String _mapFontSize(String size) {
+  switch (size) {
+    case '24px':
+      return 'H1';
+    case '20px':
+      return 'H2';
+    case '18px':
+      return 'H3';
+    case '16px':
+      return 'H4';
+    default:
+      return 'P';
+  }
 }
 
 TextAlign _parseAlignment(String alignment) {
@@ -50,7 +74,7 @@ void mapArticleDtoToBlocks(ArticleDto article, WidgetsController controller) {
       isItalic: article.h1.I,
       isUnderline: article.h1.U,
       align: _parseAlignment(article.h1.aligment),
-      fontSize: article.h1.size,
+      fontSize: _mapFontSize(article.h1.size),
     ),
   );
   controller.addBlock(h1Block);
@@ -66,7 +90,7 @@ void mapArticleDtoToBlocks(ArticleDto article, WidgetsController controller) {
             isItalic: section.title.I,
             isUnderline: section.title.U,
             align: _parseAlignment(section.title.aligment),
-            fontSize: section.title.size));
+            fontSize: _mapFontSize(section.title.size)));
     controller.addBlock(titleBlock);
 
     // Texto simple
@@ -79,7 +103,7 @@ void mapArticleDtoToBlocks(ArticleDto article, WidgetsController controller) {
               isItalic: textDto.I,
               isUnderline: textDto.U,
               align: _parseAlignment(textDto.aligment),
-              fontSize: textDto.size));
+              fontSize: _mapFontSize(textDto.size)));
       controller.addBlock(textBlock);
     }
 

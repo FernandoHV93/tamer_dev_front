@@ -56,7 +56,10 @@ class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
         numberOfVideos: 0,
         youtubeVideos: false,
         imageStyle: AppConstants.imageStyles.first,
-        imageSize: AppConstants.imageSizes.first,
+        imageSize: {
+          "width": 0,
+          "height": 0,
+        },
         layoutOption: AppConstants.layoutOptions.first,
         includeKeywords: false,
         placeUnderHeadings: false,

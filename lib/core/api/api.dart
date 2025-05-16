@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as HTTP;
 
 import 'package:ia_web_front/core/api/abstract_api.dart';
@@ -65,6 +66,7 @@ class API implements PUT, GET, DELETE, POST {
       },
       body: json.encode(data),
     );
+    debugPrint('response ${response.body}');
     if (response.statusCode != 200) return {'error': response.statusCode};
     return json.decode(response.body);
   }

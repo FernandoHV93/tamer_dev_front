@@ -63,7 +63,7 @@ class ArticleMediaHub {
   bool aiImages;
   int numberOfImages;
   String imageStyle;
-  String imageSize;
+  Map<String, int> imageSize;
   bool youtubeVideos;
   int numberOfVideos;
   String layoutOption;
@@ -94,9 +94,9 @@ class ArticleMediaHub {
       'imageSize': imageSize,
       'youtubeVideos': youtubeVideos,
       'numberOfVideos': numberOfVideos,
-      'layoutOption': layoutOption,
+      'layoutOptions': layoutOption,
       'includeKeywords': includeKeywords,
-      'strictMediaPlacement': placeUnderHeadings,
+      'placeUnderHeadings': placeUnderHeadings,
       'additionalInstructions': additionalInstructions,
       'brandName': brandName,
     };
@@ -216,7 +216,7 @@ class ArticleBuilderEntity {
       'articleStructure': articleStructure.toJson(),
       'articleConnectToWeb': {
         "sourceLinks": articleDistribution.sourceLinks,
-        'citationsLinks': articleDistribution.citations,
+        'citationLinks': articleDistribution.citations,
         'internalLinks': articleDistribution.internalLinking,
         'externalLinks': articleDistribution.externalLinking
       },
