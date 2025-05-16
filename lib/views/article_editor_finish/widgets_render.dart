@@ -89,44 +89,71 @@ class WidgetRenderer extends StatelessWidget {
     }
     if (block is ImageBlock) {
       final imageBlock = block as ImageBlock;
-      debugPrint('imagen url ${imageBlock.url}');
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.network(
-            imageBlock.url,
-            width: imageBlock.width.toDouble(),
-            height: imageBlock.height.toDouble(),
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              debugPrint('error cargando la imagen: $error');
-              return const Text(
-                'error',
+      if (imageBlock.bytes != null) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.memory(
+              imageBlock.bytes!,
+              width: imageBlock.width.toDouble(),
+              height: imageBlock.height.toDouble(),
+              fit: BoxFit.cover,
+              errorBuilder: (_, error, __) => const Text(
+                'Error decoding image bytes',
                 style: TextStyle(color: Colors.red),
-              );
-            },
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          (loadingProgress.expectedTotalBytes ?? 1)
-                      : null,
-                ),
-              );
-            },
-          ),
-          if (imageBlock.text.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                imageBlock.text,
-                style: const TextStyle(color: Colors.white),
               ),
             ),
-        ],
-      );
+            if (imageBlock.text.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  imageBlock.text,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+          ],
+        );
+      }
+      final url = imageBlock.url ?? '';
+      if (url.isNotEmpty) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              url,
+              width: imageBlock.width.toDouble(),
+              height: imageBlock.height.toDouble(),
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                debugPrint('error cargando la imagen: $error');
+                return const Text(
+                  'error',
+                  style: TextStyle(color: Colors.red),
+                );
+              },
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            (loadingProgress.expectedTotalBytes ?? 1)
+                        : null,
+                  ),
+                );
+              },
+            ),
+            if (imageBlock.text.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  imageBlock.text,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+          ],
+        );
+      }
     }
     if (block is QuoteBlock) {
       final quoteBlock = block as QuoteBlock;
@@ -171,45 +198,144 @@ class WidgetRenderer extends StatelessWidget {
       return GestureDetector(
         onTap: () => controller.selectBlock(tableBlock.id),
         child: Column(
-          children: tableBlock.rows.asMap().entries.map((entry) {
-            final rowIndex = entry.key;
-            final row = entry.value;
-            return Row(
-              children: row.asMap().entries.map((cellEntry) {
-                final cellIndex = cellEntry.key;
-                final cell = cellEntry.value;
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: TextField(
-                      controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          text: cell,
-                          selection:
-                              TextSelection.collapsed(offset: cell.length),
-                        ),
-                      ),
-                      style: const TextStyle(color: Colors.white),
-                      decoration: const InputDecoration(
-                        isDense: true,
-                        filled: true,
-                        fillColor: Color.fromARGB(255, 50, 50, 50),
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (value) {
-                        final newRows = [...tableBlock.rows];
-                        newRows[rowIndex][cellIndex] = value;
-                        controller.updateBlock(
-                          tableBlock.id,
-                          TableBlock(id: tableBlock.id, rows: newRows),
-                        );
-                      },
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 1) Editable Title
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+              child: TextField(
+                controller: TextEditingController.fromValue(
+                  TextEditingValue(
+                    text: tableBlock.tableTitle.text,
+                    selection: TextSelection.collapsed(
+                      offset: tableBlock.tableTitle.text.length,
                     ),
                   ),
+                ),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Título de la tabla',
+                  hintStyle: TextStyle(color: Colors.white54),
+                  border: InputBorder.none,
+                ),
+                onChanged: (newTitle) {
+                  final newTitleBlock = TextBlock(
+                    id: tableBlock.tableTitle.id,
+                    text: newTitle,
+                    format: tableBlock.tableTitle.format,
+                  );
+                  controller.updateBlock(
+                    tableBlock.id,
+                    TableBlock(
+                      id: tableBlock.id,
+                      tableTitle: newTitleBlock,
+                      description: tableBlock.description,
+                      rows: tableBlock.rows,
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            // 2) La propia tabla editable
+            Column(
+              children: tableBlock.rows.asMap().entries.map((entry) {
+                final rowIndex = entry.key;
+                final row = entry.value;
+                return Row(
+                  children: row.asMap().entries.map((cellEntry) {
+                    final cellIndex = cellEntry.key;
+                    final cellText = cellEntry.value;
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: TextField(
+                          controller: TextEditingController.fromValue(
+                            TextEditingValue(
+                              text: cellText,
+                              selection: TextSelection.collapsed(
+                                  offset: cellText.length),
+                            ),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            filled: true,
+                            fillColor: Color.fromARGB(255, 50, 50, 50),
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (newCell) {
+                            // clonamos la matriz de filas
+                            final newRows = tableBlock.rows
+                                .map((r) => List<String>.from(r))
+                                .toList();
+                            newRows[rowIndex][cellIndex] = newCell;
+                            controller.updateBlock(
+                              tableBlock.id,
+                              TableBlock(
+                                id: tableBlock.id,
+                                tableTitle: tableBlock.tableTitle,
+                                description: tableBlock.description,
+                                rows: newRows,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 );
               }).toList(),
-            );
-          }).toList(),
+            ),
+            const SizedBox(height: 8),
+            // 3) Editable Description
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
+              child: TextField(
+                controller: TextEditingController.fromValue(
+                  TextEditingValue(
+                    text: tableBlock.description.text,
+                    selection: TextSelection.collapsed(
+                      offset: tableBlock.description.text.length,
+                    ),
+                  ),
+                ),
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontStyle: FontStyle.italic,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Descripción',
+                  hintStyle: TextStyle(color: Colors.white38),
+                  border: InputBorder.none,
+                ),
+                onChanged: (newDesc) {
+                  final newDescBlock = TextBlock(
+                    id: tableBlock.description.id,
+                    text: newDesc,
+                    format: tableBlock.description.format,
+                  );
+                  controller.updateBlock(
+                    tableBlock.id,
+                    TableBlock(
+                      id: tableBlock.id,
+                      tableTitle: tableBlock.tableTitle,
+                      description: newDescBlock,
+                      rows: tableBlock.rows,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       );
     }

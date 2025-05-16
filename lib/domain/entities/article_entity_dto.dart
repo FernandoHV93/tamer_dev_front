@@ -113,11 +113,14 @@ class TextFormatDto {
 class TableDto {
   final List<List<TextFormatDto>> rows;
   final List<TextFormatDto> columns;
+  final TextFormatDto tableTitle;
+  final TextFormatDto description;
 
-  TableDto({
-    required this.rows,
-    required this.columns,
-  });
+  TableDto(
+      {required this.rows,
+      required this.columns,
+      required this.description,
+      required this.tableTitle});
 
   factory TableDto.fromJson(Map<String, dynamic> json) => TableDto(
         rows: (json['rows'] as List)
@@ -128,6 +131,8 @@ class TableDto {
         columns: (json['columns'] as List)
             .map((e) => TextFormatDto.fromJson(e))
             .toList(),
+        tableTitle: TextFormatDto.fromJson(json['title']),
+        description: TextFormatDto.fromJson(json['description']),
       );
 
   Map<String, dynamic> toJson() => {

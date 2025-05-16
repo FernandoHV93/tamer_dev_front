@@ -124,6 +124,7 @@ class _ArticleDistributionSectionState
               mainAxisSize: MainAxisSize.min,
               children: [
                 Checkbox(
+                  activeColor: Colors.blue,
                   value: widget.articleBuilderEntity.articleDistribution
                       .articleSydication[platform],
                   onChanged: (val) {

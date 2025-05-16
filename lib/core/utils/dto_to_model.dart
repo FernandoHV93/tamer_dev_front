@@ -111,6 +111,24 @@ void mapArticleDtoToBlocks(ArticleDto article, WidgetsController controller) {
     for (final tableDto in section.tables) {
       final tableBlock = TableBlock(
         id: const Uuid().v4(),
+        tableTitle: TextBlock(
+            id: const Uuid().v4(),
+            text: tableDto.tableTitle.text,
+            format: BlockFormat(
+                isBold: tableDto.tableTitle.N,
+                isItalic: tableDto.tableTitle.I,
+                isUnderline: tableDto.tableTitle.U,
+                align: _parseAlignment(tableDto.tableTitle.aligment),
+                fontSize: _mapFontSize(tableDto.tableTitle.size))),
+        description: TextBlock(
+            id: const Uuid().v4(),
+            text: tableDto.description.text,
+            format: BlockFormat(
+                isBold: tableDto.description.N,
+                isItalic: tableDto.description.I,
+                isUnderline: tableDto.description.U,
+                align: _parseAlignment(tableDto.description.aligment),
+                fontSize: _mapFontSize(tableDto.description.size))),
         rows: tableDto.rows
             .map((row) => row.map((cell) => cell.text).toList())
             .toList(),

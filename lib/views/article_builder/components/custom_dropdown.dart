@@ -50,7 +50,6 @@ class CustomDropdownTile extends StatelessWidget {
           value: selectedValue,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            isDense: false,
             contentPadding: EdgeInsets.fromLTRB(12, 0, 0, 2),
           ),
           dropdownColor: const Color.fromARGB(255, 41, 41, 41),
@@ -68,7 +67,8 @@ class CustomDropdownTile extends StatelessWidget {
               child: SizedBox(
                 width: 250,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     if (icon != null)
                       Icon(
@@ -86,6 +86,9 @@ class CustomDropdownTile extends StatelessWidget {
                           Text(item,
                               style: const TextStyle(
                                   fontSize: 15, color: Colors.white)),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           if (description != null)
                             Text(
                               description,
@@ -94,7 +97,6 @@ class CustomDropdownTile extends StatelessWidget {
                                 color: Colors.grey,
                                 fontStyle: FontStyle.italic,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                         ],
                       ),

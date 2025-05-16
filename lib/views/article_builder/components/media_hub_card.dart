@@ -252,6 +252,7 @@ class _MediaHubCardState extends State<MediaHubCard> {
             Row(
               children: [
                 Checkbox(
+                  activeColor: Colors.blue,
                   value: widget
                       .articleBuilderEntity.articleMediaHub.includeKeywords,
                   onChanged: (val) {
@@ -275,6 +276,7 @@ class _MediaHubCardState extends State<MediaHubCard> {
             Row(
               children: [
                 Checkbox(
+                  activeColor: Colors.blue,
                   value: widget
                       .articleBuilderEntity.articleMediaHub.placeUnderHeadings,
                   onChanged: (val) {
