@@ -3,6 +3,7 @@ import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/core/utils/dto_to_model.dart';
 import 'package:ia_web_front/data/repository_impl/article_impl.dart';
 import 'package:ia_web_front/domain/use_cases/gen_article.dart';
+import 'package:ia_web_front/views/article_editor_finish/article_editor_seosettings.dart';
 import 'package:ia_web_front/views/article_editor_finish/article_editor_toolbar.dart';
 import 'package:ia_web_front/views/article_editor_finish/widgets_render.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
   void initState() {
     super.initState();
     final sessionProvider = SessionProvider.of(context);
+    _controller = context.read<WidgetsController>();
     var useCase = FetchGeneratedArticle(ArticleFuncImpl());
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final dto = await useCase.execute(
@@ -36,9 +38,13 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    _controller = context.read<WidgetsController>();
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     final Map<String, VoidCallback> buttonActions = {
       'Download': () {
         debugPrint('Download button pressed');
@@ -70,6 +76,7 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SeoSettingsWidget(),
                     const ArticleEditorToolbar(),
                     const SizedBox(height: 20),
                     Container(

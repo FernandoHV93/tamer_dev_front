@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
@@ -11,7 +9,6 @@ import 'package:ia_web_front/views/article_editor_finish/widgets/insert_table_di
 import 'package:ia_web_front/views/article_editor_finish/widgets/textsize_button.dart';
 import 'package:ia_web_front/views/article_editor_finish/widgets/tool_button.dart';
 import 'package:provider/provider.dart';
-import 'package:file_picker/file_picker.dart';
 
 class ArticleEditorToolbar extends StatelessWidget {
   const ArticleEditorToolbar({
