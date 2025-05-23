@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ia_web_front/data/models/models.dart';
+import 'package:ia_web_front/data/models/article_editor_models.dart';
 
 class WidgetsController extends ChangeNotifier {
   final List<ArticleBlock> _blocks = [];

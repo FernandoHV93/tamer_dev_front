@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:ia_web_front/data/models/models.dart';
+import 'package:ia_web_front/data/models/article_editor_models.dart';
 
 class InsertImageDialog extends StatefulWidget {
   const InsertImageDialog({Key? key}) : super(key: key);

@@ -4,13 +4,15 @@ import 'package:ia_web_front/core/routes/route_generator.dart';
 import 'package:ia_web_front/core/routes/web_routes.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/textformat_controller.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_controller.dart';
+import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => WidgetsController()),
-        ChangeNotifierProvider(create: (_) => TextFormatController())
+        ChangeNotifierProvider(create: (_) => TextFormatController()),
+        ChangeNotifierProvider(create: (_) => WebsiteController())
       ],
       child: SessionProvider(
           sessionID: 'exampleSessionId',

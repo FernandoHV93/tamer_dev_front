@@ -1,4 +1,4 @@
-import 'package:ia_web_front/data/models/models.dart';
+import 'package:ia_web_front/data/models/article_editor_models.dart';
 import 'package:ia_web_front/domain/entities/article_entity_dto.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_controller.dart';
 import 'package:uuid/uuid.dart';
