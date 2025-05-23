@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/textformat_controller.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_controller.dart';
-import 'package:ia_web_front/data/models/models.dart';
+import 'package:ia_web_front/data/models/article_editor_models.dart';
 import 'package:ia_web_front/views/article_editor_finish/widgets/insert_imageDialog.dart';
 import 'package:ia_web_front/views/article_editor_finish/widgets/insert_table_dialog.dart';
 import 'package:ia_web_front/views/article_editor_finish/widgets/textsize_button.dart';

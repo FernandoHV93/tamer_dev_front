@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ia_web_front/data/models/models.dart';
+import 'package:ia_web_front/data/models/article_editor_models.dart';
 import 'package:provider/provider.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_controller.dart';
 
