@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/data/models/website_model.dart';
 
 class ContentCard extends StatefulWidget {
-  final String title;
-  final int kdScore;
-  final String volume;
-  final int completed;
-  final int total;
+  final ContentCardModel contentCard;
+  final VoidCallback onPressed;
 
-  const ContentCard({
-    super.key,
-    required this.title,
-    required this.kdScore,
-    required this.volume,
-    required this.completed,
-    required this.total,
-  });
+  const ContentCard(
+      {super.key, required this.contentCard, required this.onPressed});
 
   @override
   State<ContentCard> createState() => _ContentCardState();
@@ -33,7 +25,7 @@ class _ContentCardState extends State<ContentCard> {
         children: [
           Container(
             height: 5,
-            width: 360,
+            width: 370,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(7),
@@ -47,6 +39,7 @@ class _ContentCardState extends State<ContentCard> {
             onExit: (_) => setState(() => isHovered = false),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
+                fixedSize: const Size(370, 240),
                 backgroundColor: Colors.white,
                 elevation: isHovered ? 10 : 2,
                 overlayColor: Colors.white,
@@ -58,7 +51,7 @@ class _ContentCardState extends State<ContentCard> {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: widget.onPressed,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(7, 10, 7, 26),
                 child: Column(
@@ -74,7 +67,7 @@ class _ContentCardState extends State<ContentCard> {
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            widget.title,
+                            widget.contentCard.title,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: isHovered
@@ -119,8 +112,9 @@ class _ContentCardState extends State<ContentCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildStat('KD SCORE', '${widget.kdScore} %'),
-                        _buildStat('VOLUME', '${widget.volume}.0K'),
+                        _buildStat('KD SCORE',
+                            '${widget.contentCard.keyWordsScore} %'),
+                        _buildStat('VOLUME', '${widget.contentCard.volume}.0K'),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -134,7 +128,7 @@ class _ContentCardState extends State<ContentCard> {
                           style: TextStyle(fontSize: 15, color: Colors.black87),
                         ),
                         Text(
-                          '${widget.completed}/${widget.total}',
+                          '${widget.contentCard.topics?.where((topic) => topic.status == TopicStatus.Covered).length ?? 0}/${widget.contentCard.topics?.length}',
                           style: const TextStyle(
                               fontSize: 15, color: Colors.black87),
                         ),

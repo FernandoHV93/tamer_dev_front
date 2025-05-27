@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
+import 'package:provider/provider.dart';
+
 class WebsiteDropdown extends StatefulWidget {
-  final Map<String, String> websites;
+  final List<Map<String, String>> websites;
   final VoidCallback onAddWebsite;
 
   const WebsiteDropdown({
@@ -20,6 +23,8 @@ class _WebsiteDropdownState extends State<WebsiteDropdown> {
 
   @override
   Widget build(BuildContext context) {
+    final websiteController = Provider.of<WebsiteController>(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
@@ -27,20 +32,24 @@ class _WebsiteDropdownState extends State<WebsiteDropdown> {
         borderRadius: BorderRadius.circular(6),
       ),
       child: PopupMenuButton<String>(
+        // initialValue: websiteController.websites
+        //     .firstWhere((website) => website.status == WebsiteStatus.Active)
+        //     .name,
         key: _dropdownKey,
         onSelected: (value) {
           if (value == 'add_website') {
             widget.onAddWebsite();
           } else {
             setState(() => _selectedWebsite = value);
+            websiteController.selectWebsite(value);
           }
         },
         itemBuilder: (context) => [
-          ...widget.websites.entries.map((entry) => PopupMenuItem<String>(
-                value: entry.key,
+          ...widget.websites.map((entry) => PopupMenuItem<String>(
+                value: entry['name'], // Usa la URL como valor único
                 child: _WebsiteOption(
-                  name: entry.key,
-                  url: entry.value,
+                  name: entry['name'] ?? 'Unknown', // Accede al nombre
+                  url: entry['url'] ?? 'Unknown', // Accede a la URL
                 ),
               )),
           const PopupMenuItem<String>(
