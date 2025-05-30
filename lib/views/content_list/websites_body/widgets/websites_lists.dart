@@ -14,7 +14,6 @@ class WebsitesList extends StatelessWidget {
         _buildTableHeader(),
         ListView.builder(
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
           itemCount: controller.websites.length,
           itemBuilder: (context, index) {
             final website = controller.websites[index];
@@ -37,26 +36,12 @@ class WebsitesList extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            flex: 2,
-            child:
-                Text('Website', style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          Expanded(
-            flex: 2,
-            child:
-                Text('Status', style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text('Last Checked',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          Expanded(
-            flex: 1,
-            child: SizedBox(),
-          ),
+          Text('Website', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text('Status', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text('Last Checked', style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(),
         ],
       ),
     );

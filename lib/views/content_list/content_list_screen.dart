@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/views/content_list/content_body/content_body.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/header_bar.dart';
+import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
 import 'package:ia_web_front/views/content_list/websites_body/website_body.dart';
+import 'package:provider/provider.dart';
 
 class ContentDashboardPage extends StatefulWidget {
   const ContentDashboardPage({super.key});
@@ -13,17 +15,13 @@ class ContentDashboardPage extends StatefulWidget {
 class _ContentDashboardPageState extends State<ContentDashboardPage> {
   int selectedAppBarTab = 0;
 
-  Map<int, Widget> bodySections = {
-    0: WebsitesView(),
-    1: ContentBodyState(),
-  };
-
-  Map<String, String> webSites = {
-    'Example Blog': 'https://example.com',
-    'Component website': 'https://componentwebsite.net',
-  };
-
-  Widget _currentContentListScreenBody = WebsitesView();
+  @override
+  void initState() {
+    final websiteController =
+        Provider.of<WebsiteController>(context, listen: false);
+    websiteController.loadDemoWebsites();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +31,15 @@ class _ContentDashboardPageState extends State<ContentDashboardPage> {
           selectedIndex: selectedAppBarTab,
           onTabSelected: (index) => setState(() {
                 selectedAppBarTab = index;
-                _currentContentListScreenBody =
-                    bodySections[selectedAppBarTab]!;
               })),
-      body: SingleChildScrollView(child: _currentContentListScreenBody),
+      body: SingleChildScrollView(
+          child: IndexedStack(
+        index: selectedAppBarTab,
+        children: [
+          const WebsitesView(),
+          const ContentBodyState(),
+        ],
+      )),
     );
   }
 }
