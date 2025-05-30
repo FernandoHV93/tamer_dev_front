@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ia_web_front/data/models/website_model.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/add_card_dialog.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/content_card.dart';
+import 'package:ia_web_front/views/content_list/content_body/widgets/edit_card_dialog.dart';
 import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -70,6 +71,19 @@ class ContentCardsList extends StatelessWidget {
                   return ContentCard(
                     contentCard: contentCard,
                     onPressed: () => onPressed(contentCard),
+                    onEdit: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) =>
+                            EditCardDialog(contentCard: contentCard),
+                      );
+                    },
+                    onDelete: () {
+                      websiteController.removeContentCard(
+                        contentCards.indexWhere(
+                            (card) => card.title == contentCard.title),
+                      );
+                    },
                   );
                 }).toList(),
               ),

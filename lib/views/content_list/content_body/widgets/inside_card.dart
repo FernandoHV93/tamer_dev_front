@@ -19,6 +19,8 @@ class InsideCard extends StatelessWidget {
       builder: (context, websiteController, child) {
         final selectedcontentCard = websiteController.selectedContentCard ??
             websiteController.selectedWebsite?.contentCards?.first;
+        final contentCards =
+            websiteController.selectedWebsite?.contentCards ?? [];
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -219,7 +221,15 @@ class InsideCard extends StatelessWidget {
                   return TopicItem(
                     topic: selectedcontentCard.topics![index],
                     onEdit: () {},
-                    onDelete: () {},
+                    onDelete: () {
+                      websiteController.removeTopic(
+                        contentCards.indexWhere(
+                            (card) => card.title == selectedcontentCard.title),
+                        selectedcontentCard.topics!.indexWhere((topic) =>
+                            topic.keyWord ==
+                            selectedcontentCard.topics![index].keyWord),
+                      );
+                    },
                   );
                 },
               ),

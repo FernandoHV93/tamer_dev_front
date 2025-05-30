@@ -4,9 +4,15 @@ import 'package:ia_web_front/data/models/website_model.dart';
 class ContentCard extends StatefulWidget {
   final ContentCardModel contentCard;
   final VoidCallback onPressed;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
   const ContentCard(
-      {super.key, required this.contentCard, required this.onPressed});
+      {super.key,
+      required this.contentCard,
+      required this.onPressed,
+      required this.onEdit,
+      required this.onDelete});
 
   @override
   State<ContentCard> createState() => _ContentCardState();
@@ -33,7 +39,7 @@ class _ContentCardState extends State<ContentCard> {
               ),
               color: const Color.fromARGB(180, 0, 21, 255),
             ),
-          ), 
+          ),
           MouseRegion(
             onEnter: (_) => setState(() => isHovered = true),
             onExit: (_) => setState(() => isHovered = false),
@@ -87,7 +93,7 @@ class _ContentCardState extends State<ContentCard> {
                               color: isEditHovered ? Colors.blue : Colors.grey,
                               size: 16,
                             ),
-                            onPressed: () {},
+                            onPressed: widget.onEdit,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -103,7 +109,7 @@ class _ContentCardState extends State<ContentCard> {
                               color: isDeleteHovered ? Colors.red : Colors.grey,
                               size: 16,
                             ),
-                            onPressed: () {},
+                            onPressed: widget.onDelete,
                           ),
                         ),
                       ],

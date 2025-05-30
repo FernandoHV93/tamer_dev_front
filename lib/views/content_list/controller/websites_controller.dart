@@ -106,25 +106,56 @@ class WebsiteController extends ChangeNotifier {
         updatedContentCards.removeAt(contentCardIndex);
         _currentWebsite =
             _currentWebsite!.copyWith(contentCards: updatedContentCards);
+
+        final websiteIndex = _websites
+            .indexWhere((website) => website.name == _currentWebsite!.name);
+        if (websiteIndex != -1) {
+          _websites[websiteIndex] = _currentWebsite!;
+        }
         notifyListeners();
       }
     }
   }
 
-  void editContentCard(int contentCardIndex, ContentCardModel updatedCard) {
+  void editContentCard(
+      int contentCardIndex, String newTitle, Website newWebsite) {
     if (_currentWebsite != null) {
       final updatedContentCards = [...?_currentWebsite!.contentCards];
       if (contentCardIndex >= 0 &&
           contentCardIndex < updatedContentCards.length) {
+        // Actualiza el título de la tarjeta
         updatedContentCards[contentCardIndex] =
             updatedContentCards[contentCardIndex].copyWith(
-          title: updatedCard.title,
-          volume: updatedCard.volume,
-          keyWordsScore: updatedCard.keyWordsScore,
-          topics: updatedCard.topics,
+          title: newTitle,
         );
+
+        // Si el website cambia, mueve la tarjeta al nuevo website
+        if (_currentWebsite!.name != newWebsite.name) {
+          final newWebsiteIndex = _websites.indexOf(newWebsite);
+          if (newWebsiteIndex != -1) {
+            final updatedNewWebsiteCards = [
+              ...?newWebsite.contentCards,
+              updatedContentCards[contentCardIndex]
+            ];
+            _websites[newWebsiteIndex] =
+                newWebsite.copyWith(contentCards: updatedNewWebsiteCards);
+
+            // Elimina la tarjeta del website actual
+            updatedContentCards.removeAt(contentCardIndex);
+          }
+        }
+
+        // Actualiza el estado del website actual
         _currentWebsite =
             _currentWebsite!.copyWith(contentCards: updatedContentCards);
+
+        // Actualiza el estado global de _websites
+        final currentWebsiteIndex = _websites
+            .indexWhere((website) => website.name == _currentWebsite!.name);
+        if (currentWebsiteIndex != -1) {
+          _websites[currentWebsiteIndex] = _currentWebsite!;
+        }
+
         notifyListeners();
       }
     }
@@ -162,8 +193,15 @@ class WebsiteController extends ChangeNotifier {
           updatedTopics.removeAt(topicIndex);
           contentCards[contentCardIndex] =
               contentCard.copyWith(topics: updatedTopics);
+          _selectedContentCard = contentCards[contentCardIndex];
           _currentWebsite =
               _currentWebsite!.copyWith(contentCards: contentCards);
+
+          final websiteIndex = _websites
+              .indexWhere((website) => website.name == _currentWebsite!.name);
+          if (websiteIndex != -1) {
+            _websites[websiteIndex] = _currentWebsite!;
+          }
           notifyListeners();
         }
       }
