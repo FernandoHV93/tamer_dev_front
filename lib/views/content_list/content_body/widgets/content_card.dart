@@ -33,7 +33,7 @@ class _ContentCardState extends State<ContentCard> {
               ),
               color: const Color.fromARGB(180, 0, 21, 255),
             ),
-          ),
+          ), 
           MouseRegion(
             onEnter: (_) => setState(() => isHovered = true),
             onExit: (_) => setState(() => isHovered = false),

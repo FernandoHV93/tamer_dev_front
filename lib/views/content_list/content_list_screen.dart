@@ -15,13 +15,6 @@ class ContentDashboardPage extends StatefulWidget {
 class _ContentDashboardPageState extends State<ContentDashboardPage> {
   int selectedAppBarTab = 0;
 
-  Map<int, Widget> bodySections = {
-    0: WebsitesView(),
-    1: ContentBodyState(),
-  };
-
-  Widget _currentContentListScreenBody = WebsitesView();
-
   @override
   void initState() {
     final websiteController =
@@ -38,10 +31,15 @@ class _ContentDashboardPageState extends State<ContentDashboardPage> {
           selectedIndex: selectedAppBarTab,
           onTabSelected: (index) => setState(() {
                 selectedAppBarTab = index;
-                _currentContentListScreenBody =
-                    bodySections[selectedAppBarTab]!;
               })),
-      body: SingleChildScrollView(child: _currentContentListScreenBody),
+      body: SingleChildScrollView(
+          child: IndexedStack(
+        index: selectedAppBarTab,
+        children: [
+          const WebsitesView(),
+          const ContentBodyState(),
+        ],
+      )),
     );
   }
 }

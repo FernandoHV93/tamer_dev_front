@@ -1,31 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ia_web_front/data/models/website_model.dart';
+import 'package:ia_web_front/views/content_list/content_body/widgets/add_card_dialog.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/content_card.dart';
 import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
 import 'package:provider/provider.dart';
 
 class ContentCardsList extends StatelessWidget {
   final void Function(ContentCardModel) onPressed;
+
   const ContentCardsList({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    final websiteController = Provider.of<WebsiteController>(context);
-    final selectedWebsite = websiteController.selectedWebsite;
+    return Consumer<WebsiteController>(
+      builder: (context, websiteController, child) {
+        final selectedWebsite = websiteController.selectedWebsite;
+        final contentCards = selectedWebsite?.contentCards ?? [];
 
-    final contentCards = selectedWebsite?.contentCards ?? [];
-
-    return SingleChildScrollView(
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: contentCards.map((contentCard) {
-          return ContentCard(
-            contentCard: contentCard,
-            onPressed: () => onPressed(contentCard),
-          );
-        }).toList(),
-      ),
+        return Center(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 23, 87, 223),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const AddCardDialog(),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/icons/add.svg',
+                          height: 25,
+                          width: 25,
+                        ),
+                        const SizedBox(width: 10),
+                        const Text(
+                          'Add Card',
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Wrap(
+                spacing: 12,
+                runSpacing: 8,
+                children: contentCards.map((contentCard) {
+                  return ContentCard(
+                    contentCard: contentCard,
+                    onPressed: () => onPressed(contentCard),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

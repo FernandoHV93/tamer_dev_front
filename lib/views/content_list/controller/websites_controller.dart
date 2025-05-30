@@ -9,15 +9,24 @@ class WebsiteController extends ChangeNotifier {
   Website? _currentWebsite;
   Website? get selectedWebsite => _currentWebsite;
 
+  ContentCardModel? _selectedContentCard;
+  ContentCardModel? get selectedContentCard => _selectedContentCard;
+
+  void selectContentCard(ContentCardModel contentCard) {
+    _selectedContentCard = contentCard;
+    notifyListeners();
+  }
+
   void selectWebsite(String websiteName) {
     _currentWebsite = _websites.firstWhere(
       (website) => website.name == websiteName,
     );
-    print('Sitio web seleccionado: ${_currentWebsite?.name}');
+    _selectedContentCard = _currentWebsite?.contentCards?.isNotEmpty == true
+        ? _currentWebsite!.contentCards!.first
+        : null;
     notifyListeners();
   }
 
-  // Operación: Añadir nuevo website
   void addWebsite(String name, String url, WebsiteStatus status) {
     final newWebsite = Website(
       status: status,
@@ -30,7 +39,6 @@ class WebsiteController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Operación: Eliminar website
   void removeWebsite(int index) {
     if (index >= 0 && index < _websites.length) {
       _websites.removeAt(index);
@@ -38,7 +46,6 @@ class WebsiteController extends ChangeNotifier {
     }
   }
 
-  // Operación: Cambiar estado
   void toggleStatus(int index) {
     if (index >= 0 && index < _websites.length) {
       final website = _websites[index];
@@ -51,7 +58,6 @@ class WebsiteController extends ChangeNotifier {
     }
   }
 
-  // Operación: Editar website
   void editWebsite(
       int index, String newName, String newUrl, WebsiteStatus status) {
     if (index >= 0 && index < _websites.length) {
@@ -65,18 +71,31 @@ class WebsiteController extends ChangeNotifier {
     }
   }
 
-  // -------------------- Métodos para ContentCardModel --------------------
-
-  void addContentCard(ContentCardModel contentCard) {
-    if (_currentWebsite != null) {
+  void addContentCard(ContentCardModel contentCard, Website? selectedWebsite) {
+    if (selectedWebsite != null) {
+      final updatedContentCards = [
+        ...?selectedWebsite.contentCards,
+        contentCard
+      ];
+      final websiteIndex = _websites.indexOf(selectedWebsite);
+      if (websiteIndex != -1) {
+        _websites[websiteIndex] =
+            selectedWebsite.copyWith(contentCards: updatedContentCards);
+        _currentWebsite = _websites[websiteIndex];
+      }
+    } else if (_currentWebsite != null) {
       final updatedContentCards = [
         ...?_currentWebsite!.contentCards,
         contentCard
       ];
-      _currentWebsite =
-          _currentWebsite!.copyWith(contentCards: updatedContentCards);
-      notifyListeners();
+      final currentWebsiteIndex = _websites.indexOf(_currentWebsite!);
+      if (currentWebsiteIndex != -1) {
+        _websites[currentWebsiteIndex] =
+            _currentWebsite!.copyWith(contentCards: updatedContentCards);
+        _currentWebsite = _websites[currentWebsiteIndex];
+      }
     }
+    notifyListeners();
   }
 
   void removeContentCard(int contentCardIndex) {
@@ -111,8 +130,6 @@ class WebsiteController extends ChangeNotifier {
     }
   }
 
-  // -------------------- Métodos para Topics --------------------
-
   void addTopic(int contentCardIndex, Topics topic) {
     if (_currentWebsite != null) {
       final contentCards = [...?_currentWebsite!.contentCards];
@@ -121,7 +138,15 @@ class WebsiteController extends ChangeNotifier {
         final updatedTopics = [...?contentCard.topics, topic];
         contentCards[contentCardIndex] =
             contentCard.copyWith(topics: updatedTopics);
+        _selectedContentCard = contentCards[contentCardIndex];
         _currentWebsite = _currentWebsite!.copyWith(contentCards: contentCards);
+
+        final websiteIndex = _websites
+            .indexWhere((website) => website.name == _currentWebsite!.name);
+        if (websiteIndex != -1) {
+          _websites[websiteIndex] = _currentWebsite!;
+        }
+
         notifyListeners();
       }
     }
@@ -170,7 +195,6 @@ class WebsiteController extends ChangeNotifier {
     }
   }
 
-  // (Opcional) Cargar datos iniciales
   void loadDemoWebsites() {
     _websites = [
       Website(
@@ -257,6 +281,21 @@ class WebsiteController extends ChangeNotifier {
         contentCards: [
           ContentCardModel(
             title: 'Card 1 - Tienda Online',
+            volume: 150,
+            keyWordsScore: 65,
+            topics: [
+              Topics(
+                keyWord: 'E-commerce',
+                date: '2023-05-04',
+                score: '80',
+                words: '700',
+                schemas: 'Schema 4',
+                status: TopicStatus.Covered,
+              ),
+            ],
+          ),
+          ContentCardModel(
+            title: 'Card 2 - Tienda Online',
             volume: 150,
             keyWordsScore: 65,
             topics: [

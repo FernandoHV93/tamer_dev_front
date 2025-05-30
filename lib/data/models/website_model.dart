@@ -66,13 +66,19 @@ class Website {
 
 class Topics {
   final String keyWord;
+  final String? kd;
+  final String? categories;
   final String date;
+  final String? tags;
   final String? score;
   final String? words;
   final String? schemas;
   final TopicStatus status;
 
   Topics({
+    this.kd,
+    this.categories,
+    this.tags,
     required this.keyWord,
     required this.date,
     this.score,
@@ -85,6 +91,9 @@ class Topics {
   Map<String, dynamic> toMap() {
     return {
       'keyWord': keyWord,
+      'kd': kd,
+      'categories': categories,
+      'tags': tags,
       'date': date,
       'score': score,
       'words': words,
@@ -97,6 +106,9 @@ class Topics {
   factory Topics.fromMap(Map<String, dynamic> map) {
     return Topics(
       keyWord: map['keyWord'] ?? '',
+      kd: map['kd'] ?? '',
+      categories: map['cartegories'] ?? '',
+      tags: map['tags'] ?? '',
       date: map['date'] ?? '',
       score: map['score'],
       words: map['words'],
