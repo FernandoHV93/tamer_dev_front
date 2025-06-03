@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ia_web_front/domain/entities/block.dart';
+import 'package:ia_web_front/views/roadmap/model/roadmap_models.dart';
 
 class StatusSection extends StatefulWidget {
   final String status;
@@ -38,10 +38,7 @@ class _StatusSectionState extends State<StatusSection> {
           ),
           title: Text(
             widget.status,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: widget.color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: widget.color),
           ),
           onTap: () {
             setState(() {

@@ -5,6 +5,7 @@ import 'package:ia_web_front/core/routes/web_routes.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/textformat_controller.dart';
 import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_controller.dart';
 import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
+import 'package:ia_web_front/views/roadmap/controller/roadmap_controller.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -12,7 +13,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => WidgetsController()),
         ChangeNotifierProvider(create: (_) => TextFormatController()),
-        ChangeNotifierProvider(create: (_) => WebsiteController())
+        ChangeNotifierProvider(create: (_) => WebsiteController()),
+        ChangeNotifierProvider(create: (_) => RoadmapController())
       ],
       child: SessionProvider(
           sessionID: 'exampleSessionId',

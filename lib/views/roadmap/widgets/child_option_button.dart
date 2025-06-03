@@ -8,13 +8,13 @@ class ChildOptionButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const ChildOptionButton({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.borderColor,
     required this.textColor,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,7 @@ class ChildOptionButton extends StatelessWidget {
       style: TextButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
-          side: BorderSide(
-            color: borderColor,
-            width: 0.8,
-          ),
+          side: BorderSide(color: borderColor, width: 0.8),
         ),
         fixedSize: const Size(500, 80),
         elevation: 0,
