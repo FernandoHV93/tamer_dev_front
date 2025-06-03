@@ -36,12 +36,19 @@ class WebsitesList extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Website', style: TextStyle(fontWeight: FontWeight.bold)),
-          Text('Status', style: TextStyle(fontWeight: FontWeight.bold)),
-          Text('Last Checked', style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(),
+          Expanded(
+              child: Text('Website',
+                  style: TextStyle(fontWeight: FontWeight.bold))),
+          Expanded(
+              child: Text('Status',
+                  style: TextStyle(fontWeight: FontWeight.bold))),
+          Expanded(
+              child: Text('Last Checked',
+                  style: TextStyle(fontWeight: FontWeight.bold))),
+          Expanded(
+              child: Text('', style: TextStyle(fontWeight: FontWeight.bold))),
         ],
       ),
     );

@@ -73,6 +73,7 @@ class _WebsiteListItemState extends State<WebsiteListItem> {
       ),
       padding: const EdgeInsets.all(8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildWebsiteInfo(),
           _buildStatusSection(),
@@ -85,7 +86,6 @@ class _WebsiteListItemState extends State<WebsiteListItem> {
 
   Widget _buildWebsiteInfo() {
     return Expanded(
-      flex: 2,
       child: Row(
         children: [
           SvgPicture.asset(
@@ -142,7 +142,6 @@ class _WebsiteListItemState extends State<WebsiteListItem> {
 
   Widget _buildStatusSection() {
     return Expanded(
-      flex: 2,
       child: _isEditing
           ? Container(
               decoration: BoxDecoration(
@@ -217,7 +216,6 @@ class _WebsiteListItemState extends State<WebsiteListItem> {
                     ),
                   ),
                 ),
-                SizedBox()
               ]),
             ),
     );
@@ -225,7 +223,6 @@ class _WebsiteListItemState extends State<WebsiteListItem> {
 
   Widget _buildLastChecked() {
     return Expanded(
-      flex: 2,
       child: Text(
         DateFormat('yyyy-MM-dd – HH:mm').format(
           _isEditing ? DateTime.now() : widget.website.lastChecked,
@@ -241,7 +238,6 @@ class _WebsiteListItemState extends State<WebsiteListItem> {
 
   Widget _buildActionButtons() {
     return Expanded(
-      flex: 1,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: _isEditing

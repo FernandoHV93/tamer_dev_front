@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_web_front/data/models/website_model.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/add_topic_dialog.dart';
+import 'package:ia_web_front/views/content_list/content_body/widgets/remove_topic_dialog.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/topic_item.dart';
 import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
 import 'package:provider/provider.dart';
@@ -222,13 +223,20 @@ class InsideCard extends StatelessWidget {
                     topic: selectedcontentCard.topics![index],
                     onEdit: () {},
                     onDelete: () {
-                      websiteController.removeTopic(
-                        contentCards.indexWhere(
-                            (card) => card.title == selectedcontentCard.title),
-                        selectedcontentCard.topics!.indexWhere((topic) =>
-                            topic.keyWord ==
-                            selectedcontentCard.topics![index].keyWord),
-                      );
+                      showDialog(
+                          context: context,
+                          builder: (context) => RemoveTopicDialog(onDelete: () {
+                                websiteController.removeTopic(
+                                  contentCards.indexWhere((card) =>
+                                      card.title == selectedcontentCard.title),
+                                  selectedcontentCard.topics!.indexWhere(
+                                      (topic) =>
+                                          topic.keyWord ==
+                                          selectedcontentCard
+                                              .topics![index].keyWord),
+                                );
+                                Navigator.of(context).pop();
+                              }));
                     },
                   );
                 },

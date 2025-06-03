@@ -4,6 +4,7 @@ import 'package:ia_web_front/data/models/website_model.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/add_card_dialog.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/content_card.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/edit_card_dialog.dart';
+import 'package:ia_web_front/views/content_list/content_body/widgets/remove_card_dialog.dart';
 import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -79,10 +80,15 @@ class ContentCardsList extends StatelessWidget {
                       );
                     },
                     onDelete: () {
-                      websiteController.removeContentCard(
-                        contentCards.indexWhere(
-                            (card) => card.title == contentCard.title),
-                      );
+                      showDialog(
+                          context: context,
+                          builder: (context) => RemoveCardDialog(onDelete: () {
+                                websiteController.removeContentCard(
+                                  contentCards.indexWhere((card) =>
+                                      card.title == contentCard.title),
+                                );
+                                Navigator.of(context).pop();
+                              }));
                     },
                   );
                 }).toList(),

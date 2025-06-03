@@ -301,7 +301,7 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
                           });
                         },
                       );
-                    }).toList(),
+                    }),
                     const SizedBox(height: 12),
                   ],
                 ),
