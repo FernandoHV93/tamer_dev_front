@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/views/content_list/content_body/content_body.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/header_bar.dart';
 import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
@@ -17,10 +18,16 @@ class _ContentDashboardPageState extends State<ContentDashboardPage> {
 
   @override
   void initState() {
-    final websiteController =
-        Provider.of<WebsiteController>(context, listen: false);
-    websiteController.loadDemoWebsites();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final sessionProvider = SessionProvider.of(context);
+      final websiteController =
+          Provider.of<WebsiteController>(context, listen: false);
+      websiteController.loadWebsites(
+        sessionProvider.sessionID,
+        sessionProvider.userID,
+      );
+    });
   }
 
   @override

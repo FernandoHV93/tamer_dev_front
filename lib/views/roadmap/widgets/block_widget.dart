@@ -24,11 +24,11 @@ class BlockWidget extends StatelessWidget {
   Color getBlockColor() {
     switch (block.label) {
       case "Done":
-        return Colors.green.shade900;
+        return const Color.fromARGB(255, 27, 55, 94);
       case "To Check":
-        return Colors.yellow.shade800;
+        return const Color.fromARGB(187, 157, 112, 38);
       case "To Fix":
-        return Colors.deepOrange.shade900;
+        return const Color.fromARGB(188, 155, 43, 9);
       default:
         return Colors.blue;
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_web_front/data/models/website_model.dart';
+import 'package:ia_web_front/views/content_list/content_body/widgets/start_inspection_dialog.dart';
 import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -188,7 +189,12 @@ class _PerformanceState extends State<Performance> {
                                   hovering; // Cambia el estado al pasar el mouse
                             });
                           },
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => StartInspectionDialog(
+                                    onStartInspection: () {}));
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

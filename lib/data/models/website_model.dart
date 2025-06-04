@@ -7,7 +7,7 @@ class Website {
   final WebsiteStatus status;
   final String url;
   final String name;
-  final DateTime lastChecked;
+  final DateTime? lastChecked;
   final List<ContentCardModel>? contentCards;
 
   Website({
@@ -24,7 +24,7 @@ class Website {
       'status': status.name,
       'url': url,
       'name': name,
-      'lastChecked': lastChecked.toIso8601String(),
+      'lastChecked': lastChecked?.toIso8601String(),
       'contentCards': contentCards?.map((card) => card.toMap()).toList(),
     };
   }
