@@ -156,10 +156,6 @@ class _ContentGapsState extends State<ContentGaps> {
                                       : Colors.black38,
                                   size: 28,
                                 ),
-                                onHover: (hovering) {
-                                  setState(
-                                      () => _isAddButtonHovered = hovering);
-                                },
                                 style: IconButton.styleFrom(
                                   backgroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
