@@ -1,10 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:ia_web_front/data/models/website_model.dart';
+import 'package:ia_web_front/domain/use_cases/content_list/contenlist_usescases.dart';
 
 class WebsiteController extends ChangeNotifier {
+  final ContentListUseCases useCases;
+
+  WebsiteController(this.useCases);
+
   List<Website> _websites = [];
+  bool _isLoading = false;
 
   List<Website> get websites => _websites;
+  bool get isLoading => _isLoading;
 
   Website? _currentWebsite;
   Website? get selectedWebsite => _currentWebsite;
@@ -233,123 +240,48 @@ class WebsiteController extends ChangeNotifier {
     }
   }
 
-  void loadDemoWebsites() {
-    _websites = [
-      Website(
-        status: WebsiteStatus.Active,
-        name: 'Mi Blog',
-        url: 'https://midominio.com',
-        lastChecked: DateTime.now(),
-        contentCards: [
-          ContentCardModel(
-            title: 'Card 1 - Mi Blog',
-            volume: 100,
-            keyWordsScore: 80,
-            topics: [
-              Topics(
-                keyWord: 'Flutter',
-                date: '2023-05-01',
-                score: '90',
-                words: '500',
-                schemas: 'Schema 1',
-                status: TopicStatus.Covered,
-              ),
-              Topics(
-                keyWord: 'Dart',
-                date: '2023-05-02',
-                score: '85',
-                words: '400',
-                schemas: 'Schema 2',
-                status: TopicStatus.Draft,
-              ),
-            ],
-          ),
-          ContentCardModel(
-            title: 'Card 2 - Mi Blog',
-            volume: 200,
-            keyWordsScore: 70,
-            topics: [
-              Topics(
-                keyWord: 'State Management',
-                date: '2023-05-03',
-                score: '75',
-                words: '600',
-                schemas: 'Schema 3',
-                status: TopicStatus.Initiated,
-              ),
-            ],
-          ),
-          ContentCardModel(
-            title: 'Card 2 - Mi Blog',
-            volume: 200,
-            keyWordsScore: 70,
-            topics: [
-              Topics(
-                keyWord: 'State Management',
-                date: '2023-05-03',
-                score: '75',
-                words: '600',
-                schemas: 'Schema 3',
-                status: TopicStatus.Initiated,
-              ),
-            ],
-          ),
-          ContentCardModel(
-            title: 'Card 2 - Mi Blog',
-            volume: 200,
-            keyWordsScore: 70,
-            topics: [
-              Topics(
-                keyWord: 'State Management',
-                date: '2023-05-03',
-                score: '75',
-                words: '600',
-                schemas: 'Schema 3',
-                status: TopicStatus.Initiated,
-              ),
-            ],
-          ),
-        ],
-      ),
-      Website(
-        status: WebsiteStatus.Inactive,
-        name: 'Tienda Online',
-        url: 'https://tienda.com',
-        lastChecked: DateTime.now().subtract(const Duration(days: 7)),
-        contentCards: [
-          ContentCardModel(
-            title: 'Card 1 - Tienda Online',
-            volume: 150,
-            keyWordsScore: 65,
-            topics: [
-              Topics(
-                keyWord: 'E-commerce',
-                date: '2023-05-04',
-                score: '80',
-                words: '700',
-                schemas: 'Schema 4',
-                status: TopicStatus.Covered,
-              ),
-            ],
-          ),
-          ContentCardModel(
-            title: 'Card 2 - Tienda Online',
-            volume: 150,
-            keyWordsScore: 65,
-            topics: [
-              Topics(
-                keyWord: 'E-commerce',
-                date: '2023-05-04',
-                score: '80',
-                words: '700',
-                schemas: 'Schema 4',
-                status: TopicStatus.Covered,
-              ),
-            ],
-          ),
-        ],
-      ),
-    ];
+  Future<void> websiteInspection(
+      String sessionId, String userId, Website website) async {
+    try {
+      final result = await useCases.inspectWebsite(sessionId, userId, website);
+
+      final updatedContentCards = (result['contentCards'] as List)
+          .map((e) => ContentCardModel.fromMap(e))
+          .toList();
+
+      final index =
+          _websites.indexWhere((element) => element.url == website.url);
+      if (index != -1) {
+        _websites[index] =
+            _websites[index].copyWith(contentCards: updatedContentCards);
+        notifyListeners();
+      }
+    } catch (e) {
+      print("Error inspecting website: $e");
+    }
+  }
+
+  void analyzeCompetitor() {}
+
+  Future<void> loadWebsites(String sessionId, String userId) async {
+    _isLoading = true;
     notifyListeners();
+    try {
+      final result = await useCases.loadWebsites(sessionId, userId);
+      _websites =
+          (result['websites'] as List).map((e) => Website.fromMap(e)).toList();
+    } catch (e) {
+      print("Error: $e");
+    }
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> saveWebsitesData(String sessionId, String userId) async {
+    try {
+      await useCases.saveWebsitesData(sessionId, userId, _websites);
+    } catch (e) {
+      print("Error saving websites: $e");
+    }
   }
 }

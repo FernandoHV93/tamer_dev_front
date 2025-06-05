@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/core/utils/dto_to_model.dart';
 import 'package:ia_web_front/data/repository_impl/article_impl.dart';
-import 'package:ia_web_front/domain/use_cases/gen_article.dart';
+import 'package:ia_web_front/domain/use_cases/article_builder/gen_article.dart';
 import 'package:ia_web_front/views/article_editor_finish/article_editor_seosettings.dart';
 import 'package:ia_web_front/views/article_editor_finish/article_editor_toolbar.dart';
 import 'package:ia_web_front/views/article_editor_finish/widgets_render.dart';

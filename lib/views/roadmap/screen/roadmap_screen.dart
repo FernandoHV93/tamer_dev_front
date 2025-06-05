@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/views/roadmap/model/roadmap_models.dart';
 import 'package:ia_web_front/views/roadmap/widgets/side_bar.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ class RoadmapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sessionProvider = SessionProvider.of(context);
     context.watch<RoadmapController>();
     final double minScale = 0.5;
     final double maxScale = 2.5;
@@ -37,9 +39,20 @@ class RoadmapScreen extends StatelessWidget {
             heroTag: 'export',
             backgroundColor: Colors.orange,
             onPressed: () {
-              context.read<RoadmapController>().exportRoadmapToJson();
+              context.read<RoadmapController>().exportRoadmapToJson(
+                  sessionProvider.sessionID, sessionProvider.userID);
             },
-            child: const Icon(Icons.import_export),
+            child: const Icon(Icons.share),
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton(
+            heroTag: 'load',
+            backgroundColor: Colors.green,
+            onPressed: () {
+              context.read<RoadmapController>().loadRoadmapfromJson(
+                  sessionProvider.sessionID, sessionProvider.userID);
+            },
+            child: const Icon(Icons.download),
           ),
           const SizedBox(height: 12),
           FloatingActionButton(

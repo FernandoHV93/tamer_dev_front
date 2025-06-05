@@ -23,11 +23,11 @@ class Block {
     Map<String, dynamic>? context,
     this.parentId,
     List<Connection>? connections,
-  }) : comments = comments ?? [],
-       links = links ?? [],
-       label = label ?? "Done",
-       context = context ?? {},
-       connections = List.from(connections ?? []);
+  })  : comments = comments ?? [],
+        links = links ?? [],
+        label = label ?? "Done",
+        context = context ?? {},
+        connections = List.from(connections ?? []);
 
   factory Block.fromJson(Map<String, dynamic> json) {
     return Block(
@@ -38,9 +38,9 @@ class Block {
       links: List<String>.from(json['links']),
       label: json['label'],
       context: Map<String, dynamic>.from(json['context']),
-      parentId: json['parentId'],
-      connections:
-          (json['connections'] as List<dynamic>?)
+      parentId:
+          json['parentId'] != null ? Block.fromJson(json['parentId']) : null,
+      connections: (json['connections'] as List<dynamic>?)
               ?.map((c) => Connection.fromJson(c))
               .toList() ??
           [],

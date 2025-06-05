@@ -18,7 +18,7 @@ class SidebarStatus extends StatelessWidget {
 
     return Container(
       width: 220,
-      color: Colors.grey[200],
+      color: const Color.fromARGB(255, 24, 48, 82),
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
@@ -28,17 +28,17 @@ class SidebarStatus extends StatelessWidget {
                 children: [
                   StatusSection(
                     status: "Done (${done.length})",
-                    color: Colors.green,
+                    color: const Color.fromARGB(255, 133, 255, 137),
                     blocks: done,
                   ),
                   StatusSection(
                     status: "To Check (${toCheck.length})",
-                    color: Colors.amber,
+                    color: const Color.fromARGB(255, 252, 214, 102),
                     blocks: toCheck,
                   ),
                   StatusSection(
                     status: "To Fix (${toFix.length})",
-                    color: Colors.red,
+                    color: const Color.fromARGB(255, 253, 114, 104),
                     blocks: toFix,
                   ),
                 ],
@@ -48,17 +48,22 @@ class SidebarStatus extends StatelessWidget {
           const Divider(),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child:
-                selectedBlock != null
-                    ? Text(
-                      'Selected:\n${selectedBlock.title}',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
+            child: selectedBlock != null
+                ? Text(
+                    'Selected:\n${selectedBlock.title}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
-                      ),
-                    )
-                    : const Text('No block selected'),
+                        color: Colors.white),
+                  )
+                : const Text(
+                    'No block selected',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Colors.white),
+                  ),
           ),
         ],
       ),

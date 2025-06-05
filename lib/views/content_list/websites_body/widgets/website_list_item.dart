@@ -85,7 +85,7 @@ class WebsiteListItem extends StatelessWidget {
 
   Widget _buildLastChecked() {
     return Text(
-      DateFormat('yyyy-MM-dd – HH:mm').format(website.lastChecked),
+      DateFormat('yyyy-MM-dd – HH:mm').format(website.lastChecked!),
       style: TextStyle(
           color: Colors.grey[600], fontSize: 16, fontWeight: FontWeight.w800),
     );

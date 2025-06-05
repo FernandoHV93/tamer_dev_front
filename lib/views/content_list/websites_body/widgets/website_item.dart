@@ -225,7 +225,7 @@ class _WebsiteListItemState extends State<WebsiteListItem> {
     return Expanded(
       child: Text(
         DateFormat('yyyy-MM-dd – HH:mm').format(
-          _isEditing ? DateTime.now() : widget.website.lastChecked,
+          _isEditing ? DateTime.now() : widget.website.lastChecked!,
         ),
         style: TextStyle(
           color: Colors.grey[600],

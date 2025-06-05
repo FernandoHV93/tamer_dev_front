@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/domain/use_cases/roadmap/load_roadmap.dart';
+import 'package:ia_web_front/domain/use_cases/roadmap/save_roadmap.dart';
 import 'package:ia_web_front/views/roadmap/model/roadmap_models.dart';
 
 class RoadmapController with ChangeNotifier {
   final List<Block> _blocks = [];
   Block? _selectedBlock;
+  late final SaveRoadmap saveRoadmap;
+  late final LoadRoadmap loadRoadmap;
 
   List<Block> get blocks => _blocks;
   Block? get selectedBlock => _selectedBlock;
@@ -20,6 +24,27 @@ class RoadmapController with ChangeNotifier {
         title: 'Initial Block',
       ),
     );
+  }
+
+  void loadRoadmapfromJson(String sessionId, String userId) async {
+    try {
+      final Map<String, dynamic> roadmapData =
+          await loadRoadmap.execute(sessionId, userId);
+
+      final List<dynamic> roadmapList = roadmapData['roadmap'] ?? [];
+
+      // Limpiamos los bloques existentes si es necesario
+      _blocks.clear();
+
+      for (var blockJson in roadmapList) {
+        final block = Block.fromJson(blockJson);
+        _blocks.add(block);
+      }
+
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error loading roadmap: $e');
+    }
   }
 
   void setSelectedBlock(Block? block) {
@@ -136,8 +161,10 @@ class RoadmapController with ChangeNotifier {
     }
   }
 
-  Map<String, dynamic> exportRoadmapToJson() {
+  Future<Map<String, dynamic>> exportRoadmapToJson(
+      String sessionId, String userId) async {
     final data = _blocks.map((b) => b.toJson()).toList();
+    saveRoadmap.execute(sessionId, userId, {'roadmap': data});
     return {'roadmap': data};
   }
 }
