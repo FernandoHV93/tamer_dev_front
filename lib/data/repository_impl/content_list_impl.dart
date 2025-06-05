@@ -82,7 +82,9 @@ class ContentListImpl implements ContentListRepo {
 
   @override
   Future<void> saveWebsitesData(
-      String sessionId, String userId, List<Website> websites) async {}
+      String sessionId, String userId, List<Website> websites) async {
+    print(websites.map((e) => e.contentCards).toList());
+  }
 
   @override
   Future<Map<String, dynamic>> competitorAnalysis(

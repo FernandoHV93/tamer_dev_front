@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/data/models/website_model.dart';
 import 'package:ia_web_front/views/content_list/Content_Body/content_body_topicclusters.dart';
 import 'package:ia_web_front/views/content_list/content_body/content_body_gaps.dart';
@@ -20,9 +22,11 @@ class ContentBodyState extends StatefulWidget {
 class __ContentBodyStateState extends State<ContentBodyState> {
   int selectedTab = 0;
   ContentCardModel? selectedContentCard;
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
+    final sessionProvider = SessionProvider.of(context);
     return Consumer<WebsiteController>(
         builder: (context, websiteController, child) {
       final websites = websiteController.websites
@@ -48,6 +52,56 @@ class __ContentBodyStateState extends State<ContentBodyState> {
                           style: TextStyle(
                               fontSize: 34, fontWeight: FontWeight.bold)),
                       Row(children: [
+                        TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: isHovered
+                                  ? const Color.fromARGB(
+                                      255, 5, 60, 200) // Color más oscuro
+                                  : const Color.fromARGB(
+                                      198, 3, 56, 189), // Color normal
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                            ),
+                            onHover: (hovering) {
+                              setState(() {
+                                isHovered =
+                                    hovering; // Cambia el estado al pasar el mouse
+                              });
+                            },
+                            onPressed: () {
+                              websiteController.saveWebsitesData(
+                                  sessionProvider.sessionID,
+                                  sessionProvider.userID);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Changes saved successfully!'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/icons/save_changes.svg',
+                                  height: 25,
+                                  width: 25,
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text('Save Changes',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.white)),
+                              ],
+                            )),
+                        SizedBox(width: 15),
                         Text('Selected Website:',
                             style: TextStyle(
                                 fontSize: 16,
@@ -96,6 +150,7 @@ class __ContentBodyStateState extends State<ContentBodyState> {
                     ContentGaps(),
                   ],
                 ),
+                SizedBox(height: 16),
               ],
             ),
           ),
