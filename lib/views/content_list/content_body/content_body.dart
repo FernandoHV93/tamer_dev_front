@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/data/models/website_model.dart';
-import 'package:ia_web_front/views/content_list/Content_Body/content_body_topicclusters.dart';
+import 'package:ia_web_front/views/content_list/content_body/content_body_topicclusters.dart';
 import 'package:ia_web_front/views/content_list/content_body/content_body_gaps.dart';
 import 'package:ia_web_front/views/content_list/content_body/content_body_list.dart';
 import 'package:ia_web_front/views/content_list/content_body/content_body_performance.dart';

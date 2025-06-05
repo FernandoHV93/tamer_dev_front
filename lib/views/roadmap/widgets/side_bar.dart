@@ -59,7 +59,7 @@ class SidebarStatus extends StatelessWidget {
                   )
                 : const Text(
                     'No block selected',
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                         color: Colors.white),
