@@ -123,6 +123,9 @@ class InsideCard extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(113, 151, 191, 255),
@@ -174,7 +177,9 @@ class InsideCard extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8)),
                 ),
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

@@ -21,6 +21,14 @@ class _WebsiteDropdownState extends State<WebsiteDropdown> {
   String? _selectedWebsite;
 
   @override
+  void initState() {
+    super.initState();
+    final websiteController =
+        Provider.of<WebsiteController>(context, listen: false);
+    _selectedWebsite = websiteController.selectedWebsite?.name;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<WebsiteController>(
         builder: (context, websiteController, child) {

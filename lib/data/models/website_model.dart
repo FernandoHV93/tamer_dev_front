@@ -38,7 +38,9 @@ class Website {
       ),
       url: map['url'] ?? '',
       name: map['name'] ?? '',
-      lastChecked: DateTime.parse(map['lastChecked']),
+      lastChecked: map['lastChecked'] != null
+          ? DateTime.parse(map['lastChecked'])
+          : null,
       contentCards: (map['contentCards'] as List<dynamic>?)
               ?.map((cardMap) => ContentCardModel.fromMap(cardMap))
               .toList() ??
@@ -74,8 +76,12 @@ class Topics {
   final String? words;
   final String? schemas;
   final TopicStatus status;
+  final int? position;
+  final int? volume;
 
   Topics({
+    this.position,
+    this.volume,
     this.kd,
     this.categories,
     this.tags,
@@ -99,6 +105,8 @@ class Topics {
       'words': words,
       'schemas': schemas,
       'status': status.name,
+      'position': position,
+      'volume': volume
     };
   }
 
@@ -106,8 +114,10 @@ class Topics {
   factory Topics.fromMap(Map<String, dynamic> map) {
     return Topics(
       keyWord: map['keyWord'] ?? '',
+      position: map['position'] ?? 0,
+      volume: map['volume'] ?? 0,
       kd: map['kd'] ?? '',
-      categories: map['cartegories'] ?? '',
+      categories: map['categories'] ?? '',
       tags: map['tags'] ?? '',
       date: map['date'] ?? '',
       score: map['score'],
@@ -120,34 +130,38 @@ class Topics {
     );
   }
 
-  Topics copyWith({
-    String? keyWord,
-    String? date,
-    String? score,
-    String? words,
-    String? schemas,
-    TopicStatus? status,
-  }) {
+  Topics copyWith(
+      {String? keyWord,
+      String? date,
+      String? score,
+      String? words,
+      String? schemas,
+      int? volume,
+      TopicStatus? status,
+      int? position}) {
     return Topics(
-      keyWord: keyWord ?? this.keyWord,
-      date: date ?? this.date,
-      score: score ?? this.score,
-      words: words ?? this.words,
-      schemas: schemas ?? this.schemas,
-      status: status ?? this.status,
-    );
+        keyWord: keyWord ?? this.keyWord,
+        date: date ?? this.date,
+        score: score ?? this.score,
+        words: words ?? this.words,
+        schemas: schemas ?? this.schemas,
+        status: status ?? this.status,
+        position: position ?? this.position,
+        volume: volume ?? this.volume);
   }
 }
 
 class ContentCardModel {
   final String title;
-  final int volume;
+  final String? url;
+  final InspectedWebsiteStatus? status;
   final int keyWordsScore;
   final List<Topics>? topics;
 
   ContentCardModel({
     required this.title,
-    required this.volume,
+    this.url,
+    this.status,
     required this.keyWordsScore,
     this.topics,
   });
@@ -156,8 +170,9 @@ class ContentCardModel {
   Map<String, dynamic> toMap() {
     return {
       'title': title,
-      'volume': volume,
       'keyWordsScore': keyWordsScore,
+      'url': url,
+      'status': status.toString(),
       'topics': topics?.map((topic) => topic.toMap()).toList() ?? [],
     };
   }
@@ -166,7 +181,8 @@ class ContentCardModel {
   factory ContentCardModel.fromMap(Map<String, dynamic> map) {
     return ContentCardModel(
       title: map['title'] ?? '',
-      volume: map['volume'] ?? 0,
+      url: map['url'] ?? '',
+      status: map['status'] != null ? _statusFromString(map['status']) : null,
       keyWordsScore: map['keyWordsScore'] ?? 0,
       topics: (map['topics'] as List<dynamic>?)
               ?.map((topicMap) => Topics.fromMap(topicMap))
@@ -184,10 +200,20 @@ class ContentCardModel {
   }) {
     return ContentCardModel(
       title: title ?? this.title,
-      volume: volume ?? this.volume,
       keyWordsScore: keyWordsScore ?? this.keyWordsScore,
       topics: topics ?? this.topics,
     );
+  }
+
+  static InspectedWebsiteStatus _statusFromString(String value) {
+    switch (value) {
+      case 'Done':
+        return InspectedWebsiteStatus.Done;
+      case 'NoDone':
+        return InspectedWebsiteStatus.NoDone;
+      default:
+        throw Exception("Unknown InspectedWebsiteStatus: $value");
+    }
   }
 }
 
@@ -195,4 +221,120 @@ enum TopicStatus {
   Covered,
   Draft,
   Initiated,
+}
+
+enum InspectedWebsiteStatus { Done, NoDone }
+
+class InspectedWebsite {
+  final Website website;
+  final int rankTop10Keywords;
+  final int top10PositionScaled;
+  final int rankTop3Keywords;
+  final int top3PositionScaled;
+  final int rankTop100Keywords;
+  final int top100PositionScaled;
+
+  InspectedWebsite({
+    required this.website,
+    required this.rankTop10Keywords,
+    required this.rankTop100Keywords,
+    required this.rankTop3Keywords,
+    required this.top10PositionScaled,
+    required this.top3PositionScaled,
+    required this.top100PositionScaled,
+  });
+
+  factory InspectedWebsite.fromMap(Map<String, dynamic> map) {
+    return InspectedWebsite(
+      website: Website.fromMap(map['root']),
+      rankTop10Keywords: map['rankTop10Keywords'],
+      top10PositionScaled: map['top10PositionScaled'],
+      rankTop3Keywords: map['rankTop3Keywords'],
+      rankTop100Keywords: map['rankTop100Keywords'],
+      top3PositionScaled: map['top3PositionScaled'],
+      top100PositionScaled: map['top100PositionScaled'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'inspectedWebsite': website.toMap(),
+      'rankTop10Keywords': rankTop10Keywords,
+      'rankTop3Keywords': rankTop3Keywords,
+      'rankTop100Keywords': rankTop100Keywords,
+      'top3PositionScaled': top3PositionScaled,
+      'top10PositionScaled': top10PositionScaled,
+      'top100PositionScaled': top100PositionScaled,
+    };
+  }
+}
+
+enum TypeSearchIntent { I, C, T }
+
+class CompetitorWebsiteAnalysis {
+  final List<KeywordsCompetitor> keywords;
+
+  CompetitorWebsiteAnalysis({
+    required this.keywords,
+  });
+
+  factory CompetitorWebsiteAnalysis.fromMap(Map<String, dynamic> map) {
+    return CompetitorWebsiteAnalysis(
+      keywords: (map['keywords'] as List<dynamic>?)
+              ?.map((keywordMap) => KeywordsCompetitor.fromMap(keywordMap))
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'keywords': keywords.map((keyword) => keyword.toMap()).toList(),
+    };
+  }
+}
+
+class KeywordsCompetitor {
+  final List<String> keyword;
+  final int volume;
+  final int kd;
+  final TypeSearchIntent typeSearchIntent;
+
+  KeywordsCompetitor({
+    required this.keyword,
+    required this.volume,
+    required this.kd,
+    required this.typeSearchIntent,
+  });
+
+  factory KeywordsCompetitor.fromMap(Map<String, dynamic> map) {
+    return KeywordsCompetitor(
+      keyword: List<String>.from(map['keyword'] ?? []),
+      volume: map['volume'] ?? 0,
+      kd: map['kd'] ?? 0,
+      typeSearchIntent: _intentFromString(map['typeSearchIntent']),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'keyword': keyword,
+      'volume': volume,
+      'kd': kd,
+      'typeSearchIntent': typeSearchIntent.name,
+    };
+  }
+
+  static TypeSearchIntent _intentFromString(String value) {
+    switch (value) {
+      case 'I':
+        return TypeSearchIntent.I;
+      case 'C':
+        return TypeSearchIntent.C;
+      case 'T':
+        return TypeSearchIntent.T;
+      default:
+        throw Exception("Unknown TypeSearchIntent: $value");
+    }
+  }
 }

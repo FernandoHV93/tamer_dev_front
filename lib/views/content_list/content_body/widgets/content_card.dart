@@ -23,6 +23,11 @@ class _ContentCardState extends State<ContentCard> {
   bool isEditHovered = false;
   bool isDeleteHovered = false;
 
+  int _calculateTotalVolume(List<Topics>? topics) {
+    if (topics == null || topics.isEmpty) return 0;
+    return topics.fold(0, (sum, topic) => sum + (topic.volume ?? 0));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -120,7 +125,8 @@ class _ContentCardState extends State<ContentCard> {
                       children: [
                         _buildStat('KD SCORE',
                             '${widget.contentCard.keyWordsScore} %'),
-                        _buildStat('VOLUME', '${widget.contentCard.volume}.0K'),
+                        _buildStat('VOLUME',
+                            '${_calculateTotalVolume(widget.contentCard.topics)}.0K'),
                       ],
                     ),
                     const SizedBox(height: 16),

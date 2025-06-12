@@ -25,8 +25,8 @@ void main() {
         ChangeNotifierProvider(create: (_) => RoadmapController())
       ],
       child: SessionProvider(
-          sessionID: 'exampleSessionId',
-          userID: 'exampleUserId',
+          sessionID: 'mayo5.com',
+          userID: 'mayo5.com',
           child: const MainApp())));
 }
 

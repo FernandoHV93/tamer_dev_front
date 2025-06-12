@@ -18,7 +18,7 @@ class SidebarStatus extends StatelessWidget {
 
     return Container(
       width: 220,
-      color: const Color.fromARGB(255, 24, 48, 82),
+      color: const Color.fromARGB(255, 195, 195, 195),
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
