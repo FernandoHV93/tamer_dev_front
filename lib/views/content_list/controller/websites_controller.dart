@@ -10,7 +10,12 @@ class WebsiteController extends ChangeNotifier {
   List<Website> _websites = [];
   bool _isLoading = false;
 
+  List<InspectedWebsite> _inspectedWebsites = [];
+  List<CompetitorWebsiteAnalysis> _competitorwebsites = [];
+
   List<Website> get websites => _websites;
+  List<InspectedWebsite> get inspectedWebsites => _inspectedWebsites;
+  List<CompetitorWebsiteAnalysis> get competitorwebsite => _competitorwebsites;
   bool get isLoading => _isLoading;
 
   Website? _currentWebsite;
@@ -130,13 +135,11 @@ class WebsiteController extends ChangeNotifier {
       final updatedContentCards = [...?_currentWebsite!.contentCards];
       if (contentCardIndex >= 0 &&
           contentCardIndex < updatedContentCards.length) {
-        // Actualiza el título de la tarjeta
         updatedContentCards[contentCardIndex] =
             updatedContentCards[contentCardIndex].copyWith(
           title: newTitle,
         );
 
-        // Si el website cambia, mueve la tarjeta al nuevo website
         if (_currentWebsite!.name != newWebsite.name) {
           final newWebsiteIndex = _websites.indexOf(newWebsite);
           if (newWebsiteIndex != -1) {
@@ -223,13 +226,14 @@ class WebsiteController extends ChangeNotifier {
         final updatedTopics = [...?contentCard.topics];
         if (topicIndex >= 0 && topicIndex < updatedTopics.length) {
           updatedTopics[topicIndex] = updatedTopics[topicIndex].copyWith(
-            keyWord: updatedTopic.keyWord,
-            date: updatedTopic.date,
-            score: updatedTopic.score,
-            words: updatedTopic.words,
-            schemas: updatedTopic.schemas,
-            status: updatedTopic.status,
-          );
+              keyWord: updatedTopic.keyWord,
+              date: updatedTopic.date,
+              score: updatedTopic.score,
+              words: updatedTopic.words,
+              schemas: updatedTopic.schemas,
+              status: updatedTopic.status,
+              volume: updatedTopic.volume,
+              position: updatedTopic.position);
           contentCards[contentCardIndex] =
               contentCard.copyWith(topics: updatedTopics);
           _currentWebsite =
@@ -245,33 +249,48 @@ class WebsiteController extends ChangeNotifier {
     try {
       final result = await useCases.inspectWebsite(sessionId, userId, website);
 
-      final updatedContentCards = (result['contentCards'] as List)
-          .map((e) => ContentCardModel.fromMap(e))
-          .toList();
+      if (result.containsKey('inspectedWebsite') &&
+          result['inspectedWebsite'] != null) {
+        final inspectedWebsiteData = result['inspectedWebsite'];
 
-      final index =
-          _websites.indexWhere((element) => element.url == website.url);
-      if (index != -1) {
-        _websites[index] =
-            _websites[index].copyWith(contentCards: updatedContentCards);
+        final inspectedWebsite = InspectedWebsite.fromMap(inspectedWebsiteData);
+
+        _inspectedWebsites
+            .removeWhere((w) => w.website.url == inspectedWebsite.website.url);
+        _inspectedWebsites.add(inspectedWebsite);
         notifyListeners();
+      } else {
+        print("Error: inspectedWebsite no está presente o es nulo.");
       }
     } catch (e) {
       print("Error inspecting website: $e");
     }
   }
 
-  void analyzeCompetitor() {}
+  Future<void> analyzeCompetitor(
+      String sessionId, String userId, Website website) async {
+    try {
+      final result =
+          await useCases.analyzeCompetitor(sessionId, userId, website);
+
+      final competitor =
+          CompetitorWebsiteAnalysis.fromMap(result['competitor']);
+      _competitorwebsites.add(competitor);
+
+      notifyListeners();
+    } catch (e) {
+      print("Error analyzing competitor: $e");
+    }
+  }
 
   Future<void> loadWebsites(String sessionId, String userId) async {
     _isLoading = true;
-    notifyListeners();
     try {
       final result = await useCases.loadWebsites(sessionId, userId);
       _websites =
           (result['websites'] as List).map((e) => Website.fromMap(e)).toList();
     } catch (e) {
-      print("Error: $e");
+      print("Error loading websites: $e");
     }
     _isLoading = false;
     notifyListeners();

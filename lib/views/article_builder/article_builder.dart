@@ -36,14 +36,14 @@ class _ArticleBuilderScreenState extends State<ArticleBuilderScreen> {
       userId: sessionProvider.userID,
       articleGeneratorGeneral: ArticleGeneratorGeneral(
         language: AppConstants.languages.keys.first,
-        articleTitle: '',
-        articleMainKeyword: '',
+        articleTitle: 'mmoda de mujer',
+        articleMainKeyword: 'vestidos , ropa interior , zapatos tendencias',
         articleType: AppConstants.articleTypes.keys.first,
       ),
       articleSettings: ArticleGeneratorSettings(
-        articleSize: AppConstants.sizeDetails.keys.first,
+        articleSize: AppConstants.sizeDetails.keys.last,
         aiModel: AppConstants.aiModels.first,
-        humanizeText: AppConstants.humanLevels.first,
+        humanizeText: AppConstants.humanLevels.last,
         pointOfView: AppConstants.povOptions.first.values.first,
         toneOfVoice: AppConstants.tones.first.values.first,
         targetCountry: AppConstants.languages.keys.first,

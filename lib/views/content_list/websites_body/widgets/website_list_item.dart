@@ -22,7 +22,6 @@ class WebsiteListItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey[200]!),
       ),
       padding: const EdgeInsets.all(8),

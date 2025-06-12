@@ -32,7 +32,8 @@ class WebsitesList extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8), topRight: Radius.circular(8)),
       ),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: const Row(

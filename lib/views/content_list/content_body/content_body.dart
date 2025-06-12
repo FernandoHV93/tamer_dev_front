@@ -29,6 +29,11 @@ class __ContentBodyStateState extends State<ContentBodyState> {
     final sessionProvider = SessionProvider.of(context);
     return Consumer<WebsiteController>(
         builder: (context, websiteController, child) {
+      if (websiteController.selectedWebsite == null) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
       final websites = websiteController.websites
           .map((website) => {
                 'name': website.name,
@@ -146,7 +151,10 @@ class __ContentBodyStateState extends State<ContentBodyState> {
                             },
                           ),
                     Performance(),
-                    TopicClusters(),
+                    TopicClusters(
+                      contentCards:
+                          websiteController.selectedWebsite!.contentCards!,
+                    ),
                     ContentGaps(),
                   ],
                 ),

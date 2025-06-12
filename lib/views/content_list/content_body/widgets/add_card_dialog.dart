@@ -155,7 +155,6 @@ class _AddCardDialogState extends State<AddCardDialog> {
                     if (cardNameController.text.isNotEmpty) {
                       final newCard = ContentCardModel(
                         title: cardNameController.text,
-                        volume: 0,
                         keyWordsScore: 0,
                         topics: [],
                       );

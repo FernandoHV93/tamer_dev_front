@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/data/models/website_model.dart';
+import 'package:ia_web_front/views/content_list/content_body/content_body_inspected_website.dart';
 import 'package:ia_web_front/views/content_list/content_body/widgets/start_inspection_dialog.dart';
 import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +17,18 @@ class Performance extends StatefulWidget {
 class _PerformanceState extends State<Performance> {
   String selectedOption = 'Entire Website';
   bool isHovered = false;
+  bool isWebsiteInspected = false;
 
   @override
   Widget build(BuildContext context) {
+    final sessionProvider = SessionProvider.of(context);
     return Consumer<WebsiteController>(
         builder: (context, websiteController, child) {
       final Website? selectedWebsite = websiteController.selectedWebsite;
+      if (isWebsiteInspected) {
+        final inspectedWebsite = websiteController.inspectedWebsites.last;
+        return ContentBodyInspectedWebsite(inspectedWebsite: inspectedWebsite);
+      }
       return Center(
         child: Container(
           constraints: const BoxConstraints(
@@ -193,7 +201,16 @@ class _PerformanceState extends State<Performance> {
                             showDialog(
                                 context: context,
                                 builder: (context) => StartInspectionDialog(
-                                    onStartInspection: () {}));
+                                        onStartInspection: () async {
+                                      await websiteController.websiteInspection(
+                                          sessionProvider.sessionID,
+                                          sessionProvider.userID,
+                                          selectedWebsite!);
+
+                                      isWebsiteInspected = true;
+
+                                      Navigator.of(context).pop();
+                                    }));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
