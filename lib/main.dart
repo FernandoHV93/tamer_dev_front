@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/core/routes/route_generator.dart';
 import 'package:ia_web_front/core/routes/web_routes.dart';
-import 'package:ia_web_front/data/repository_impl/content_list_impl.dart';
-import 'package:ia_web_front/domain/use_cases/content_list/contenlist_usescases.dart';
-import 'package:ia_web_front/views/article_editor_finish/controllers/textformat_controller.dart';
-import 'package:ia_web_front/views/article_editor_finish/controllers/widgets_controller.dart';
-import 'package:ia_web_front/views/content_list/controller/websites_controller.dart';
-import 'package:ia_web_front/views/roadmap/controller/roadmap_controller.dart';
+import 'package:ia_web_front/features/article_editor/presentation/controllers/textformat_controller.dart';
+import 'package:ia_web_front/features/article_editor/presentation/controllers/widgets_controller.dart';
+import 'package:ia_web_front/features/content_list/data/repository/content_list_impl.dart';
+import 'package:ia_web_front/features/content_list/domain/uses_cases/contenlist_usescases.dart';
+import 'package:ia_web_front/features/content_list/presentation/controller/websites_controller.dart';
+import 'package:ia_web_front/features/roadmap/presentation/controller/roadmap_controller.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
