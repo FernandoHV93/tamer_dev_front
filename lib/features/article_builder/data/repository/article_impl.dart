@@ -38,10 +38,18 @@ class ArticleFuncImpl implements ArticleFunc {
   }
 
   @override
-  Future<void> postDefaultData(ArticleDto defaultDto) async {
+  Future<void> postDefaultData(
+      String sessionId, String userId, ArticleDto defaultDto) async {
     try {
-      final result = await api.post(
-          BackendUrls.componentArticleFormat, defaultDto.toJson());
+      final jsonToSend = {
+        "userID": userId,
+        "sessionID": sessionId,
+        ...defaultDto
+            .toJson(), // Spread operator para incluir todo el contenido del DTO
+      };
+
+      final result =
+          await api.post(BackendUrls.componentArticleFormat, jsonToSend);
 
       if (result.containsKey('error')) {
         throw Exception("Error del servidor: ${result['error']}");
@@ -53,9 +61,17 @@ class ArticleFuncImpl implements ArticleFunc {
   }
 
   @override
-  Future<void> postArticleBuilderJson(ArticleBuilderEntity model) async {
+  Future<void> postArticleBuilderJson(
+      String sessionId, String userId, ArticleBuilderEntity model) async {
     try {
-      final result = await api.post(BackendUrls.saveForm, model.toJson());
+      final jsonToSend = {
+        "userID": userId,
+        "sessionID": sessionId,
+        ...model
+            .toJson(), // Spread operator para incluir todo el contenido del modelo
+      };
+
+      final result = await api.post(BackendUrls.saveForm, jsonToSend);
 
       if (result.containsKey('error')) {
         throw Exception("Error del servidor: ${result['error']}");

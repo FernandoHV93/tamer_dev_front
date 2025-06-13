@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/features/article_builder/data/dto_to_model.dart';
-import 'package:ia_web_front/features/article_builder/data/repository/article_impl.dart';
-import 'package:ia_web_front/features/article_builder/domain/uses_cases/gen_article.dart';
+import 'package:ia_web_front/features/article_editor/domain/entities/article_entity_dto.dart';
 import 'package:ia_web_front/features/article_editor/presentation/article_editor_seosettings.dart';
 import 'package:ia_web_front/features/article_editor/presentation/article_editor_toolbar.dart';
 import 'package:ia_web_front/features/article_editor/presentation/article_editor_top.dart';
@@ -12,8 +10,11 @@ import 'package:ia_web_front/features/article_editor/presentation/widgets_render
 import 'package:provider/provider.dart';
 
 class ArticleEditorScreen extends StatefulWidget {
+  final ArticleDto? initialArticleDto; // Parámetro opcional
+
   const ArticleEditorScreen({
     super.key,
+    this.initialArticleDto,
   });
 
   @override
@@ -26,16 +27,12 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
   @override
   void initState() {
     super.initState();
-    final sessionProvider = SessionProvider.of(context);
     _controller = context.read<WidgetsController>();
-    var useCase = FetchGeneratedArticle(ArticleFuncImpl());
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final dto = await useCase.execute(
-        sessionProvider.sessionID,
-        sessionProvider.userID,
-      );
-      mapArticleDtoToBlocks(dto, _controller);
-    });
+
+    if (widget.initialArticleDto != null) {
+      // Si viene con datos, mapear inmediatamente
+      mapArticleDtoToBlocks(widget.initialArticleDto!, _controller);
+    }
   }
 
   @override

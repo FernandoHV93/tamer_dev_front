@@ -60,24 +60,26 @@ class _ArticleBuilderContent extends StatelessWidget {
     final sessionProvider = SessionProvider.of(context);
 
     try {
-      // Primero guardamos el formulario
-      await provider.saveForm(
-        sessionId: sessionProvider.sessionID,
-        userId: sessionProvider.userID,
-      );
-
-      // Luego enviamos los datos por defecto
+      // 1. Enviar datos por defecto
       await provider.sendDefaultData(
         sessionId: sessionProvider.sessionID,
         userId: sessionProvider.userID,
       );
 
-      // Navegar a la vista ArticleEditorScreen
+      // 2. Generar el artículo y obtener el DTO
+      final articleDto = await provider.fetchGeneratedArticle(
+        sessionId: sessionProvider.sessionID,
+        userId: sessionProvider.userID,
+      );
+
+      // 3. Navegar SOLO si todo salió bien, pasando el DTO
       if (context.mounted) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ArticleEditorScreen(),
+            builder: (context) => ArticleEditorScreen(
+              initialArticleDto: articleDto, // Pasar el DTO como parámetro
+            ),
           ),
         );
       }

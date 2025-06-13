@@ -15,11 +15,11 @@ class ArticleBuilderUsescases {
 
   Future<void> sendDefaultData(
       String sessionId, String userId, ArticleDto defaultDto) async {
-    return await repository.postDefaultData(defaultDto);
+    return await repository.postDefaultData(sessionId, userId, defaultDto);
   }
 
   Future<void> saveForm(
       String sessionId, String userId, ArticleBuilderEntity model) async {
-    return await repository.postArticleBuilderJson(model);
+    return await repository.postArticleBuilderJson(sessionId, userId, model);
   }
 }
