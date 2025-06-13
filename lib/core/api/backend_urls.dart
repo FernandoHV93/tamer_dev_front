@@ -5,7 +5,8 @@ class BackendUrls {
   static String analysisKeywords = '/analysis_keywords';
   static String titleRunAnalysis = '/title_run_analysis_first';
 
-  static String baseUrl = 'https://d8a8-74-208-179-167.ngrok-free.app';
-  // static String baseUrl = String.fromEnvironment('BASE_URL',
-  //     defaultValue: 'http://3.137.172.56:8000');
+  // static String baseUrl = 'http://18.223.187.238:8000';
+
+  static String baseUrl = String.fromEnvironment('BASE_URL',
+      defaultValue: 'http://18.223.187.238:8000');
 }
