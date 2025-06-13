@@ -279,21 +279,3 @@ class AppConstants {
     'pinterestPin': false,
   };
 }
-
-// app_styles.dart
-class AppTextStyles {
-  static TextStyle headerTitle = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w800,
-  );
-
-  static TextStyle subtitle = TextStyle(
-    fontSize: 15,
-    fontWeight: FontWeight.w400,
-  );
-
-  static TextStyle sectionTitle = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w800,
-  );
-}
