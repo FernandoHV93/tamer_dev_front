@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
-import 'package:ia_web_front/features/article_builder/domain/entities/article_builder_entities.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/custom_dropdown.dart';
+import 'package:ia_web_front/features/article_builder/presentation/controller/article_builder_provider.dart';
+import 'package:provider/provider.dart';
 
 class ArticleSettingsCard extends StatefulWidget {
-  final ArticleBuilderEntity articleBuilderEntity;
-
   const ArticleSettingsCard({
     super.key,
-    required this.articleBuilderEntity,
   });
 
   @override
@@ -18,6 +16,9 @@ class ArticleSettingsCard extends StatefulWidget {
 class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<ArticleBuilderProvider>();
+    final settings = provider.articleBuilderEntity.articleSettings;
+
     return Card(
       elevation: 2,
       color: const Color.fromARGB(255, 41, 41, 41),
@@ -95,13 +96,9 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                       CustomDropdownTile(
                         label: 'Article Size',
                         items: AppConstants.sizeDetails.keys.toList(),
-                        selectedValue: widget
-                            .articleBuilderEntity.articleSettings.articleSize,
+                        selectedValue: settings.articleSize,
                         onChanged: (val) {
-                          setState(() {
-                            widget.articleBuilderEntity.articleSettings
-                                .articleSize = val!;
-                          });
+                          provider.updateArticleSize(val!);
                         },
                         leadingIcon: Icons.article,
                       ),
@@ -125,10 +122,7 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                               border: Border.all(color: Colors.grey),
                             ),
                             child: Text(
-                              AppConstants.sizeDetails[widget
-                                  .articleBuilderEntity
-                                  .articleSettings
-                                  .articleSize]!,
+                              AppConstants.sizeDetails[settings.articleSize]!,
                               style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 14,
@@ -140,13 +134,9 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                       CustomDropdownTile(
                         label: 'Target Country',
                         items: AppConstants.languages.keys.toList(),
-                        selectedValue: widget
-                            .articleBuilderEntity.articleSettings.targetCountry,
+                        selectedValue: settings.targetCountry,
                         onChanged: (val) {
-                          setState(() {
-                            widget.articleBuilderEntity.articleSettings
-                                .targetCountry = val!;
-                          });
+                          provider.updateTargetCountry(val!);
                         },
                         leadingIcon: Icons.flag,
                         images: AppConstants.languages.values
@@ -164,26 +154,18 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                       CustomDropdownTile(
                         label: 'AI Model',
                         items: AppConstants.aiModels,
-                        selectedValue:
-                            widget.articleBuilderEntity.articleSettings.aiModel,
+                        selectedValue: settings.aiModel,
                         onChanged: (val) {
-                          setState(() {
-                            widget.articleBuilderEntity.articleSettings
-                                .aiModel = val!;
-                          });
+                          provider.updateAiModel(val!);
                         },
                         leadingIcon: Icons.smart_toy,
                       ),
                       CustomDropdownTile(
                         label: 'Humanize Text',
                         items: AppConstants.humanLevels,
-                        selectedValue: widget
-                            .articleBuilderEntity.articleSettings.humanizeText,
+                        selectedValue: settings.humanizeText,
                         onChanged: (val) {
-                          setState(() {
-                            widget.articleBuilderEntity.articleSettings
-                                .humanizeText = val!;
-                          });
+                          provider.updateHumanizeText(val!);
                         },
                         leadingIcon: Icons.psychology_alt,
                         itemDescriptions: AppConstants.humanDescriptions,
@@ -196,13 +178,9 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                         items: AppConstants.povOptions
                             .map((e) => e['label'] as String)
                             .toList(),
-                        selectedValue: widget
-                            .articleBuilderEntity.articleSettings.pointOfView,
+                        selectedValue: settings.pointOfView,
                         onChanged: (val) {
-                          setState(() {
-                            widget.articleBuilderEntity.articleSettings
-                                .pointOfView = val!;
-                          });
+                          provider.updatePointOfView(val!);
                         },
                         leadingIcon: Icons.person,
                         icons: AppConstants.povOptions
@@ -218,13 +196,9 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                         items: AppConstants.tones
                             .map((e) => e['label'] as String)
                             .toList(),
-                        selectedValue: widget
-                            .articleBuilderEntity.articleSettings.toneOfVoice,
+                        selectedValue: settings.toneOfVoice,
                         onChanged: (val) {
-                          setState(() {
-                            widget.articleBuilderEntity.articleSettings
-                                .toneOfVoice = val!;
-                          });
+                          provider.updateToneOfVoice(val!);
                         },
                         icons: AppConstants.tones
                             .map((e) => e['icon'] as IconData)

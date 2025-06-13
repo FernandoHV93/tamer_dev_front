@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ia_web_front/features/article_builder/domain/entities/article_builder_entities.dart';
 
 class TopTitleCard extends StatelessWidget {
-  final ArticleBuilderEntity articleBuilderEntity;
   final VoidCallback onSave;
   final VoidCallback onGenerate;
   const TopTitleCard({
     super.key,
-    required this.articleBuilderEntity,
     required this.onSave,
     required this.onGenerate,
   });

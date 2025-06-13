@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
-import 'package:ia_web_front/features/article_builder/domain/entities/article_builder_entities.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/custom_dropdown.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/section_header.dart';
+import 'package:ia_web_front/features/article_builder/presentation/controller/article_builder_provider.dart';
+import 'package:provider/provider.dart';
 
 class ArticleDistributionSection extends StatefulWidget {
-  final ArticleBuilderEntity articleBuilderEntity;
-
   const ArticleDistributionSection({
     super.key,
-    required this.articleBuilderEntity,
   });
 
   @override
@@ -28,130 +26,126 @@ class _ArticleDistributionSectionState
 
   @override
   void dispose() {
+    linkController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SectionHeader(
-          title: 'Connect to Web',
-          tooltip: '',
-        ),
-        const SizedBox(height: 8),
-        CustomDropdownTile(
-          label: 'Source Links',
-          selectedValue:
-              widget.articleBuilderEntity.articleDistribution.sourceLinks
-                  ? 'Yes'
-                  : 'No',
-          items: AppConstants.yesNoOptions,
-          onChanged: (val) {
-            setState(() {
-              widget.articleBuilderEntity.articleDistribution.sourceLinks =
-                  val == 'True';
-            });
-          },
-          note:
-              'At the bottom of the article, a list of used sources will be displayed. You can choose the format in which these sources are presented.',
-        ),
-        const SizedBox(height: 12),
-        CustomDropdownTile(
-          label: 'Citations ✨',
-          selectedValue:
-              widget.articleBuilderEntity.articleDistribution.citations
-                  ? 'Yes'
-                  : 'No',
-          items: AppConstants.yesNoOptions,
-          onChanged: (val) {
-            setState(() {
-              widget.articleBuilderEntity.articleDistribution.citations =
-                  val == 'True';
-            });
-          },
-          note:
-              'At the end of the sentence, it includes a citation link to the source of the factual data utilized in crafting the content.',
-        ),
-        const SizedBox(height: 20),
-        _buildLinkingCard(
-          title: 'Internal Linking',
-          links:
-              widget.articleBuilderEntity.articleDistribution.externalLinking,
-          onAddLink: (newLink) {
-            setState(() {
-              widget.articleBuilderEntity.articleDistribution.externalLinking
-                  .add(newLink);
-            });
-          },
-          note:
-              'Automatically index your site and add links relevant to your content. Select a WordPress Site and our semantic search will find the best pages to link to within your article.',
-        ),
-        const SizedBox(height: 16),
-        _buildLinkingCard(
-          title: 'External Linking',
-          links:
-              widget.articleBuilderEntity.articleDistribution.internalLinking,
-          onAddLink: (newLink) {
-            setState(() {
-              widget.articleBuilderEntity.articleDistribution.internalLinking
-                  .add(newLink);
-            });
-          },
-          note:
-              'External Linking automatically integrates authoritative and relevant external links into your content, while also allowing you to manually specify desired links.',
-        ),
-        const SizedBox(height: 24),
-        const SectionHeader(
-          title: 'Syndication',
-          tooltip:
-              'Create marketing materials based on the article for various platforms.',
-        ),
-        const SizedBox(height: 10),
-        const Text(
-          'Select the platforms where you want to syndicate your article.',
-          style: TextStyle(color: Colors.grey),
-        ),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 16,
-          runSpacing: 16,
-          children: AppConstants.syndicationOptions.entries.map((entry) {
-            final platform = entry.key;
-            final iconPath = entry.value;
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Checkbox(
-                  activeColor: Colors.blue,
-                  value: widget.articleBuilderEntity.articleDistribution
-                      .articleSydication[platform],
-                  onChanged: (val) {
-                    setState(() {
-                      widget.articleBuilderEntity.articleDistribution
-                          .articleSydication[platform] = val ?? false;
-                    });
-                  },
-                ),
-                Image.asset(iconPath, width: 24, height: 24),
-                const SizedBox(width: 6),
-                Text(
-                  platform,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
-            );
-          }).toList(),
-        ),
-      ],
-    );
+    return Consumer<ArticleBuilderProvider>(
+        builder: (context, provider, child) {
+      final distribution = provider.articleBuilderEntity.articleDistribution;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionHeader(
+            title: 'Connect to Web',
+            tooltip: '',
+          ),
+          const SizedBox(height: 8),
+          CustomDropdownTile(
+            label: 'Source Links',
+            selectedValue: distribution.sourceLinks ? 'Yes' : 'No',
+            items: AppConstants.yesNoOptions,
+            onChanged: (val) {
+              provider.updateSourceLinks(val == 'Yes');
+            },
+            note:
+                'At the bottom of the article, a list of used sources will be displayed. You can choose the format in which these sources are presented.',
+          ),
+          const SizedBox(height: 12),
+          CustomDropdownTile(
+            label: 'Citations ✨',
+            selectedValue: distribution.citations ? 'Yes' : 'No',
+            items: AppConstants.yesNoOptions,
+            onChanged: (val) {
+              provider.updateCitations(val == 'Yes');
+            },
+            note:
+                'At the end of the sentence, it includes a citation link to the source of the factual data utilized in crafting the content.',
+          ),
+          const SizedBox(height: 20),
+          _buildLinkingCard(
+            title: 'Internal Linking',
+            links: distribution.internalLinking,
+            onAddLink: (newLink) {
+              final updatedLinks =
+                  List<String>.from(distribution.internalLinking)..add(newLink);
+              provider.updateInternalLinking(updatedLinks);
+            },
+            onRemoveLink: (link) {
+              final updatedLinks =
+                  List<String>.from(distribution.internalLinking)..remove(link);
+              provider.updateInternalLinking(updatedLinks);
+            },
+            note:
+                'Automatically index your site and add links relevant to your content. Select a WordPress Site and our semantic search will find the best pages to link to within your article.',
+          ),
+          const SizedBox(height: 16),
+          _buildLinkingCard(
+            title: 'External Linking',
+            links: distribution.externalLinking,
+            onAddLink: (newLink) {
+              final updatedLinks =
+                  List<String>.from(distribution.externalLinking)..add(newLink);
+              provider.updateExternalLinking(updatedLinks);
+            },
+            onRemoveLink: (link) {
+              final updatedLinks =
+                  List<String>.from(distribution.externalLinking)..remove(link);
+              provider.updateExternalLinking(updatedLinks);
+            },
+            note:
+                'External Linking automatically integrates authoritative and relevant external links into your content, while also allowing you to manually specify desired links.',
+          ),
+          const SizedBox(height: 24),
+          const SectionHeader(
+            title: 'Syndication',
+            tooltip:
+                'Create marketing materials based on the article for various platforms.',
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            'Select the platforms where you want to syndicate your article.',
+            style: TextStyle(color: Colors.grey),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children: AppConstants.syndicationOptions.entries.map((entry) {
+              final platform = entry.key;
+              final iconPath = entry.value;
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Checkbox(
+                    activeColor: Colors.blue,
+                    value: distribution.articleSydication[platform] ?? false,
+                    onChanged: (val) {
+                      provider.updateSyndicationOption(platform, val ?? false);
+                    },
+                  ),
+                  Image.asset(iconPath, width: 24, height: 24),
+                  const SizedBox(width: 6),
+                  Text(
+                    platform,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        ],
+      );
+    });
   }
 
   Widget _buildLinkingCard({
     required String title,
     required List<String> links,
     required void Function(String) onAddLink,
+    required void Function(String) onRemoveLink,
     required String note,
   }) {
     return Card(
@@ -174,7 +168,7 @@ class _ArticleDistributionSectionState
               selectedValue: null,
               onChanged: (val) {
                 if (val == 'Add Link') {
-                  _showAddLinkDialog(onAddLink);
+                  _showAddLinkDialog(context, onAddLink);
                 }
               },
               note: note,
@@ -188,9 +182,7 @@ class _ArticleDistributionSectionState
                   label: Text(link),
                   deleteIcon: const Icon(Icons.close),
                   onDeleted: () {
-                    setState(() {
-                      links.remove(link);
-                    });
+                    onRemoveLink(link);
                   },
                 );
               }).toList(),
@@ -201,36 +193,58 @@ class _ArticleDistributionSectionState
     );
   }
 
-  void _showAddLinkDialog(void Function(String) onAddLink) {
+  void _showAddLinkDialog(
+      BuildContext context, void Function(String) onAddLink) {
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Add Link'),
+          backgroundColor: const Color.fromARGB(255, 50, 50, 50),
+          title: const Text(
+            'Add Link',
+            style: TextStyle(color: Colors.white),
+          ),
           content: TextField(
             controller: linkController,
+            style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
               hintText: 'Enter URL',
+              hintStyle: TextStyle(color: Colors.grey),
               border: OutlineInputBorder(),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue),
+              ),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(dialogContext).pop();
               },
-              child: const Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+              ),
               onPressed: () {
                 final newLink = linkController.text.trim();
                 if (newLink.isNotEmpty) {
                   onAddLink(newLink);
                   linkController.clear();
-                  Navigator.of(context).pop();
+                  Navigator.of(dialogContext).pop();
                 }
               },
-              child: const Text('Add'),
+              child: const Text(
+                'Add',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );

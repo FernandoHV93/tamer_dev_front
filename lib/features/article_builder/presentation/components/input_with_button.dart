@@ -6,14 +6,16 @@ class InputWithButton extends StatelessWidget {
   final String hint;
   final String buttonLabel;
   final VoidCallback onPressed;
+  final ValueChanged onChanged;
 
-  const InputWithButton({
-    required this.title,
-    required this.controller,
-    required this.hint,
-    required this.buttonLabel,
-    required this.onPressed,
-  });
+  const InputWithButton(
+      {super.key,
+      required this.title,
+      required this.controller,
+      required this.hint,
+      required this.buttonLabel,
+      required this.onPressed,
+      required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class InputWithButton extends StatelessWidget {
             Expanded(
               child: TextField(
                 controller: controller,
+                onChanged: onChanged,
                 style: TextStyle(color: Colors.white),
                 maxLines: 1,
                 decoration: InputDecoration(

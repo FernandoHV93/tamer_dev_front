@@ -185,8 +185,6 @@ class ArticleDistributionsEntity {
 }
 
 class ArticleBuilderEntity {
-  String sessionId;
-  String userId;
   ArticleGeneratorGeneral articleGeneratorGeneral;
   ArticleGeneratorSettings articleSettings;
   ArticleMediaHub articleMediaHub;
@@ -195,8 +193,6 @@ class ArticleBuilderEntity {
   ArticleDistributionsEntity articleDistribution;
 
   ArticleBuilderEntity({
-    required this.sessionId,
-    required this.userId,
     required this.articleGeneratorGeneral,
     required this.articleSettings,
     required this.articleMediaHub,
@@ -207,8 +203,6 @@ class ArticleBuilderEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'sessionID': sessionId,
-      'userID': userId,
       'articleGeneratorGeneral': articleGeneratorGeneral.toJson(),
       'articleGeneratorSettings': articleSettings.toJson(),
       'articleMediaHub': articleMediaHub.toJson(),

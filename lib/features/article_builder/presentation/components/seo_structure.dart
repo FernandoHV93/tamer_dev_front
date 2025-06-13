@@ -1,47 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
-import 'package:ia_web_front/features/article_builder/domain/entities/article_builder_entities.dart';
+import 'package:ia_web_front/features/article_builder/presentation/controller/article_builder_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/custom_dropdown.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/section_header.dart';
 
-class SeoStructure extends StatefulWidget {
-  final ArticleBuilderEntity articleBuilderEntity;
-
-  const SeoStructure({
-    super.key,
-    required this.articleBuilderEntity,
-  });
-
-  @override
-  State<SeoStructure> createState() => _SeoStructureState();
-}
-
-class _SeoStructureState extends State<SeoStructure> {
-  late TextEditingController keywordsController;
-  late TextEditingController hookBriefController;
-
-  @override
-  void initState() {
-    super.initState();
-    // Inicializamos los controladores con los valores actuales de la entidad
-    keywordsController = TextEditingController(
-      text: widget.articleBuilderEntity.articleSEO.keywords.join(', '),
-    );
-    hookBriefController = TextEditingController(
-      text: widget.articleBuilderEntity.articleStructure.introductoryHookBrief,
-    );
-  }
-
-  @override
-  void dispose() {
-    // Liberamos los controladores al destruir el widget
-    keywordsController.dispose();
-    hookBriefController.dispose();
-    super.dispose();
-  }
+class SeoStructure extends StatelessWidget {
+  const SeoStructure({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<ArticleBuilderProvider>();
+    final seo = provider.articleBuilderEntity.articleSEO;
+    final structure = provider.articleBuilderEntity.articleStructure;
+
     return Card(
       elevation: 2,
       color: const Color.fromARGB(255, 41, 41, 41),
@@ -57,23 +29,20 @@ class _SeoStructureState extends State<SeoStructure> {
             ),
             const SizedBox(height: 12),
             TextField(
-              controller: keywordsController,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               maxLength: 150,
               decoration: InputDecoration(
                 labelText: 'Keywords to include in the text',
-                labelStyle: TextStyle(fontSize: 14, color: Colors.white),
+                labelStyle: const TextStyle(fontSize: 14, color: Colors.white),
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
-                    final keyword = keywordsController.text.trim();
-                    if (keyword != '') {
-                      setState(() {
-                        widget.articleBuilderEntity.articleSEO.keywords
-                            .add(keyword);
-                        keywordsController.clear();
-                      });
+                    final keyword = provider
+                        .articleBuilderEntity.articleSEO.keywords
+                        .join(', ');
+                    if (keyword.isNotEmpty) {
+                      provider.addKeyword(keyword);
                     }
                   },
                 ),
@@ -81,12 +50,7 @@ class _SeoStructureState extends State<SeoStructure> {
               onSubmitted: (val) {
                 final keyword = val.trim();
                 if (keyword.isNotEmpty) {
-                  setState(() {
-                    // Agregamos la palabra clave a la lista
-                    widget.articleBuilderEntity.articleSEO.keywords
-                        .add(keyword);
-                    keywordsController.clear(); // Limpiamos el campo de entrada
-                  });
+                  provider.addKeyword(keyword);
                 }
               },
             ),
@@ -94,17 +58,12 @@ class _SeoStructureState extends State<SeoStructure> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: widget.articleBuilderEntity.articleSEO.keywords
-                  .map((keyword) {
+              children: seo.keywords.map((keyword) {
                 return Chip(
                   label: Text(keyword),
                   deleteIcon: const Icon(Icons.close),
                   onDeleted: () {
-                    setState(() {
-                      // Eliminamos la palabra clave de la lista
-                      widget.articleBuilderEntity.articleSEO.keywords
-                          .remove(keyword);
-                    });
+                    provider.removeKeyword(keyword);
                   },
                 );
               }).toList(),
@@ -127,37 +86,30 @@ class _SeoStructureState extends State<SeoStructure> {
               spacing: 8,
               runSpacing: 8,
               children: AppConstants.hookOptions.map((hook) {
-                final isSelected =
-                    widget.articleBuilderEntity.articleStructure.typeOfHook ==
-                        hook;
+                final isSelected = structure.typeOfHook == hook;
                 return ChoiceChip(
                   label: Text(hook),
-                  labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: const TextStyle(color: Colors.white),
                   backgroundColor: const Color.fromARGB(255, 67, 67, 67),
                   checkmarkColor: Colors.white,
                   selectedColor: const Color.fromARGB(234, 4, 73, 129),
                   selected: isSelected,
                   onSelected: (selected) {
-                    setState(() {
-                      if (selected) {
-                        widget.articleBuilderEntity.articleStructure
-                            .typeOfHook = hook;
-                        hookBriefController.text =
-                            AppConstants.hookPrompts[hook] ?? '';
-                      } else {
-                        widget.articleBuilderEntity.articleStructure
-                            .typeOfHook = "";
-                        hookBriefController.clear();
-                      }
-                    });
+                    if (selected) {
+                      provider.updateTypeOfHook(hook);
+                      provider.updateIntroductoryHookBrief(
+                          AppConstants.hookPrompts[hook] ?? '');
+                    } else {
+                      provider.updateTypeOfHook("");
+                      provider.updateIntroductoryHookBrief("");
+                    }
                   },
                 );
               }).toList(),
             ),
             const SizedBox(height: 10),
             TextField(
-              controller: hookBriefController,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               maxLength: 500,
               maxLines: 6,
               decoration: const InputDecoration(
@@ -166,8 +118,7 @@ class _SeoStructureState extends State<SeoStructure> {
                 border: OutlineInputBorder(),
               ),
               onChanged: (val) {
-                widget.articleBuilderEntity.articleStructure
-                    .introductoryHookBrief = val;
+                provider.updateIntroductoryHookBrief(val);
               },
             ),
             const SizedBox(height: 20),
@@ -184,18 +135,12 @@ class _SeoStructureState extends State<SeoStructure> {
               return Wrap(
                 spacing: 10,
                 runSpacing: 8,
-                children: widget
-                    .articleBuilderEntity.articleStructure.contentOptions.keys
-                    .map((option) {
+                children: structure.contentOptions.keys.map((option) {
                   return _buildYesNoDropdown(
                     option,
-                    widget.articleBuilderEntity.articleStructure
-                        .contentOptions[option],
+                    structure.contentOptions[option],
                     (val) {
-                      setState(() {
-                        widget.articleBuilderEntity.articleStructure
-                            .contentOptions[option] = val ?? false;
-                      });
+                      provider.updateContentOption(option, val ?? false);
                     },
                     itemWidth,
                   );

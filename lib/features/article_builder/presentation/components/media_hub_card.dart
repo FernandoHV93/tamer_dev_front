@@ -1,68 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
-import 'package:ia_web_front/features/article_builder/domain/entities/article_builder_entities.dart';
+import 'package:ia_web_front/features/article_builder/presentation/controller/article_builder_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/custom_dropdown.dart';
 
-class MediaHubCard extends StatefulWidget {
-  final ArticleBuilderEntity articleBuilderEntity;
-
-  const MediaHubCard({
-    super.key,
-    required this.articleBuilderEntity,
-  });
-
-  @override
-  State<MediaHubCard> createState() => _MediaHubCardState();
-}
-
-class _MediaHubCardState extends State<MediaHubCard> {
-  late TextEditingController additionalInstructionsController;
-  late TextEditingController brandNameController;
-
-  @override
-  void initState() {
-    super.initState();
-    // Inicializamos los controladores con los valores actuales de la entidad
-    additionalInstructionsController = TextEditingController(
-      text: widget.articleBuilderEntity.articleMediaHub.additionalInstructions,
-    );
-    brandNameController = TextEditingController(
-      text: widget.articleBuilderEntity.articleMediaHub.brandName,
-    );
-  }
-
-  Map<String, int> imageSizeStringToMap(String imageSize) {
-    RegExp regExp = RegExp(r'(\d+)x(\d+)');
-    Match? match = regExp.firstMatch(imageSize);
-
-    if (match != null) {
-      // Asignar los valores capturados (group 1 y group 2)
-      int height = int.parse(match.group(1)!); // 1080
-      int width = int.parse(match.group(2)!); // 1920
-
-      Map<String, int> imageSizeMap = {
-        "width": width,
-        "height": height,
-      };
-      return imageSizeMap;
-    } else {
-      return {
-        "width": 0,
-        "height": 0,
-      };
-    }
-  }
-
-  @override
-  void dispose() {
-    // Liberamos los controladores al destruir el widget
-    additionalInstructionsController.dispose();
-    brandNameController.dispose();
-    super.dispose();
-  }
+class MediaHubCard extends StatelessWidget {
+  const MediaHubCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<ArticleBuilderProvider>();
+    final mediaHub = provider.articleBuilderEntity.articleMediaHub;
+
     return Card(
       elevation: 2,
       color: const Color.fromARGB(255, 41, 41, 41),
@@ -87,23 +36,15 @@ class _MediaHubCardState extends State<MediaHubCard> {
               ],
             ),
             const SizedBox(height: 20),
-
-            // AI Images y Select Number of Images en una fila
             Row(
               children: [
                 Expanded(
                   child: CustomDropdownTile(
                     label: 'AI Images',
                     items: AppConstants.aiImagesOptions,
-                    selectedValue:
-                        widget.articleBuilderEntity.articleMediaHub.aiImages
-                            ? 'Yes'
-                            : 'No',
+                    selectedValue: mediaHub.aiImages ? 'Yes' : 'No',
                     onChanged: (val) {
-                      setState(() {
-                        widget.articleBuilderEntity.articleMediaHub.aiImages =
-                            val == 'Yes';
-                      });
+                      provider.updateAiImages(val == 'Yes');
                     },
                   ),
                 ),
@@ -114,35 +55,24 @@ class _MediaHubCardState extends State<MediaHubCard> {
                     items: AppConstants.numberOfImagesOptions
                         .map((e) => e.toString())
                         .toList(),
-                    selectedValue: widget
-                        .articleBuilderEntity.articleMediaHub.numberOfImages
-                        .toString(),
+                    selectedValue: mediaHub.numberOfImages.toString(),
                     onChanged: (val) {
-                      setState(() {
-                        widget.articleBuilderEntity.articleMediaHub
-                            .numberOfImages = int.parse(val!);
-                      });
+                      provider.updateNumberOfImages(int.parse(val!));
                     },
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-
-            // Select Image Style y Select Image Size en una fila
             Row(
               children: [
                 Expanded(
                   child: CustomDropdownTile(
                     label: 'Select Image Style',
                     items: AppConstants.imageStyles,
-                    selectedValue:
-                        widget.articleBuilderEntity.articleMediaHub.imageStyle,
+                    selectedValue: mediaHub.imageStyle,
                     onChanged: (val) {
-                      setState(() {
-                        widget.articleBuilderEntity.articleMediaHub.imageStyle =
-                            val!;
-                      });
+                      provider.updateImageStyle(val!);
                     },
                   ),
                 ),
@@ -153,9 +83,9 @@ class _MediaHubCardState extends State<MediaHubCard> {
                     items: AppConstants.imageSizes,
                     selectedValue: AppConstants.imageSizes.first,
                     onChanged: (val) {
-                      setState(() {
-                        widget.articleBuilderEntity.articleMediaHub.imageSize =
-                            imageSizeStringToMap(val ?? "");
+                      provider.updateImageSize({
+                        "width": int.parse(val!.split('x')[0]),
+                        "height": int.parse(val.split('x')[1]),
                       });
                     },
                   ),
@@ -163,23 +93,15 @@ class _MediaHubCardState extends State<MediaHubCard> {
               ],
             ),
             const SizedBox(height: 16),
-
-            // Select YouTube Videos y Select Number of Videos en una fila
             Row(
               children: [
                 Expanded(
                   child: CustomDropdownTile(
                     label: 'Select YouTube Videos',
                     items: AppConstants.youtubeVideosOptions,
-                    selectedValue: widget
-                            .articleBuilderEntity.articleMediaHub.youtubeVideos
-                        ? 'Yes'
-                        : 'No',
+                    selectedValue: mediaHub.youtubeVideos ? 'Yes' : 'No',
                     onChanged: (val) {
-                      setState(() {
-                        widget.articleBuilderEntity.articleMediaHub
-                            .youtubeVideos = val == 'Yes';
-                      });
+                      provider.updateYoutubeVideos(val == 'Yes');
                     },
                   ),
                 ),
@@ -190,76 +112,52 @@ class _MediaHubCardState extends State<MediaHubCard> {
                     items: AppConstants.numberOfVideosOptions
                         .map((e) => e.toString())
                         .toList(),
-                    selectedValue: widget
-                        .articleBuilderEntity.articleMediaHub.numberOfVideos
-                        .toString(),
+                    selectedValue: mediaHub.numberOfVideos.toString(),
                     onChanged: (val) {
-                      setState(() {
-                        widget.articleBuilderEntity.articleMediaHub
-                            .numberOfVideos = int.parse(val!);
-                      });
+                      provider.updateNumberOfVideos(int.parse(val!));
                     },
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-
-            // Additional Instructions
             TextField(
-              controller: additionalInstructionsController,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               maxLength: 100,
               decoration: const InputDecoration(
                 labelText: 'Additional Instructions',
                 labelStyle: TextStyle(fontSize: 14, color: Colors.white),
                 border: OutlineInputBorder(),
                 hintText: 'Enter details or creative directions',
-                hintStyle: const TextStyle(
-                  color: Colors.grey, // Cambia este color al que desees
-                  fontSize: 14,
-                ),
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
               ),
               onChanged: (val) {
-                widget.articleBuilderEntity.articleMediaHub
-                    .additionalInstructions = val;
+                provider.updateAdditionalInstructions(val);
               },
             ),
             const SizedBox(height: 16),
-
-            // Brand Name
             TextField(
-              controller: brandNameController,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               maxLength: 30,
               decoration: const InputDecoration(
                 labelText: 'Brand Name',
                 labelStyle: TextStyle(fontSize: 14, color: Colors.white),
                 border: OutlineInputBorder(),
                 hintText: 'Enter your brand name',
-                hintStyle: const TextStyle(
-                  color: Colors.grey, // Cambia este color al que desees
-                  fontSize: 14,
-                ),
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
               ),
               onChanged: (val) {
-                widget.articleBuilderEntity.articleMediaHub.brandName = val;
+                provider.updateBrandName(val);
               },
             ),
             const SizedBox(height: 16),
-
-            // Include Keywords Checkbox
             Row(
               children: [
                 Checkbox(
                   activeColor: Colors.blue,
-                  value: widget
-                      .articleBuilderEntity.articleMediaHub.includeKeywords,
+                  value: mediaHub.includeKeywords,
                   onChanged: (val) {
-                    setState(() {
-                      widget.articleBuilderEntity.articleMediaHub
-                          .includeKeywords = val!;
-                    });
+                    provider.updateIncludeKeywords(val!);
                   },
                 ),
                 const Expanded(
@@ -271,19 +169,13 @@ class _MediaHubCardState extends State<MediaHubCard> {
               ],
             ),
             const SizedBox(height: 16),
-
-            // Place Under Headings Checkbox
             Row(
               children: [
                 Checkbox(
                   activeColor: Colors.blue,
-                  value: widget
-                      .articleBuilderEntity.articleMediaHub.placeUnderHeadings,
+                  value: mediaHub.placeUnderHeadings,
                   onChanged: (val) {
-                    setState(() {
-                      widget.articleBuilderEntity.articleMediaHub
-                          .placeUnderHeadings = val!;
-                    });
+                    provider.updatePlaceUnderHeadings(val!);
                   },
                 ),
                 const Expanded(
