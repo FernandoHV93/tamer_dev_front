@@ -13,6 +13,7 @@ class SeoStructure extends StatelessWidget {
     final provider = context.watch<ArticleBuilderProvider>();
     final seo = provider.articleBuilderEntity.articleSEO;
     final structure = provider.articleBuilderEntity.articleStructure;
+    final TextEditingController _keywordController = TextEditingController();
 
     return Card(
       elevation: 2,
@@ -31,6 +32,7 @@ class SeoStructure extends StatelessWidget {
             TextField(
               style: const TextStyle(color: Colors.white),
               maxLength: 150,
+              controller: _keywordController,
               decoration: InputDecoration(
                 labelText: 'Keywords to include in the text',
                 labelStyle: const TextStyle(fontSize: 14, color: Colors.white),
@@ -38,11 +40,10 @@ class SeoStructure extends StatelessWidget {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
-                    final keyword = provider
-                        .articleBuilderEntity.articleSEO.keywords
-                        .join(', ');
+                    final keyword = _keywordController.text.trim();
                     if (keyword.isNotEmpty) {
                       provider.addKeyword(keyword);
+                      _keywordController.clear(); // Limpiar después de agregar
                     }
                   },
                 ),
@@ -51,20 +52,22 @@ class SeoStructure extends StatelessWidget {
                 final keyword = val.trim();
                 if (keyword.isNotEmpty) {
                   provider.addKeyword(keyword);
+                  _keywordController.clear(); // Limpiar después de agregar
                 }
               },
             ),
-            const SizedBox(height: 10),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: seo.keywords.map((keyword) {
                 return Chip(
-                  label: Text(keyword),
+                  label: Text(keyword,
+                      style: const TextStyle(color: Colors.white)),
                   deleteIcon: const Icon(Icons.close),
                   onDeleted: () {
                     provider.removeKeyword(keyword);
                   },
+                  backgroundColor: const Color.fromARGB(255, 67, 67, 67),
                 );
               }).toList(),
             ),

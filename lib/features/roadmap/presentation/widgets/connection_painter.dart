@@ -23,15 +23,20 @@ class ConnectionPainter extends CustomPainter {
 
         if (to.id.isEmpty) continue;
 
-        final start = from.position + Offset(200, 40); // right-center of block
-        final end = to.position + Offset(0, 40); // left-center of block
+        // Calculate connection points
+        final start = from.position +
+            const Offset(100, 40); // bottom-center of parent block
+        final end =
+            to.position + const Offset(100, 0); // top-center of child block
 
-        final cp1 = Offset(start.dx + 50, start.dy);
-        final cp2 = Offset(end.dx - 50, end.dy);
-
+        // Create a curved path for the connection
         final path = Path()
           ..moveTo(start.dx, start.dy)
-          ..cubicTo(cp1.dx, cp1.dy, cp2.dx, cp2.dy, end.dx, end.dy);
+          ..cubicTo(
+            start.dx, start.dy + 50, // First control point
+            end.dx, end.dy - 50, // Second control point
+            end.dx, end.dy, // End point
+          );
 
         canvas.drawPath(path, paint);
       }

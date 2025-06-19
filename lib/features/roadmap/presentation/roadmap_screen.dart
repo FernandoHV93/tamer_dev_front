@@ -62,7 +62,7 @@ class RoadmapScreen extends StatelessWidget {
               context.read<RoadmapController>().addBlock(
                     Block(
                       id: id,
-                      title: 'Nuevo Bloque',
+                      title: 'New Block',
                       position: const Offset(100, 100),
                     ),
                   );
