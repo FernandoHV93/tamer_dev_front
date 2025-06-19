@@ -120,7 +120,7 @@ class MediaHubCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 30),
             TextField(
               style: const TextStyle(color: Colors.white),
               maxLength: 100,
@@ -135,7 +135,7 @@ class MediaHubCard extends StatelessWidget {
                 provider.updateAdditionalInstructions(val);
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             TextField(
               style: const TextStyle(color: Colors.white),
               maxLength: 30,
@@ -150,7 +150,7 @@ class MediaHubCard extends StatelessWidget {
                 provider.updateBrandName(val);
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 7),
             Row(
               children: [
                 Checkbox(

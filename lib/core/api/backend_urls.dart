@@ -5,8 +5,8 @@ class BackendUrls {
   static String analysisKeywords = '/analysis_keywords';
   static String titleRunAnalysis = '/title_run_analysis_first';
 
-  // static String baseUrl = 'http://18.223.187.238:8000';
+  static String baseUrl = 'http://18.223.187.238:8000';
 
-  static String baseUrl = String.fromEnvironment('BASE_URL',
-      defaultValue: 'http://18.223.187.238:8000');
+  // static String baseUrl = String.fromEnvironment('BASE_URL',
+  //     defaultValue: 'http://18.223.187.238:8000');
 }

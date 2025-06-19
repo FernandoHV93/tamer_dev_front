@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ia_web_front/features/roadmap/domain/model/roadmap_models.dart';
 import 'package:ia_web_front/features/roadmap/presentation/widgets/add_child_mode_dialog.dart';
 import 'package:ia_web_front/features/roadmap/presentation/widgets/bulk_generate_dialog.dart';
-import 'package:ia_web_front/features/roadmap/presentation/widgets/connection_painet.dart';
+import 'package:ia_web_front/features/roadmap/presentation/widgets/connection_painter.dart';
 import 'package:ia_web_front/features/roadmap/presentation/widgets/edit_block_dialog.dart';
 
 import 'package:provider/provider.dart';

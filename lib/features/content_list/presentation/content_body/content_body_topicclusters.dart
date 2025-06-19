@@ -24,6 +24,18 @@ class _TopicClustersState extends State<TopicClusters> {
   }
 
   @override
+  void didUpdateWidget(TopicClusters oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Si las content cards han cambiado, actualizar el título seleccionado
+    if (widget.contentCards != oldWidget.contentCards &&
+        widget.contentCards.isNotEmpty) {
+      setState(() {
+        selectedContentCardTitle = widget.contentCards.first.title;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,7 +200,7 @@ class _TopicClustersState extends State<TopicClusters> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              _getfirstContentCard().title,
+                              selectedContentCardTitle!,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -359,11 +371,6 @@ class _TopicClustersState extends State<TopicClusters> {
       orElse: () => widget.contentCards.first,
     );
     return selectedCard.topics ?? [];
-  }
-
-  ContentCardModel _getfirstContentCard() {
-    final selectedCard = widget.contentCards.first;
-    return selectedCard;
   }
 
   IconData _getIconForContentCard(ContentCardModel contentCard) {

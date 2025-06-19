@@ -21,7 +21,7 @@ class RoadmapController with ChangeNotifier {
     addBlock(
       Block(
         id: UniqueKey().toString(),
-        position: const Offset(200, 200),
+        position: const Offset(700, 50),
         title: 'Initial Block',
       ),
     );
@@ -97,9 +97,18 @@ class RoadmapController with ChangeNotifier {
   }
 
   void addConnectedBlock(Block parent) {
+    // Find all children of the parent
+    final children = _blocks.where((b) => b.parentId?.id == parent.id).toList();
+
+    // Calculate vertical offset based on number of children
+    final verticalOffset = 150.0; // Base vertical spacing
+    final newY = parent.position.dy +
+        verticalOffset +
+        (children.length * verticalOffset);
+
     final newBlock = Block(
       id: UniqueKey().toString(),
-      position: parent.position + const Offset(0, 150),
+      position: Offset(parent.position.dx, newY),
       title: 'New Block',
       parentId: parent,
     );
@@ -116,6 +125,10 @@ class RoadmapController with ChangeNotifier {
   }
 
   void bulkGenerateBlocksFromNiveles(Block root, List<NivelData> niveles) {
+    const double verticalSpacing = 150.0; // Distancia entre niveles
+    const double horizontalSpacing = 220.0; // Espacio entre bloques hermanos
+    const double blockWidth = 200.0; // Ancho del bloque
+
     Map<String, List<Block>> titleToBlocks = {};
     for (var block in _blocks) {
       titleToBlocks.putIfAbsent(block.title, () => []).add(block);
@@ -137,27 +150,35 @@ class RoadmapController with ChangeNotifier {
         final parentCandidates = titleToBlocks[parentTitle];
         if (parentCandidates == null || parentCandidates.isEmpty) continue;
 
-        final parentBlock =
-            parentCandidates.first; // usamos el primero si hay duplicados
+        final parentBlock = parentCandidates.first;
 
-        for (int i = 0; i < childTitles.length; i++) {
+        final numChildren = childTitles.length;
+        if (numChildren == 0) continue;
+
+        // Calcula el ancho total ocupado por los hijos
+        final totalWidth = (numChildren - 1) * horizontalSpacing;
+        // Centra los hijos respecto al padre
+        final startX = parentBlock.position.dx - (totalWidth / 2);
+        final y = parentBlock.position.dy + verticalSpacing;
+
+        for (int i = 0; i < numChildren; i++) {
+          final x = startX + i * horizontalSpacing;
           final childTitle = childTitles[i];
+
           final newBlock = Block(
             id: UniqueKey().toString(),
             title: childTitle,
-            position: parentBlock.position + Offset(220 * (i + 1), 150),
+            position: Offset(x, y),
             parentId: parentBlock,
           );
 
           addBlock(newBlock);
           addConnection(Connection(fromId: parentBlock.id, toId: newBlock.id));
-
           titleToBlocks.putIfAbsent(childTitle, () => []).add(newBlock);
           idToBlock[newBlock.id] = newBlock;
           currentLevelBlocks.add(newBlock);
         }
       }
-
       createdBlocksPerLevel[levelIndex + 1] = currentLevelBlocks;
     }
   }
