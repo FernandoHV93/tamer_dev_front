@@ -19,7 +19,8 @@ class RouteGenerator {
       case WebRoutes.articleEditor:
         return MaterialPageRoute(builder: (_) => ArticleEditorScreen());
       case WebRoutes.contents:
-        return MaterialPageRoute(builder: (_) => ContentDashboardPage());
+        return MaterialPageRoute(
+            builder: (_) => ContentDashboardPage(selectedAppBarTab: 1));
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
     }
