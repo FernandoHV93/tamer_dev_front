@@ -37,6 +37,44 @@ class _TopicClustersState extends State<TopicClusters> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.contentCards.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.cloud_off_rounded,
+                size: 80,
+                color: Colors.grey.shade300,
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'No Content to Analyze',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'There are no content cards for this website yet.\nOnce you add content, your topic clusters will appear here.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
