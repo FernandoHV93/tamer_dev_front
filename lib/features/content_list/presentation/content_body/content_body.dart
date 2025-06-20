@@ -154,7 +154,7 @@ class __ContentBodyStateState extends State<ContentBodyState> {
                     Performance(),
                     TopicClusters(
                       contentCards:
-                          websiteController.selectedWebsite!.contentCards!,
+                          websiteController.selectedWebsite?.contentCards ?? [],
                     ),
                     ContentGaps(),
                   ],

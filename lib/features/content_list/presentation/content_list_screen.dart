@@ -4,26 +4,34 @@ import 'package:ia_web_front/features/content_list/presentation/content_body/wid
 import 'package:ia_web_front/features/content_list/presentation/websites_body/website_body.dart';
 
 class ContentDashboardPage extends StatefulWidget {
-  int selectedAppBarTab;
-  ContentDashboardPage({super.key, required this.selectedAppBarTab});
+  final int selectedAppBarTab;
+  const ContentDashboardPage({super.key, required this.selectedAppBarTab});
 
   @override
   State<ContentDashboardPage> createState() => _ContentDashboardPageState();
 }
 
 class _ContentDashboardPageState extends State<ContentDashboardPage> {
+  late int _selectedTab;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTab = widget.selectedAppBarTab;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       appBar: CustomAppBar(
-          selectedIndex: widget.selectedAppBarTab,
+          selectedIndex: _selectedTab,
           onTabSelected: (index) => setState(() {
-                widget.selectedAppBarTab = index;
+                _selectedTab = index;
               })),
       body: SingleChildScrollView(
           child: IndexedStack(
-        index: widget.selectedAppBarTab,
+        index: _selectedTab,
         children: [
           const WebsitesView(),
           const ContentBodyState(),

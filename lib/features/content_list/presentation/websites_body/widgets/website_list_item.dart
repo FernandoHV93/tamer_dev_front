@@ -27,12 +27,11 @@ class WebsiteListItem extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildWebsiteInfo(),
-          _buildStatusIndicator(),
-          _buildLastChecked(),
-          _buildActionButtons(context),
+          Expanded(child: _buildWebsiteInfo()),
+          Expanded(child: _buildStatusIndicator()),
+          Expanded(child: _buildLastChecked()),
+          Expanded(child: _buildActionButtons(context)),
         ],
       ),
     );
