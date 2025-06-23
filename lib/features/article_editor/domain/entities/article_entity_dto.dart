@@ -1,30 +1,69 @@
 class ArticleDto {
-  final String userID;
-  final String sessionID;
   final TextFormatDto h1;
   final List<BodySectionDto> body;
+  final int? score;
+  final DateTime? date;
 
   ArticleDto({
-    required this.userID,
-    required this.sessionID,
     required this.h1,
     required this.body,
+    this.score,
+    this.date,
   });
 
+  int get wordCount {
+    int countWords(String text) {
+      return text.trim().isEmpty ? 0 : text.trim().split(RegExp(r'\s+')).length;
+    }
+
+    int total = countWords(h1.text);
+    for (final section in body) {
+      total += countWords(section.title.text);
+      for (final t in section.text) {
+        total += countWords(t.text);
+      }
+      for (final table in section.tables) {
+        total += countWords(table.tableTitle.text);
+        total += countWords(table.description.text);
+        for (final row in table.rows) {
+          for (final cell in row) {
+            total += countWords(cell.text);
+          }
+        }
+        for (final col in table.columns) {
+          total += countWords(col.text);
+        }
+      }
+      for (final img in section.images) {
+        total += countWords(img.text);
+      }
+      for (final code in section.codes) {
+        total += countWords(code.text);
+      }
+      for (final link in section.links) {
+        total += countWords(link.text);
+      }
+      for (final citation in section.citations) {
+        total += countWords(citation.text);
+      }
+    }
+    return total;
+  }
+
   factory ArticleDto.fromJson(Map<String, dynamic> json) => ArticleDto(
-        userID: json['userID'],
-        sessionID: json['sessionID'],
         h1: TextFormatDto.fromJson(json['H1']),
         body: (json['body'] as List)
             .map((e) => BodySectionDto.fromJson(e))
             .toList(),
+        score: json['score'] ?? 0,
+        date: DateTime.parse(json['date']),
       );
 
   Map<String, dynamic> toJson() => {
-        'userID': userID,
-        'sessionID': sessionID,
         'H1': h1.toJson(),
         'body': body.map((e) => e.toJson()).toList(),
+        'score': score,
+        'date': date?.toIso8601String(),
       };
 }
 

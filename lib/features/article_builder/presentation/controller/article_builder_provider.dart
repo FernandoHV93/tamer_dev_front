@@ -315,8 +315,6 @@ class ArticleBuilderProvider with ChangeNotifier {
       debugPrint("Enviando ArticleDto por defecto al backend...");
 
       final defaultArticleDto = ArticleDto(
-        userID: userId,
-        sessionID: sessionId,
         h1: TextFormatDto(
           N: true,
           I: false,

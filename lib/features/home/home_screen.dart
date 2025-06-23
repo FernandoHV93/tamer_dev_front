@@ -5,8 +5,10 @@ import 'package:ia_web_front/features/article_editor/presentation/article_editor
 import 'package:ia_web_front/features/content_list/data/models/website_model.dart';
 import 'package:ia_web_front/features/content_list/presentation/content_list_screen.dart';
 import 'package:ia_web_front/features/content_list/presentation/controller/websites_controller.dart';
+import 'package:ia_web_front/features/home/components/article_list_item.dart';
 import 'package:ia_web_front/features/home/components/feature_button.dart';
 import 'package:provider/provider.dart';
+import 'controller/recent_articles_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
             (website) => website.status == WebsiteStatus.Active,
           )
           .name);
+      final controller =
+          Provider.of<RecentArticlesController>(context, listen: false);
+      await controller.loadRecentArticles();
     });
   }
 
@@ -58,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             FeatureButton(
-              iconPath: 'assets/images/icons/article_builder.svg',
+              iconPath: 'assets/images/icons/left-arrow.svg',
               title: 'Article Builder',
               description:
                   'Create the perfect article using only the title. Generate and publish it in 1 click.',
@@ -112,6 +117,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Configure API connections and manage integrations with external services.',
               badgeText: 'Configuration',
               onPressed: () {},
+            ),
+            // Sección Last Articles
+            const SizedBox(height: 32),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Last Articles',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Consumer<RecentArticlesController>(
+              builder: (context, controller, _) {
+                final articles = controller.articles;
+                if (articles.isEmpty) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(24),
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                return Column(
+                  children: articles
+                      .map((preview) => ArticleListItem(
+                            preview: preview,
+                            onView: () {},
+                          ))
+                      .toList(),
+                );
+              },
             ),
           ],
         ),

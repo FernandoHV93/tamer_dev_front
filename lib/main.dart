@@ -8,11 +8,14 @@ import 'package:ia_web_front/features/content_list/data/repository/content_list_
 import 'package:ia_web_front/features/content_list/domain/uses_cases/contenlist_usescases.dart';
 import 'package:ia_web_front/features/content_list/presentation/controller/websites_controller.dart';
 import 'package:ia_web_front/features/roadmap/presentation/controller/roadmap_controller.dart';
+import 'package:ia_web_front/features/home/controller/recent_articles_controller.dart';
+import 'package:ia_web_front/features/home/usecases/load_recent_articles.dart';
+import 'package:ia_web_front/features/home/data/recent_articles_repo_impl.dart';
 
 import 'package:provider/provider.dart';
 
 void main() {
-  final contentRepo = ContentListImpl(); // tu implementación
+  final contentRepo = ContentListImpl();
   final contentListUseCases = ContentListUseCases(contentRepo);
 
   runApp(MultiProvider(
@@ -23,7 +26,13 @@ void main() {
         ChangeNotifierProvider<WebsiteController>(
           create: (_) => WebsiteController(contentListUseCases),
         ),
-        ChangeNotifierProvider(create: (_) => RoadmapController())
+        ChangeNotifierProvider(create: (_) => RoadmapController()),
+        ChangeNotifierProvider(
+          create: (_) => RecentArticlesController(
+            loadRecentArticlesUseCase:
+                LoadRecentArticles(RecentArticlesRepoImpl()),
+          ),
+        ),
       ],
       child: SessionProvider(
           sessionID: 'Mayo8.com',
@@ -46,6 +55,7 @@ class MainApp extends StatelessWidget {
             textTheme: constraints.maxWidth < 600
                 ? ThemeData.light().textTheme.apply(fontSizeFactor: 0.8)
                 : ThemeData.light().textTheme,
+            fontFamily: 'Roboto',
           ),
         );
       },

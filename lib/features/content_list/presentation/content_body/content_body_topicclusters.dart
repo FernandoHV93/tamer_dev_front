@@ -162,13 +162,13 @@ class _TopicClustersState extends State<TopicClusters> {
                                   vertical: 2,
                                 ),
                                 child: ListTile(
-                                  leading: Icon(
-                                    _getIconForContentCard(contentCard),
-                                    color: isSelected
-                                        ? Colors.purple
-                                        : Colors.blue,
-                                    size: 20,
-                                  ),
+                                  // leading: Icon(
+                                  //   _getIconForContentCard(contentCard),
+                                  //   color: isSelected
+                                  //       ? Colors.purple
+                                  //       : Colors.blue,
+                                  //   size: 20,
+                                  // ),
                                   title: Text(
                                     contentCard.title,
                                     style: TextStyle(
@@ -176,7 +176,7 @@ class _TopicClustersState extends State<TopicClusters> {
                                           ? FontWeight.bold
                                           : FontWeight.normal,
                                       color: isSelected
-                                          ? Colors.purple
+                                          ? Colors.blue.shade700
                                           : Colors.black87,
                                     ),
                                     maxLines: 2,
@@ -190,7 +190,7 @@ class _TopicClustersState extends State<TopicClusters> {
                                     ),
                                   ),
                                   selected: isSelected,
-                                  selectedTileColor: Colors.purple.shade50,
+                                  selectedTileColor: Colors.blue.shade50,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
