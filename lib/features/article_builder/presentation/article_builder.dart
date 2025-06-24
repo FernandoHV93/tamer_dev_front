@@ -3,12 +3,11 @@ import 'package:ia_web_front/features/article_builder/presentation/controller/ar
 import 'package:provider/provider.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/article_distribution.dart';
-import 'package:ia_web_front/features/article_builder/presentation/components/article_form.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/article_settings.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/media_hub_card.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/seo_structure.dart';
-import 'package:ia_web_front/features/article_builder/presentation/components/top_title_card.dart';
 import 'package:ia_web_front/features/article_editor/presentation/article_editor_screen.dart';
+import 'package:ia_web_front/features/article_builder/presentation/components/main_form.dart';
 
 class ArticleBuilderScreen extends StatelessWidget {
   const ArticleBuilderScreen({super.key});
@@ -109,12 +108,10 @@ class _ArticleBuilderContent extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TopTitleCard(
+                      MainForm(
                         onSave: () => _handleSave(context),
                         onGenerate: () => _handleGenerateArticle(context),
                       ),
-                      const SizedBox(height: 20),
-                      const ArticleForm(),
                       const SizedBox(height: 25),
                       const ArticleSettingsCard(),
                       const SizedBox(height: 25),

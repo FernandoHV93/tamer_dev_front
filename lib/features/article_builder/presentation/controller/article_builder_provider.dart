@@ -4,6 +4,7 @@ import 'package:ia_web_front/features/article_builder/data/repository/article_im
 import 'package:ia_web_front/features/article_builder/domain/entities/article_builder_entities.dart';
 import 'package:ia_web_front/features/article_builder/domain/uses_cases/article_builder_usescases.dart';
 import 'package:ia_web_front/features/article_editor/domain/entities/article_entity_dto.dart';
+import 'package:ia_web_front/features/article_builder/domain/entities/keyword_analysis_result.dart';
 
 class ArticleBuilderProvider with ChangeNotifier {
   final ArticleBuilderUsescases _useCases;
@@ -11,6 +12,7 @@ class ArticleBuilderProvider with ChangeNotifier {
 
   bool _isLoading = false;
   String? _errorMessage;
+  KeywordAnalysisResult? _analysisResult;
 
   ArticleBuilderProvider({
     ArticleBuilderUsescases? useCases,
@@ -21,6 +23,7 @@ class ArticleBuilderProvider with ChangeNotifier {
   ArticleBuilderEntity get articleBuilderEntity => _articleBuilderEntity;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  KeywordAnalysisResult? get analysisResult => _analysisResult;
 
   // Crear entidad por defecto (sin sessionId y userId)
   static ArticleBuilderEntity _createDefaultEntity() {
@@ -355,6 +358,22 @@ class ArticleBuilderProvider with ChangeNotifier {
       rethrow;
     } finally {
       _setLoading(false);
+    }
+  }
+
+  Future<void> runAnalysis(String mainKeyword, bool isAutoMode) async {
+    _setLoading(true);
+    _clearError();
+    try {
+      _analysisResult = await _useCases.runAnalysis(
+        mainKeyword: mainKeyword,
+        isAutoMode: isAutoMode,
+      );
+    } catch (e) {
+      _setError("Error al analizar: $e");
+    } finally {
+      _setLoading(false);
+      notifyListeners();
     }
   }
 
