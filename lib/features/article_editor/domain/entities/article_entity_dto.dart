@@ -50,14 +50,22 @@ class ArticleDto {
     return total;
   }
 
-  factory ArticleDto.fromJson(Map<String, dynamic> json) => ArticleDto(
+  factory ArticleDto.fromJson(Map<String, dynamic> json) {
+    try {
+      return ArticleDto(
         h1: TextFormatDto.fromJson(json['H1']),
         body: (json['body'] as List)
             .map((e) => BodySectionDto.fromJson(e))
             .toList(),
         score: json['score'] ?? 0,
-        date: DateTime.parse(json['date']),
+        date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
+    } catch (e, stack) {
+      throw Exception('Error al parsear ArticleDto: $e\n'
+          'JSON recibido: $json\n'
+          'Stack: $stack');
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         'H1': h1.toJson(),
@@ -86,7 +94,9 @@ class BodySectionDto {
     required this.citations,
   });
 
-  factory BodySectionDto.fromJson(Map<String, dynamic> json) => BodySectionDto(
+  factory BodySectionDto.fromJson(Map<String, dynamic> json) {
+    try {
+      return BodySectionDto(
         title: TextFormatDto.fromJson(json['title']),
         tables:
             (json['tables'] as List).map((e) => TableDto.fromJson(e)).toList(),
@@ -101,6 +111,14 @@ class BodySectionDto {
             .map((e) => CitationDto.fromJson(e))
             .toList(),
       );
+    } catch (e, stack) {
+      throw Exception(
+        'Error al parsear BodySectionDto: $e\n'
+        'JSON recibido: $json\n'
+        'Stack: $stack',
+      );
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         'title': title.toJson(),

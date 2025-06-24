@@ -5,6 +5,7 @@ import 'package:ia_web_front/core/api/backend_urls.dart';
 import 'package:ia_web_front/features/article_builder/domain/entities/article_builder_entities.dart';
 import 'package:ia_web_front/features/article_builder/domain/repository/article_repo.dart';
 import 'package:ia_web_front/features/article_editor/domain/entities/article_entity_dto.dart';
+import 'package:ia_web_front/features/article_builder/domain/entities/keyword_analysis_result.dart';
 
 class ArticleFuncImpl implements ArticleFunc {
   @override
@@ -27,7 +28,15 @@ class ArticleFuncImpl implements ArticleFunc {
 
       debugPrint("Respuesta del servidor (GET Article Builder): $response");
 
-      final dto = ArticleDto.fromJson(response);
+      // Elimina sessionID y userID del mapa antes de parsear
+      final responseCopy = Map<String, dynamic>.from(response);
+      responseCopy.remove('sessionID');
+      responseCopy.remove('userID');
+
+      debugPrint(
+          'Respuesta del servidor (GET Article Builder) sin sessionID y userID: $responseCopy');
+
+      final dto = ArticleDto.fromJson(responseCopy);
 
       debugPrint('Mappeo hecho con exito ${dto.h1}');
 
@@ -80,5 +89,21 @@ class ArticleFuncImpl implements ArticleFunc {
     } catch (e) {
       throw Exception("Error al enviar el artículo: $e");
     }
+  }
+
+  @override
+  Future<KeywordAnalysisResult> runAnalysis({
+    required String mainKeyword,
+    required bool isAutoMode,
+  }) async {
+    // Dummy data para pruebas
+    return KeywordAnalysisResult(
+      headings: {'H2': 5, 'H3': 8},
+      searchIntent: 'N',
+      keywordDifficultyPercent: 0.0,
+      keywordDifficultyLabel: 'Very Easy',
+      media: {'Images': 6, 'Videos': 1},
+      content: {'Words': 1500, 'Paragraphs': 15},
+    );
   }
 }

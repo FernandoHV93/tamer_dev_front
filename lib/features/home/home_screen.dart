@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             FeatureButton(
-              iconPath: 'assets/images/icons/left-arrow.svg',
+              iconPath: 'assets/images/icons/pen-tool.svg',
               title: 'Article Builder',
               description:
                   'Create the perfect article using only the title. Generate and publish it in 1 click.',
