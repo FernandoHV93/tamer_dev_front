@@ -13,6 +13,8 @@ abstract class ArticleFunc {
       String sessionId, String userId, ArticleDto defaultDto);
 
   Future<KeywordAnalysisResult> runAnalysis({
+    required String sessionId,
+    required String userId,
     required String mainKeyword,
     required bool isAutoMode,
   });

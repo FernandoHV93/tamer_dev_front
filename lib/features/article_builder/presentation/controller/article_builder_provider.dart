@@ -361,11 +361,14 @@ class ArticleBuilderProvider with ChangeNotifier {
     }
   }
 
-  Future<void> runAnalysis(String mainKeyword, bool isAutoMode) async {
+  Future<void> runAnalysis(String sessionId, String userId, String mainKeyword,
+      bool isAutoMode) async {
     _setLoading(true);
     _clearError();
     try {
       _analysisResult = await _useCases.runAnalysis(
+        sessionId: sessionId,
+        userId: userId,
         mainKeyword: mainKeyword,
         isAutoMode: isAutoMode,
       );

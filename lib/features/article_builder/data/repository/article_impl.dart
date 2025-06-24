@@ -93,17 +93,23 @@ class ArticleFuncImpl implements ArticleFunc {
 
   @override
   Future<KeywordAnalysisResult> runAnalysis({
+    required String sessionId,
+    required String userId,
     required String mainKeyword,
     required bool isAutoMode,
   }) async {
+    final response = {
+      "headings": {"H2": 5, "H3": 8},
+      "searchIntent": "N",
+      "keywordDifficultyPercent": 20.0,
+      "keywordDifficultyLabel": "Easy",
+      "media": {"Images": 6, "Videos": 1},
+      "content": {"Words": 1500, "Paragraphs": 15}
+    };
+
+    debugPrint("Respuesta del servidor (Keyword Analysis): $response");
+    final keywordAnalysis = KeywordAnalysisResult.fromJson(response);
     // Dummy data para pruebas
-    return KeywordAnalysisResult(
-      headings: {'H2': 5, 'H3': 8},
-      searchIntent: 'N',
-      keywordDifficultyPercent: 0.0,
-      keywordDifficultyLabel: 'Very Easy',
-      media: {'Images': 6, 'Videos': 1},
-      content: {'Words': 1500, 'Paragraphs': 15},
-    );
+    return keywordAnalysis;
   }
 }

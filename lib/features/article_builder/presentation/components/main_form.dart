@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/desing/app_constant.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/features/article_builder/presentation/controller/article_builder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/keyword_analysis_result_card.dart';
@@ -62,6 +63,9 @@ class _MainFormState extends State<MainForm> {
         final articleBuilderEntity = provider.articleBuilderEntity;
         final mainKeyword = keywordController.text.trim();
         final isAnalysisEnabled = mainKeyword.isNotEmpty;
+        final sessionProvider = SessionProvider.of(context);
+        final sessionId = sessionProvider.sessionID;
+        final userId = sessionProvider.userID;
         return Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 800),
@@ -295,7 +299,7 @@ class _MainFormState extends State<MainForm> {
                       onExit: (_) => setState(() => isHovering = false),
                       child: GestureDetector(
                         onTap: isAnalysisEnabled
-                            ? () => provider.runAnalysis(
+                            ? () => provider.runAnalysis(sessionId, userId,
                                 keywordController.text, toggleValue)
                             : null,
                         child: AnimatedContainer(
