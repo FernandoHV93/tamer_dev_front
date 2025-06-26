@@ -14,4 +14,25 @@ class KeywordAnalysisResult {
     required this.media,
     required this.content,
   });
+
+  factory KeywordAnalysisResult.fromJson(Map<String, dynamic> json) {
+    return KeywordAnalysisResult(
+      headings: Map<String, int>.from(json['headings']),
+      searchIntent: json['searchIntent'],
+      keywordDifficultyPercent: json['keywordDifficultyPercent'].toDouble(),
+      keywordDifficultyLabel: json['keywordDifficultyLabel'],
+      media: Map<String, int>.from(json['media']),
+      content: Map<String, int>.from(json['content']),
+    );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'headings': headings,
+      'searchIntent': searchIntent,
+      'keywordDifficultyPercent': keywordDifficultyPercent,
+      'keywordDifficultyLabel': keywordDifficultyLabel,
+      'media': media,
+      'content': content,
+    };
+  }
 }

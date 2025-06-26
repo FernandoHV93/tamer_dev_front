@@ -30,6 +30,7 @@ class ArticleGeneratorSettings {
   String humanizeText;
   String pointOfView;
   String toneOfVoice;
+  String aiWordsRemoval;
   String detailsToInclude = "";
   Map<String, String> brandVoice = {
     'brandVoice': 'Brand Voice',
@@ -43,6 +44,7 @@ class ArticleGeneratorSettings {
     required this.humanizeText,
     required this.pointOfView,
     required this.toneOfVoice,
+    this.aiWordsRemoval = 'No AI Words Removal',
   });
 
   Map<String, dynamic> toJson() {
@@ -53,6 +55,7 @@ class ArticleGeneratorSettings {
       'humanizeText': humanizeText,
       'pointOfView': pointOfView,
       'toneOfVoice': toneOfVoice,
+      'aiWordsRemoval': aiWordsRemoval,
       'detailsToInclude': detailsToInclude,
       'brandVoice': brandVoice,
     };

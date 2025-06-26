@@ -25,10 +25,15 @@ class ArticleBuilderUsescases {
   }
 
   Future<KeywordAnalysisResult> runAnalysis({
+    required String sessionId,
+    required String userId,
     required String mainKeyword,
     required bool isAutoMode,
   }) {
     return repository.runAnalysis(
-        mainKeyword: mainKeyword, isAutoMode: isAutoMode);
+        mainKeyword: mainKeyword,
+        isAutoMode: isAutoMode,
+        sessionId: sessionId,
+        userId: userId);
   }
 }

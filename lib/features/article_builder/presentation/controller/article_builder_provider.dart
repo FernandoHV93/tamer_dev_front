@@ -136,6 +136,11 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateAiWordsRemoval(String value) {
+    _articleBuilderEntity.articleSettings.aiWordsRemoval = value;
+    notifyListeners();
+  }
+
   void updatePointOfView(String pov) {
     _articleBuilderEntity.articleSettings.pointOfView = pov;
     notifyListeners();
@@ -361,11 +366,14 @@ class ArticleBuilderProvider with ChangeNotifier {
     }
   }
 
-  Future<void> runAnalysis(String mainKeyword, bool isAutoMode) async {
+  Future<void> runAnalysis(String sessionId, String userId, String mainKeyword,
+      bool isAutoMode) async {
     _setLoading(true);
     _clearError();
     try {
       _analysisResult = await _useCases.runAnalysis(
+        sessionId: sessionId,
+        userId: userId,
         mainKeyword: mainKeyword,
         isAutoMode: isAutoMode,
       );
