@@ -68,7 +68,8 @@ class _MainFormState extends State<MainForm> {
         final userId = sessionProvider.userID;
         return Center(
           child: Container(
-            constraints: const BoxConstraints(maxWidth: 800),
+            constraints: const BoxConstraints(
+                maxWidth: AppConstants.kArticleBuilderMaxWidth),
             decoration: BoxDecoration(
               color: const Color(0xFF181A20),
               borderRadius: BorderRadius.circular(20),

@@ -9,36 +9,46 @@ import 'package:ia_web_front/features/article_editor/presentation/widgets_render
 
 import 'package:provider/provider.dart';
 
-class ArticleEditorScreen extends StatefulWidget {
-  final ArticleDto? initialArticleDto; // Parámetro opcional
+class ArticleEditorScreen extends StatelessWidget {
+  final ArticleDto? initialArticleDto;
 
-  const ArticleEditorScreen({
-    super.key,
-    this.initialArticleDto,
-  });
+  const ArticleEditorScreen({super.key, this.initialArticleDto});
 
   @override
-  State<ArticleEditorScreen> createState() => _ArticleEditorScreenState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => WidgetsController(),
+      child: _ArticleEditorScreenContent(initialArticleDto: initialArticleDto),
+    );
+  }
 }
 
-class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
+class _ArticleEditorScreenContent extends StatefulWidget {
+  final ArticleDto? initialArticleDto;
+  const _ArticleEditorScreenContent({this.initialArticleDto});
+
+  @override
+  State<_ArticleEditorScreenContent> createState() =>
+      _ArticleEditorScreenContentState();
+}
+
+class _ArticleEditorScreenContentState
+    extends State<_ArticleEditorScreenContent> {
   late final WidgetsController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = context.read<WidgetsController>();
-
     if (widget.initialArticleDto != null) {
-      // Si viene con datos, mapear inmediatamente
       mapArticleDtoToBlocks(widget.initialArticleDto!, _controller);
     }
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

@@ -6,8 +6,8 @@ import 'package:ia_web_front/features/article_builder/presentation/components/ar
 import 'package:ia_web_front/features/article_builder/presentation/components/article_settings.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/media_hub_card.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/seo_structure.dart';
-import 'package:ia_web_front/features/article_editor/presentation/article_editor_screen.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/main_form.dart';
+import 'package:ia_web_front/features/home/controller/recent_articles_controller.dart';
 
 class ArticleBuilderScreen extends StatelessWidget {
   const ArticleBuilderScreen({super.key});
@@ -57,41 +57,18 @@ class _ArticleBuilderContent extends StatelessWidget {
   void _handleGenerateArticle(BuildContext context) async {
     final provider = context.read<ArticleBuilderProvider>();
     final sessionProvider = SessionProvider.of(context);
+    final homeController =
+        Provider.of<RecentArticlesController>(context, listen: false);
+    final title =
+        provider.articleBuilderEntity.articleGeneratorGeneral.articleTitle;
 
-    try {
-      // 1. Enviar datos por defecto
-      await provider.sendDefaultData(
-        sessionId: sessionProvider.sessionID,
-        userId: sessionProvider.userID,
-      );
-
-      // 2. Generar el artículo y obtener el DTO
-      final articleDto = await provider.fetchGeneratedArticle(
-        sessionId: sessionProvider.sessionID,
-        userId: sessionProvider.userID,
-      );
-
-      // 3. Navegar SOLO si todo salió bien, pasando el DTO
-      if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ArticleEditorScreen(
-              initialArticleDto: articleDto, // Pasar el DTO como parámetro
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Error al generar el artículo: $e"),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
+    // Navega inmediatamente a Home y dispara el estado de generación con los datos necesarios
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    homeController.startGeneratingArticle(
+      title: title,
+      sessionId: sessionProvider.sessionID,
+      userId: sessionProvider.userID,
+    );
   }
 
   @override

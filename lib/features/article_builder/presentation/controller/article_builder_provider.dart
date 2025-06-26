@@ -136,6 +136,11 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateAiWordsRemoval(String value) {
+    _articleBuilderEntity.articleSettings.aiWordsRemoval = value;
+    notifyListeners();
+  }
+
   void updatePointOfView(String pov) {
     _articleBuilderEntity.articleSettings.pointOfView = pov;
     notifyListeners();

@@ -14,6 +14,7 @@ class ArticleFuncImpl implements ArticleFunc {
     required String userID,
   }) async {
     try {
+      debugPrint('Fetching the article');
       final response = await api.post(
         BackendUrls.generateArticle,
         {

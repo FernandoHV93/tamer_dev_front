@@ -5,6 +5,7 @@ class AppConstants {
   static const double kHorizontalPadding = 200;
   static const double kDefaultPadding = 15;
   static const double kSectionSpacing = 25;
+  static const double kArticleBuilderMaxWidth = 1000;
 
   static Map<String, String> languages = {
     'English(US)': 'assets/images/flags/usa.png',
@@ -240,25 +241,63 @@ class AppConstants {
 
   static const Map<String, String> hookPrompts = {
     'Intriguing Question':
-        'Pose a question that sparks curiosity and invites the reader to reflect.',
+        """Purpose: Directly engages readers by making them reflect on their own experiences or opinions.
+Focus: Creates immediate mental involvement and personal connection
+Best for: Self-help, educational content, opinion pieces
+Example:
+Have you ever noticed how the most successful people aren't necessarily the most talented? In fact, research shows that 85% of financial success is due to soft skills, not technical expertise...""",
     'Statistical Impact':
-        'Use a surprising numerical fact to grab attention and create impact.',
-    'Anecdotal':
-        'Start with a brief personal story or experience that introduces the topic in a relatable way.',
+        """Purpose: Establishes credibility while shocking or surprising the audience
+Focus: Uses data to create an immediate impact and build authority
+Best for: Business articles, research pieces, trend analysis
+Example:
+Only 0.1% of startups become unicorns, yet last year, 500 companies achieved this status. What's their secret formula? The answer lies in three unexpected factors...""",
+    'Anecdotal': """"Purpose: Creates emotional connection through storytelling
+Focus: Makes complex topics relatable through personal experiences
+Best for: Personal development, case studies, biographical pieces
+Example:
+At 3 AM in his garage, Jeff was about to give up on his 10th failed prototype. His savings were gone, his wife was skeptical, and his dream seemed impossible. Today, that 'failed' prototype is a billion-dollar product used in every household...""",
     'Memorable Quote':
-        'Begin with a relevant quote that reinforces the main idea of your content.',
-    'Contrast/Paradox':
-        'Present a contradiction or paradox that makes the reader question their prior knowledge.',
+        """Purpose: Leverages authority and wisdom of recognized figures
+Focus: Adds credibility and provides philosophical foundation
+Best for: Leadership articles, motivational pieces, historical analysis
+Example:
+'Innovation distinguishes between a leader and a follower,' Steve Jobs once said. But in today's digital age, this distinction has taken on an entirely new meaning. Let me show you why...""",
+    'Contrast/Paradox': """Purpose: Creates intellectual tension and curiosity
+Focus: Highlights unexpected connections or contradictions
+Best for: Analysis pieces, trend reports, social commentary
+Example:
+In an era where we have more dating apps than ever before, loneliness rates have skyrocketed by 300%. This seemingly paradoxical trend reveals a crucial truth about modern relationships...""",
     'Scene-Setting':
-        'Describe an immersive scene that pulls the reader into the context of the discussion.',
+        """Purpose: Immerses readers in a specific moment or environment
+Focus: Creates vivid mental imagery and emotional atmosphere
+Best for: Feature articles, travel writing, narrative journalism
+Example:
+The fluorescent lights flickered in Silicon Valley's most secretive lab, where a team of twenty-somethings hadn't slept in 72 hours. They were about to change the internet forever, but they didn't know it yet...""",
     'Universal Problem':
-        'Highlight a common issue that many readers can relate to.',
+        """Purpose: Creates immediate relatability through shared experiences
+Focus: Addresses common pain points or challenges
+Best for: Problem-solution articles, self-help content, product reviews
+Example:
+The average professional spends 28% of their workday dealing with email overload, resulting in 2.5 hours of lost productivity daily. But what if there was a way to reclaim those lost hours?""",
     'Surprising Revelation':
-        'Reveal an unexpected or little-known fact that shifts the reader’s perspective.',
+        """Purpose: Challenges conventional wisdom with unexpected information
+Focus: Creates immediate interest through counterintuitive facts
+Best for: Myth-busting articles, investigative pieces, research findings
+Example:
+Everything you know about productivity is wrong. The world's most effective executives don't use to-do lists, don't aim for inbox zero, and definitely don't wake up at 5 AM...""",
     'Prediction/Future':
-        'Make a prediction about how something will evolve in the future to captivate interest.',
+        """Purpose: Captures interest through forward-thinking scenarios
+Focus: Addresses future implications of current trends
+Best for: Tech articles, trend analysis, industry forecasts
+Example:
+By 2030, 60% of today's jobs won't exist. But instead of spelling disaster, this transformation is creating the biggest wealth opportunity in human history...""",
     'Unique Definition':
-        'Define a concept in an original or unconventional way to introduce a fresh perspective.',
+        """Purpose: Reframes familiar concepts in new, thought-provoking ways
+Focus: Challenges readers' existing perspectives
+Best for: Thought leadership, conceptual pieces, philosophical articles
+Example:
+Procrastination isn't a time management problem - it's an emotion management challenge. This simple shift in definition has helped thousands of people finally overcome their productivity struggles...""",
   };
 
   static const Map<String, String> syndicationOptions = {

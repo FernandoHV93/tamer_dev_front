@@ -4,11 +4,13 @@ import '../entities/preview_article_entity.dart';
 class ArticleListItem extends StatelessWidget {
   final PreviewArticleEntity preview;
   final VoidCallback onView;
+  final bool isGenerating;
 
   const ArticleListItem({
     super.key,
     required this.preview,
     required this.onView,
+    this.isGenerating = false,
   });
 
   @override
@@ -65,16 +67,16 @@ class ArticleListItem extends StatelessWidget {
           const SizedBox(width: 16),
           // Botón View
           ElevatedButton(
-            onPressed: onView,
+            onPressed: isGenerating ? null : onView,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF2563EB),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text(
-              'View',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              isGenerating ? 'Generating...' : 'View',
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],

@@ -134,6 +134,77 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
             Consumer<RecentArticlesController>(
               builder: (context, controller, _) {
+                if (controller.isGenerating) {
+                  if (controller.generatingError != null) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.error, color: Colors.white),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Text(
+                                controller.generatingError!,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: controller.retryGeneratingArticle,
+                              child: const Text('Retry',
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2563EB),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              'Generating article: "${controller.generatingArticleTitle ?? ''}"',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+            Consumer<RecentArticlesController>(
+              builder: (context, controller, _) {
                 final articles = controller.articles;
                 if (articles.isEmpty) {
                   return const Center(
@@ -147,7 +218,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: articles
                       .map((preview) => ArticleListItem(
                             preview: preview,
-                            onView: () {},
+                            onView: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ArticleEditorScreen(
+                                    initialArticleDto: preview.article,
+                                  ),
+                                ),
+                              );
+                            },
                           ))
                       .toList(),
                 );
