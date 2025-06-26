@@ -16,10 +16,7 @@ class ArticleEditorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => WidgetsController(),
-      child: _ArticleEditorScreenContent(initialArticleDto: initialArticleDto),
-    );
+    return _ArticleEditorScreenContent(initialArticleDto: initialArticleDto);
   }
 }
 
@@ -34,20 +31,23 @@ class _ArticleEditorScreenContent extends StatefulWidget {
 
 class _ArticleEditorScreenContentState
     extends State<_ArticleEditorScreenContent> {
-  late final WidgetsController _controller;
+  WidgetsController? _controller;
+  bool _initialized = false;
 
   @override
-  void initState() {
-    super.initState();
-    _controller = context.read<WidgetsController>();
-    if (widget.initialArticleDto != null) {
-      mapArticleDtoToBlocks(widget.initialArticleDto!, _controller);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      _controller = Provider.of<WidgetsController>(context, listen: false);
+      if (widget.initialArticleDto != null) {
+        mapArticleDtoToBlocks(widget.initialArticleDto!, _controller!);
+      }
+      _initialized = true;
     }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 

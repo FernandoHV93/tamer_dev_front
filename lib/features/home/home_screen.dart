@@ -9,6 +9,7 @@ import 'package:ia_web_front/features/home/components/article_list_item.dart';
 import 'package:ia_web_front/features/home/components/feature_button.dart';
 import 'package:provider/provider.dart';
 import 'controller/recent_articles_controller.dart';
+import 'package:ia_web_front/features/article_editor/presentation/controllers/widgets_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -222,8 +223,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ArticleEditorScreen(
-                                    initialArticleDto: preview.article,
+                                  builder: (context) => ChangeNotifierProvider(
+                                    create: (_) => WidgetsController(),
+                                    child: ArticleEditorScreen(
+                                      initialArticleDto: preview.article,
+                                    ),
                                   ),
                                 ),
                               );

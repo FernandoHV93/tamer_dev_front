@@ -43,6 +43,7 @@ class ArticleFuncImpl implements ArticleFunc {
 
       return dto;
     } catch (e) {
+      debugPrint('error $e');
       throw Exception("Error al obtener el artículo: $e");
     }
   }
