@@ -10,6 +10,7 @@ import 'package:ia_web_front/features/home/components/feature_button.dart';
 import 'package:provider/provider.dart';
 import 'controller/recent_articles_controller.dart';
 import 'package:ia_web_front/features/article_editor/presentation/controllers/widgets_controller.dart';
+import 'package:ia_web_front/features/roadmap/presentation/roadmap_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -118,6 +119,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Configure API connections and manage integrations with external services.',
               badgeText: 'Configuration',
               onPressed: () {},
+            ),
+            FeatureButton(
+              iconPath: 'assets/images/icons/settings.svg',
+              title: 'Roadmap',
+              description:
+                  'Visualiza y organiza tu hoja de ruta de proyectos de manera interactiva.',
+              badgeText: 'Planning',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RoadmapScreen(),
+                  ),
+                );
+              },
             ),
             // Sección Last Articles
             const SizedBox(height: 32),
