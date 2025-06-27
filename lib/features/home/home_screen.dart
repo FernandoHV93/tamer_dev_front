@@ -92,6 +92,21 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             FeatureButton(
+              iconPath: 'assets/images/icons/network.svg',
+              title: 'Roadmap',
+              description:
+                  'Visualiza y organiza tu hoja de ruta de proyectos de manera interactiva.',
+              badgeText: 'Planning',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RoadmapScreen(),
+                  ),
+                );
+              },
+            ),
+            FeatureButton(
               iconPath: 'assets/images/icons/edit.svg',
               title: 'Article Editor',
               description:
@@ -119,21 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Configure API connections and manage integrations with external services.',
               badgeText: 'Configuration',
               onPressed: () {},
-            ),
-            FeatureButton(
-              iconPath: 'assets/images/icons/settings.svg',
-              title: 'Roadmap',
-              description:
-                  'Visualiza y organiza tu hoja de ruta de proyectos de manera interactiva.',
-              badgeText: 'Planning',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RoadmapScreen(),
-                  ),
-                );
-              },
             ),
             // Sección Last Articles
             const SizedBox(height: 32),
