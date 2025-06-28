@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
-import 'package:ia_web_front/features/article_builder/presentation/article_builder.dart';
+import 'package:ia_web_front/core/routes/web_routes.dart';
 import 'package:ia_web_front/features/article_editor/presentation/article_editor_screen.dart';
-import 'package:ia_web_front/features/content_list/data/models/website_model.dart';
-import 'package:ia_web_front/features/content_list/presentation/content_list_screen.dart';
-import 'package:ia_web_front/features/content_list/presentation/controller/websites_controller.dart';
+import 'package:ia_web_front/features/websites/domain/entities/website_entity.dart';
+import 'package:ia_web_front/features/websites/presentation/controller/websites_provider.dart';
 import 'package:ia_web_front/features/home/components/article_list_item.dart';
 import 'package:ia_web_front/features/home/components/feature_button.dart';
 import 'package:provider/provider.dart';
 import 'controller/recent_articles_controller.dart';
 import 'package:ia_web_front/features/article_editor/presentation/controllers/widgets_controller.dart';
-import 'package:ia_web_front/features/roadmap/presentation/roadmap_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,17 +23,19 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final sessionProvider = SessionProvider.of(context);
-      final websiteController =
-          Provider.of<WebsiteController>(context, listen: false);
-      await websiteController.loadWebsites(
+      final websitesProvider =
+          Provider.of<WebsitesProvider>(context, listen: false);
+      await websitesProvider.loadWebsites(
         sessionProvider.sessionID,
         sessionProvider.userID,
       );
-      websiteController.selectWebsite(websiteController.websites
-          .firstWhere(
-            (website) => website.status == WebsiteStatus.Active,
-          )
-          .name);
+      if (websitesProvider.websites.isNotEmpty) {
+        final activeWebsite = websitesProvider.websites.firstWhere(
+          (website) => website.status == WebsiteStatus.Active,
+          orElse: () => websitesProvider.websites.first,
+        );
+        websitesProvider.selectWebsite(activeWebsite.id);
+      }
       final controller =
           Provider.of<RecentArticlesController>(context, listen: false);
       await controller.loadRecentArticles();
@@ -57,11 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Clone SERP winners in seconds. Your CTA lands where conversions peak.',
               badgeText: 'Conversion Rocket',
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ContentDashboardPage(selectedAppBarTab: 1)));
+                Navigator.pushNamed(context, WebRoutes.contents);
               },
             ),
             FeatureButton(
@@ -71,10 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Create the perfect article using only the title. Generate and publish it in 1 click.',
               badgeText: 'Lightning-Fast',
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ArticleBuilderScreen()));
+                Navigator.pushNamed(context, WebRoutes.articleBuilder);
               },
             ),
             FeatureButton(
@@ -84,11 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Manage and organize all your websites in one centralized dashboard.',
               badgeText: 'Management',
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ContentDashboardPage(selectedAppBarTab: 0)));
+                Navigator.pushNamed(context, WebRoutes.websites);
               },
             ),
             FeatureButton(
@@ -98,12 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Visualiza y organiza tu hoja de ruta de proyectos de manera interactiva.',
               badgeText: 'Planning',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RoadmapScreen(),
-                  ),
-                );
+                Navigator.pushNamed(context, WebRoutes.roadmap);
               },
             ),
             FeatureButton(
@@ -113,10 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Fine-tune and perfect your articles with advanced editing tools.',
               badgeText: 'Advanced',
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ArticleEditorScreen()));
+                Navigator.pushNamed(context, WebRoutes.articleEditor);
               },
             ),
             FeatureButton(

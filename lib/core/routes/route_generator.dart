@@ -5,6 +5,7 @@ import 'package:ia_web_front/features/article_editor/presentation/article_editor
 import 'package:ia_web_front/features/content_list/presentation/content_list_screen.dart';
 import 'package:ia_web_front/features/home/home_screen.dart';
 import 'package:ia_web_front/features/roadmap/presentation/roadmap_screen.dart';
+import 'package:ia_web_front/features/websites/presentation/websites_view.dart';
 
 class RouteGenerator {
   static Route? onGenerate(RouteSettings settings) {
@@ -21,6 +22,8 @@ class RouteGenerator {
       case WebRoutes.contents:
         return MaterialPageRoute(
             builder: (_) => ContentDashboardPage(selectedAppBarTab: 1));
+      case WebRoutes.websites:
+        return MaterialPageRoute(builder: (_) => const WebsitesView());
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
     }

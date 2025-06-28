@@ -11,12 +11,19 @@ import 'package:ia_web_front/features/roadmap/presentation/controller/roadmap_co
 import 'package:ia_web_front/features/home/controller/recent_articles_controller.dart';
 import 'package:ia_web_front/features/home/usecases/load_recent_articles.dart';
 import 'package:ia_web_front/features/home/data/recent_articles_repo_impl.dart';
+import 'package:ia_web_front/features/websites/data/repository/website_repository_impl.dart';
+import 'package:ia_web_front/features/websites/domain/uses_cases/website_uses_cases.dart';
+import 'package:ia_web_front/features/websites/presentation/controller/websites_provider.dart';
 
 import 'package:provider/provider.dart';
 
 void main() {
   final contentRepo = ContentListImpl();
   final contentListUseCases = ContentListUseCases(contentRepo);
+
+  // Configuración para el feature de websites
+  final websiteRepo = WebsiteRepositoryImpl();
+  final websiteUseCases = WebsiteUseCases(websiteRepo);
 
   runApp(MultiProvider(
       providers: [
@@ -32,6 +39,10 @@ void main() {
             loadRecentArticlesUseCase:
                 LoadRecentArticles(RecentArticlesRepoImpl()),
           ),
+        ),
+        // Nuevo provider para websites
+        ChangeNotifierProvider<WebsitesProvider>(
+          create: (_) => WebsitesProvider(websiteUseCases),
         ),
       ],
       child: SessionProvider(
