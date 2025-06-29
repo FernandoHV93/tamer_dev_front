@@ -51,13 +51,13 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(vertical: 24),
           children: [
             FeatureButton(
-              iconPath: 'assets/images/icons/docs.svg',
-              title: 'Content',
+              iconPath: 'assets/images/icons/search.svg',
+              title: 'Content Management',
               description:
-                  'Clone SERP winners in seconds. Your CTA lands where conversions peak.',
-              badgeText: 'Conversion Rocket',
+                  'Manage content cards and topics for your websites. Organize your content strategy.',
+              badgeText: 'Content Strategy',
               onPressed: () {
-                Navigator.pushNamed(context, WebRoutes.contents);
+                Navigator.pushNamed(context, WebRoutes.content);
               },
             ),
             FeatureButton(
@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, WebRoutes.websites);
               },
             ),
+
             FeatureButton(
               iconPath: 'assets/images/icons/network.svg',
               title: 'Roadmap',
@@ -114,7 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
               description:
                   'Configure API connections and manage integrations with external services.',
               badgeText: 'Configuration',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, WebRoutes.apiSettings);
+              },
             ),
             // Sección Last Articles
             const SizedBox(height: 32),

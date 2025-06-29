@@ -9,20 +9,27 @@ class WebsitesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (provider.websites.isEmpty) {
+      return _buildEmptyState();
+    }
+
     return Column(
       children: [
         _buildTableHeader(),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: provider.websites.length,
-          itemBuilder: (context, index) {
-            final website = provider.websites[index];
-            return WebsiteListItem(
-              website: website,
-              index: index,
-              provider: provider,
-            );
-          },
+        Expanded(
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            itemCount: provider.websites.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            itemBuilder: (context, index) {
+              final website = provider.websites[index];
+              return WebsiteListItem(
+                website: website,
+                index: index,
+                provider: provider,
+              );
+            },
+          ),
         ),
       ],
     );
@@ -30,27 +37,101 @@ class WebsitesList extends StatelessWidget {
 
   Widget _buildTableHeader() {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24.0),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
         children: [
           Expanded(
-              child: Text('Website',
-                  style: TextStyle(fontWeight: FontWeight.bold))),
+            flex: 3,
+            child: Text(
+              'Website',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
+                fontSize: 14,
+              ),
+            ),
+          ),
           Expanded(
-              child: Text('Status',
-                  style: TextStyle(fontWeight: FontWeight.bold))),
+            flex: 1,
+            child: Text(
+              'Status',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
+                fontSize: 14,
+              ),
+            ),
+          ),
           Expanded(
-              child: Text('Last Checked',
-                  style: TextStyle(fontWeight: FontWeight.bold))),
+            flex: 2,
+            child: Text(
+              'Last Checked',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
+                fontSize: 14,
+              ),
+            ),
+          ),
           Expanded(
-              child: Text('', style: TextStyle(fontWeight: FontWeight.bold))),
+            flex: 1,
+            child: Text(
+              'Actions',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
+                fontSize: 14,
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Expanded(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                Icons.language_outlined,
+                size: 48,
+                color: Colors.grey[400],
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'No websites yet',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Add your first website to get started',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[500],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

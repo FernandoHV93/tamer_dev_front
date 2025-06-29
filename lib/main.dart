@@ -4,9 +4,6 @@ import 'package:ia_web_front/core/routes/route_generator.dart';
 import 'package:ia_web_front/core/routes/web_routes.dart';
 import 'package:ia_web_front/features/article_editor/presentation/controllers/textformat_controller.dart';
 import 'package:ia_web_front/features/article_editor/presentation/controllers/widgets_controller.dart';
-import 'package:ia_web_front/features/content_list/data/repository/content_list_impl.dart';
-import 'package:ia_web_front/features/content_list/domain/uses_cases/contenlist_usescases.dart';
-import 'package:ia_web_front/features/content_list/presentation/controller/websites_controller.dart';
 import 'package:ia_web_front/features/roadmap/presentation/controller/roadmap_controller.dart';
 import 'package:ia_web_front/features/home/controller/recent_articles_controller.dart';
 import 'package:ia_web_front/features/home/usecases/load_recent_articles.dart';
@@ -14,25 +11,34 @@ import 'package:ia_web_front/features/home/data/recent_articles_repo_impl.dart';
 import 'package:ia_web_front/features/websites/data/repository/website_repository_impl.dart';
 import 'package:ia_web_front/features/websites/domain/uses_cases/website_uses_cases.dart';
 import 'package:ia_web_front/features/websites/presentation/controller/websites_provider.dart';
+import 'package:ia_web_front/features/content/data/repository/content_repository_impl.dart';
+import 'package:ia_web_front/features/content/domain/uses_cases/content_card_uses_cases.dart';
+import 'package:ia_web_front/features/content/domain/uses_cases/topic_uses_cases.dart';
+import 'package:ia_web_front/features/content/presentation/controller/content_provider.dart';
+import 'package:ia_web_front/features/content/data/repository/performance_repository_impl.dart';
+import 'package:ia_web_front/features/content/domain/uses_cases/inspect_website_usecase.dart';
+import 'package:ia_web_front/features/content/presentation/controller/performance_provider.dart';
 
 import 'package:provider/provider.dart';
 
 void main() {
-  final contentRepo = ContentListImpl();
-  final contentListUseCases = ContentListUseCases(contentRepo);
-
   // Configuración para el feature de websites
   final websiteRepo = WebsiteRepositoryImpl();
   final websiteUseCases = WebsiteUseCases(websiteRepo);
+
+  // Configuración para el feature de content
+  final contentRepository = DummyContentRepositoryImpl();
+  final contentCardUseCases = ContentCardUsesCases(contentRepository);
+  final topicUseCases = TopicUsesCases(contentRepository);
+
+  // Configuración para el feature de performance
+  final performanceRepo = PerformanceRepositoryImpl();
+  final inspectWebsiteUseCase = InspectWebsiteUseCase(performanceRepo);
 
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => WidgetsController()),
         ChangeNotifierProvider(create: (_) => TextFormatController()),
-        Provider<ContentListUseCases>.value(value: contentListUseCases),
-        ChangeNotifierProvider<WebsiteController>(
-          create: (_) => WebsiteController(contentListUseCases),
-        ),
         ChangeNotifierProvider(create: (_) => RoadmapController()),
         ChangeNotifierProvider(
           create: (_) => RecentArticlesController(
@@ -40,9 +46,26 @@ void main() {
                 LoadRecentArticles(RecentArticlesRepoImpl()),
           ),
         ),
-        // Nuevo provider para websites
+        // Provider para websites
         ChangeNotifierProvider<WebsitesProvider>(
           create: (_) => WebsitesProvider(websiteUseCases),
+        ),
+        // Provider para content
+        ChangeNotifierProvider<ContentProvider>(
+          create: (_) => ContentProvider(contentCardUseCases, topicUseCases),
+        ),
+        // Provider para performance (depende de ContentProvider)
+        ChangeNotifierProxyProvider<ContentProvider, PerformanceProvider>(
+          create: (context) => PerformanceProvider(
+            inspectWebsiteUseCase,
+            context.read<ContentProvider>(),
+          ),
+          update: (context, contentProvider, previous) =>
+              previous ??
+              PerformanceProvider(
+                inspectWebsiteUseCase,
+                contentProvider,
+              ),
         ),
       ],
       child: SessionProvider(

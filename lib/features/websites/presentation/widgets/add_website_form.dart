@@ -31,22 +31,48 @@ class _AddWebsiteFormState extends State<AddWebsiteForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(88, 205, 210, 213),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey[200]!),
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3B82F6).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Icons.add_circle_outline,
+                  color: Color(0xFF3B82F6),
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                'Add New Website',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1E293B),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
           _buildNameField(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 16),
           _buildUrlField(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 16),
           _buildStatusDropdown(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 24),
           _buildActionButtons(),
         ],
       ),
@@ -54,152 +80,203 @@ class _AddWebsiteFormState extends State<AddWebsiteForm> {
   }
 
   Widget _buildNameField() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
-            spreadRadius: 1,
-            offset: const Offset(0, 2),
-          )
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: TextField(
-        controller: widget.nameController,
-        decoration: const InputDecoration(
-          hintText: 'Website Name',
-          hintStyle: TextStyle(
-              fontSize: 14,
-              color: Color.fromARGB(144, 147, 145, 163),
-              fontWeight: FontWeight.bold),
-          border: InputBorder.none,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Website Name',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[700],
+          ),
         ),
-        onChanged: (_) => setState(() {}),
-        style: const TextStyle(fontSize: 14),
-      ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: widget.nameController,
+          decoration: InputDecoration(
+            hintText: 'Enter website name',
+            hintStyle: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[400],
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[300]!),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[300]!),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFF3B82F6)),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          ),
+          onChanged: (_) => setState(() {}),
+          style: const TextStyle(fontSize: 14),
+        ),
+      ],
     );
   }
 
   Widget _buildUrlField() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 4, spreadRadius: 1),
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: TextField(
-        controller: widget.urlController,
-        decoration: const InputDecoration(
-          hintText: 'Website URL',
-          hintStyle: TextStyle(
-              fontSize: 14,
-              color: Color.fromARGB(144, 147, 145, 163),
-              fontWeight: FontWeight.bold),
-          border: InputBorder.none,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Website URL',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[700],
+          ),
         ),
-        style: const TextStyle(fontSize: 12),
-        keyboardType: TextInputType.url,
-        onChanged: (_) => setState(() {}),
-      ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: widget.urlController,
+          decoration: InputDecoration(
+            hintText: 'https://example.com',
+            hintStyle: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[400],
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[300]!),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[300]!),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFF3B82F6)),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          ),
+          style: const TextStyle(fontSize: 14),
+          keyboardType: TextInputType.url,
+          onChanged: (_) => setState(() {}),
+        ),
+      ],
     );
   }
 
   Widget _buildStatusDropdown() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Colors.white,
-      ),
-      child: DropdownButton<WebsiteStatus>(
-        value: widget.selectedStatus,
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        dropdownColor: Colors.white,
-        underline: const SizedBox(),
-        borderRadius: BorderRadius.circular(5),
-        menuWidth: 75,
-        items: WebsiteStatus.values.map((status) {
-          return DropdownMenuItem<WebsiteStatus>(
-            value: status,
-            child: Text(
-              status.name.toString(),
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Status',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[700],
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.grey[300]!),
+          ),
+          child: DropdownButtonFormField<WebsiteStatus>(
+            value: widget.selectedStatus,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
-          );
-        }).toList(),
-        onChanged: (value) {
-          if (value != null) {
-            widget.onStatusChanged(value);
-          }
-        },
-        selectedItemBuilder: (BuildContext context) {
-          return WebsiteStatus.values.map((status) {
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                color: Colors.white,
-              ),
-              child: Text(
-                status.name.toString(),
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+            items: WebsiteStatus.values.map((status) {
+              final isActive = status == WebsiteStatus.Active;
+              return DropdownMenuItem<WebsiteStatus>(
+                value: status,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: isActive
+                            ? const Color(0xFF10B981)
+                            : const Color(0xFFF59E0B),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      status.name,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: isActive
+                            ? const Color(0xFF10B981)
+                            : const Color(0xFFF59E0B),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            );
-          }).toList();
-        },
-      ),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                widget.onStatusChanged(value);
+              }
+            },
+            icon: Icon(Icons.keyboard_arrow_down, color: Colors.grey[400]),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildActionButtons() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: const Color.fromARGB(255, 190, 13, 0)),
-            child: IconButton(
-              hoverColor: const Color.fromARGB(255, 190, 13, 0),
-              icon: const Icon(Icons.close, color: Colors.white),
-              iconSize: 18,
-              onPressed: widget.onCancel,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          onPressed: widget.onCancel,
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          ),
+          child: Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(width: 8),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5), color: Colors.green),
-            child: IconButton(
-              hoverColor: Colors.green,
-              icon: Icon(
-                Icons.check,
-                color:
-                    _isFormValid ? Colors.white : Colors.white.withOpacity(0.5),
-              ),
-              iconSize: 18,
-              onPressed: _isFormValid ? widget.onSubmit : null,
+        ),
+        const SizedBox(width: 12),
+        ElevatedButton(
+          onPressed: _isFormValid ? widget.onSubmit : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF3B82F6),
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            elevation: 0,
+          ),
+          child: const Text(
+            'Add Website',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
