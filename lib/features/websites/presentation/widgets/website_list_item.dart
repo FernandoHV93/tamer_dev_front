@@ -41,9 +41,10 @@ class WebsiteListItem extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  flex: 3,
+                  flex: 1,
                   child: _buildWebsiteInfo(),
                 ),
                 Expanded(
@@ -51,7 +52,7 @@ class WebsiteListItem extends StatelessWidget {
                   child: _buildStatusIndicator(),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: _buildLastChecked(),
                 ),
                 Expanded(
@@ -117,7 +118,8 @@ class WebsiteListItem extends StatelessWidget {
 
   Widget _buildStatusIndicator() {
     final isActive = website.status == WebsiteStatus.Active;
-    return Center(
+    return Align(
+      alignment: Alignment.centerLeft,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(

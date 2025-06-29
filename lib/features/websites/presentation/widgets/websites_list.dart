@@ -45,9 +45,10 @@ class WebsitesList extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 3,
+            flex: 1,
             child: Text(
               'Website',
               style: TextStyle(
@@ -69,7 +70,7 @@ class WebsitesList extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Text(
               'Last Checked',
               style: TextStyle(
@@ -82,7 +83,7 @@ class WebsitesList extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Text(
-              'Actions',
+              '',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.grey[700],
