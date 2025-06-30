@@ -56,160 +56,151 @@ class _ContentViewState extends State<ContentView> {
 
                   final websites = websitesProvider.websites;
 
-                  return SingleChildScrollView(
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 1200),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 32, horizontal: 16),
-                          child: Card(
-                            elevation: 3,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 32, horizontal: 32),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        'Content',
-                                        style: TextStyle(
-                                          fontSize: 36,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF1E293B),
-                                        ),
+                  return Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1200),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 32, horizontal: 16),
+                        child: Card(
+                          elevation: 3,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 32, horizontal: 32),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'Content',
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF1E293B),
                                       ),
-                                      Row(
-                                        children: [
-                                          _ModernDialogButton(
-                                            text: 'Save Changes',
-                                            isPrimary: true,
-                                            icon: SvgPicture.asset(
-                                              'assets/images/icons/save_changes.svg',
-                                              height: 22,
-                                              width: 22,
-                                              color: Colors.white,
-                                            ),
-                                            onPressed: () {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'Changes saved successfully!'),
-                                                  duration:
-                                                      Duration(seconds: 2),
-                                                ),
-                                              );
-                                            },
+                                    ),
+                                    Row(
+                                      children: [
+                                        _ModernDialogButton(
+                                          text: 'Save Changes',
+                                          isPrimary: true,
+                                          icon: SvgPicture.asset(
+                                            'assets/images/icons/save_changes.svg',
+                                            height: 22,
+                                            width: 22,
+                                            color: Colors.white,
                                           ),
-                                          const SizedBox(width: 24),
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16, vertical: 8),
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xFFF3F4F6),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                const Text(
-                                                  'Selected Website:',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0xFF334155),
-                                                  ),
+                                          onPressed: () {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    'Changes saved successfully!'),
+                                                duration: Duration(seconds: 2),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        const SizedBox(width: 24),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFF3F4F6),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                'Selected Website:',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xFF334155),
                                                 ),
-                                                const SizedBox(width: 10),
-                                                WebsiteDropdown(
-                                                  websites: websites,
-                                                  selectedWebsite:
-                                                      websitesProvider
-                                                          .selectedWebsite,
-                                                  onWebsiteSelected:
-                                                      (WebsiteEntity website) {
+                                              ),
+                                              const SizedBox(width: 10),
+                                              WebsiteDropdown(
+                                                websites: websites,
+                                                selectedWebsite:
                                                     websitesProvider
-                                                        .selectWebsite(
-                                                            website.id);
-                                                  },
-                                                  onAddWebsite: () {},
-                                                ),
-                                              ],
-                                            ),
+                                                        .selectedWebsite,
+                                                onWebsiteSelected:
+                                                    (WebsiteEntity website) {
+                                                  websitesProvider
+                                                      .selectWebsite(
+                                                          website.id);
+                                                },
+                                                onAddWebsite: () {},
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 32),
+                                TabBarSection(
+                                  selectedIndex: selectedTab,
+                                  onTabSelected: (index) => setState(() {
+                                    selectedTab = index;
+                                  }),
+                                ),
+                                const SizedBox(height: 32),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.03),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 32),
-                                  TabBarSection(
-                                    selectedIndex: selectedTab,
-                                    onTabSelected: (index) => setState(() {
-                                      selectedTab = index;
-                                    }),
-                                  ),
-                                  const SizedBox(height: 32),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(12),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.03),
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    padding: const EdgeInsets.all(24),
-                                    child: IndexedStack(
-                                      index: selectedTab,
-                                      children: [
-                                        selectedTab == 0 &&
+                                  padding: const EdgeInsets.all(24),
+                                  child: IndexedStack(
+                                    index: selectedTab,
+                                    children: [
+                                      selectedTab == 0 &&
+                                              contentProvider.selectedCardId !=
+                                                  null
+                                          ? InsideCard(
+                                              contentProvider: contentProvider,
+                                              sessionProvider: sessionProvider,
+                                              backOnPressed: () {
                                                 contentProvider
-                                                        .selectedCardId !=
-                                                    null
-                                            ? InsideCard(
-                                                contentProvider:
-                                                    contentProvider,
-                                                sessionProvider:
-                                                    sessionProvider,
-                                                backOnPressed: () {
-                                                  contentProvider
-                                                      .clearSelection();
-                                                },
-                                              )
-                                            : ContentCardsList(
-                                                contentProvider:
-                                                    contentProvider,
-                                                sessionProvider:
-                                                    sessionProvider,
-                                                onCardPressed: (cardId) {
-                                                  contentProvider
-                                                      .selectCard(cardId);
-                                                },
-                                              ),
-                                        PerformanceView(
-                                            sessionProvider: sessionProvider),
-                                        TopicClustersView(
-                                            sessionProvider: sessionProvider),
-                                        const ContentGaps(),
-                                      ],
-                                    ),
+                                                    .clearSelection();
+                                              },
+                                            )
+                                          : ContentCardsList(
+                                              contentProvider: contentProvider,
+                                              sessionProvider: sessionProvider,
+                                              onCardPressed: (cardId) {
+                                                contentProvider
+                                                    .selectCard(cardId);
+                                              },
+                                            ),
+                                      PerformanceView(
+                                          sessionProvider: sessionProvider),
+                                      TopicClustersView(
+                                          sessionProvider: sessionProvider),
+                                      const ContentGaps(),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

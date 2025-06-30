@@ -35,19 +35,25 @@ class ContentProvider extends ChangeNotifier {
   // Content Cards Methods
   Future<void> loadContentCardsByWebsiteId(
       String websiteId, String sessionId, String userId) async {
-    _isLoadingCards = true;
     _selectedWebsiteId = websiteId;
     notifyListeners();
 
     try {
       _contentCards = await _contentCardUsesCases.loadContentCardsByWebsiteId(
           websiteId, sessionId, userId);
+      // Selecciona la primera card automáticamente
+      if (_contentCards.isNotEmpty) {
+        _selectedCardId = _contentCards.first.id;
+      } else {
+        _selectedCardId = null;
+      }
       // Cargar todos los topics de todas las cards
       await _loadAllTopicsForCards(_contentCards, sessionId, userId);
     } catch (e) {
       debugPrint('Error loading content cards: $e');
       _contentCards = [];
       _topicsByCardId.clear();
+      _selectedCardId = null;
     } finally {
       _isLoadingCards = false;
       notifyListeners();
