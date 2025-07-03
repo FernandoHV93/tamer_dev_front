@@ -9,6 +9,11 @@ class BackendUrls {
   static String saveRoadmap = '/new_roadmap';
   static String loadRoadmap = '/get_roadmap';
 
+  // API Settings endpoints
+  static String apiProvidersStatus = '/api_settings/providers_status';
+  static String connectApiProvider = '/api_settings/connect_provider';
+  static String disconnectApiProvider = '/api_settings/disconnect_provider';
+
   // // static String baseUrl = String.fromEnvironment('BASE_URL',
   //     defaultValue: 'https://backend.tamercode.com');
 }
