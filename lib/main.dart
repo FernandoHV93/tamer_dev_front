@@ -18,6 +18,10 @@ import 'package:ia_web_front/features/content/presentation/controller/content_pr
 import 'package:ia_web_front/features/content/data/repository/performance_repository_impl.dart';
 import 'package:ia_web_front/features/content/domain/uses_cases/inspect_website_usecase.dart';
 import 'package:ia_web_front/features/content/presentation/controller/performance_provider.dart';
+import 'features/brand_voice/data/repository/brand_voice_repository_impl.dart';
+import 'features/brand_voice/domain/usecases/brand_voice_usecases.dart';
+import 'features/brand_voice/presentation/provider/brand_voice_provider.dart';
+import 'features/brand_voice/presentation/provider/brand_form_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -34,6 +38,10 @@ void main() {
   // Configuración para el feature de performance
   final performanceRepo = PerformanceRepositoryImpl();
   final inspectWebsiteUseCase = InspectWebsiteUseCase(performanceRepo);
+
+  // Configuración para el feature de brand voice
+  final brandVoiceRepo = BrandVoiceRepositoryImpl();
+  final brandVoiceUseCases = BrandVoiceUseCases(brandVoiceRepo);
 
   runApp(MultiProvider(
       providers: [
@@ -66,6 +74,13 @@ void main() {
                 inspectWebsiteUseCase,
                 contentProvider,
               ),
+        ),
+        // Provider para brand voice
+        ChangeNotifierProvider<BrandVoiceProvider>(
+          create: (_) => BrandVoiceProvider(brandVoiceUseCases),
+        ),
+        ChangeNotifierProvider<BrandFormProvider>(
+          create: (_) => BrandFormProvider(),
         ),
       ],
       child: SessionProvider(

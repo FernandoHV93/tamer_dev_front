@@ -8,6 +8,33 @@ import 'package:ia_web_front/features/websites/presentation/websites_view.dart';
 import 'package:ia_web_front/features/content/presentation/content_view.dart';
 import 'package:ia_web_front/features/api_settings/api_settings_screen.dart';
 import 'package:ia_web_front/features/brand_voice/presentation/brand_voice_screen.dart';
+import 'package:ia_web_front/features/brand_voice/presentation/provider/brand_voice_provider.dart';
+import 'package:ia_web_front/features/brand_voice/presentation/provider/brand_form_provider.dart';
+import 'package:ia_web_front/features/brand_voice/domain/usecases/brand_voice_usecases.dart';
+import 'package:ia_web_front/features/brand_voice/data/repository/brand_voice_repository_impl.dart';
+import 'package:provider/provider.dart';
+
+class BrandVoiceProviders extends StatelessWidget {
+  final Widget child;
+  const BrandVoiceProviders({required this.child, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => BrandVoiceProvider(
+            BrandVoiceUseCases(
+              BrandVoiceRepositoryImpl(),
+            ),
+          ),
+        ),
+        ChangeNotifierProvider(create: (_) => BrandFormProvider()),
+      ],
+      child: child,
+    );
+  }
+}
 
 class RouteGenerator {
   static Route? onGenerate(RouteSettings settings) {

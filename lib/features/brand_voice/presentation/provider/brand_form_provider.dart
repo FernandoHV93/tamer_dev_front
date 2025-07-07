@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../domain/entities/brand_voice_entity.dart';
 import 'brand_voice_provider.dart';
 
 class BrandFormProvider extends ChangeNotifier {
@@ -73,22 +74,26 @@ class BrandFormProvider extends ChangeNotifier {
     _toneOfVoice = brand.toneOfVoice;
     _keyValues = List<String>.from(brand.keyValues);
     _targetAudience = brand.targetAudience;
-    // _brandIdentityInsights = ''; // Si lo agregas al modelo, aquí lo asignas
+    _brandIdentityInsights = brand.brandIdentityInsights;
     notifyListeners();
   }
 
-  void saveEdit(BrandVoiceProvider brandProvider) {
+  Future<void> saveEdit(
+      BrandVoiceProvider brandProvider, String sessionId, String userId) async {
     if (_editingBrand != null) {
-      final index = brandProvider.savedBrands.indexOf(_editingBrand!);
-      if (index != -1) {
-        final updated = BrandVoice(
-          brandName: _brandName,
-          toneOfVoice: _toneOfVoice,
-          keyValues: List<String>.from(_keyValues),
-          targetAudience: _targetAudience,
-        );
-        brandProvider.updateBrand(index, updated);
-      }
+      final updated = BrandVoice(
+        id: _editingBrand!.id,
+        brandName: _brandName,
+        toneOfVoice: _toneOfVoice,
+        keyValues: List<String>.from(_keyValues),
+        targetAudience: _targetAudience,
+        brandIdentityInsights: _brandIdentityInsights,
+      );
+      await brandProvider.updateBrand(
+        sessionId,
+        userId,
+        updated,
+      );
       resetForm();
     }
   }

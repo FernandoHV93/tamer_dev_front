@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/features/brand_voice/domain/entities/brand_voice_entity.dart';
 import 'package:provider/provider.dart';
 import '../provider/brand_form_provider.dart';
 import '../provider/brand_voice_provider.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 
 class BrandVoiceForm extends StatefulWidget {
   const BrandVoiceForm({super.key});
@@ -36,7 +38,7 @@ class _BrandVoiceFormState extends State<BrandVoiceForm> {
       _brandNameController.text = brand.brandName;
       _toneOfVoiceController.text = brand.toneOfVoice;
       _targetAudienceController.text = brand.targetAudience;
-      // _brandIdentityInsightsController.text = ''; // Si lo agregas al modelo
+      _brandIdentityInsightsController.text = brand.brandIdentityInsights;
     } else {
       _brandNameController.clear();
       _toneOfVoiceController.clear();
@@ -257,18 +259,30 @@ class _BrandVoiceFormState extends State<BrandVoiceForm> {
                   builder: (context, provider, _) {
                     final brandVoiceProvider =
                         Provider.of<BrandVoiceProvider>(context, listen: false);
+                    final session = SessionProvider.of(context);
+                    final sessionId = session.sessionID;
+                    final userId = session.userID;
                     return ElevatedButton(
                       onPressed: provider.isFormValid
-                          ? () {
+                          ? () async {
                               if (provider.isEditing) {
-                                provider.saveEdit(brandVoiceProvider);
+                                await provider.saveEdit(
+                                  brandVoiceProvider,
+                                  sessionId,
+                                  userId,
+                                );
                               } else {
-                                brandVoiceProvider.addBrand(
+                                await brandVoiceProvider.addBrand(
+                                  sessionId,
+                                  userId,
                                   BrandVoice(
+                                    id: '',
                                     brandName: provider.brandName,
                                     toneOfVoice: provider.toneOfVoice,
                                     keyValues: provider.keyValues,
                                     targetAudience: provider.targetAudience,
+                                    brandIdentityInsights:
+                                        provider.brandIdentityInsights,
                                   ),
                                 );
                                 provider.resetForm();

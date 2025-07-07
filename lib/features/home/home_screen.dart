@@ -9,6 +9,7 @@ import 'package:ia_web_front/features/home/components/feature_button.dart';
 import 'package:provider/provider.dart';
 import 'controller/recent_articles_controller.dart';
 import 'package:ia_web_front/features/article_editor/presentation/controllers/widgets_controller.dart';
+import 'package:ia_web_front/features/brand_voice/presentation/provider/brand_voice_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,6 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
       final controller =
           Provider.of<RecentArticlesController>(context, listen: false);
       await controller.loadRecentArticles();
+      // Cargar brands globalmente para BrandVoice
+      final brandVoiceProvider =
+          Provider.of<BrandVoiceProvider>(context, listen: false);
+      await brandVoiceProvider.loadBrands(
+        sessionProvider.sessionID,
+        sessionProvider.userID,
+      );
     });
   }
 

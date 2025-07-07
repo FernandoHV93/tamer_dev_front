@@ -91,8 +91,8 @@ class BrandVoiceCard extends StatelessWidget {
                   'Create unique styles and tones for different situations using, ensuring your content always remains consistent.',
                   style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
-                GestureDetector(
-                  onTap: () {}, // Aquí puedes poner la lógica de enlace
+                InkWell(
+                  onTap: onAdd,
                   child: const Text(
                     'Brand Voice',
                     style: TextStyle(

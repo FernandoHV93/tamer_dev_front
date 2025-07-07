@@ -24,6 +24,8 @@ class ArticleBuilderProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   KeywordAnalysisResult? get analysisResult => _analysisResult;
+  Map<String, dynamic> get selectedBrandVoice =>
+      _articleBuilderEntity.articleSettings.brandVoice;
 
   // Crear entidad por defecto (sin sessionId y userId)
   static ArticleBuilderEntity _createDefaultEntity() {
@@ -405,6 +407,12 @@ class ArticleBuilderProvider with ChangeNotifier {
   void resetForm() {
     _articleBuilderEntity = _createDefaultEntity();
     _clearError();
+    notifyListeners();
+  }
+
+  // Setter para el brand voice seleccionado
+  void setSelectedBrandVoice(Map<String, dynamic> brandVoice) {
+    _articleBuilderEntity.articleSettings.brandVoice = brandVoice;
     notifyListeners();
   }
 }
