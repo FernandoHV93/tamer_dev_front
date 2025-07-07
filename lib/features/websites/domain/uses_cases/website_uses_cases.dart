@@ -11,7 +11,7 @@ class WebsiteUseCases {
     return await repository.loadWebsites(sessionId, userId);
   }
 
-  Future<void> saveWebsite(
+  Future<WebsiteEntity> saveWebsite(
       String sessionId, String userId, WebsiteEntity website) async {
     return await repository.saveWebsite(sessionId, userId, website);
   }

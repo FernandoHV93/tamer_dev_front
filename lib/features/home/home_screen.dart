@@ -107,7 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
               description:
                   'Maintain consistent brand voice across all your content and communications.',
               badgeText: 'Consistency',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, WebRoutes.brandVoice);
+              },
             ),
             FeatureButton(
               iconPath: 'assets/images/icons/settings.svg',
