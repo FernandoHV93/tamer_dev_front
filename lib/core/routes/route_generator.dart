@@ -7,6 +7,7 @@ import 'package:ia_web_front/features/roadmap/presentation/roadmap_screen.dart';
 import 'package:ia_web_front/features/websites/presentation/websites_view.dart';
 import 'package:ia_web_front/features/content/presentation/content_view.dart';
 import 'package:ia_web_front/features/api_settings/api_settings_screen.dart';
+import 'package:ia_web_front/features/brand_voice/presentation/brand_voice_screen.dart';
 
 class RouteGenerator {
   static Route? onGenerate(RouteSettings settings) {
@@ -26,6 +27,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ContentView());
       case WebRoutes.apiSettings:
         return MaterialPageRoute(builder: (_) => const ApiSettingsScreen());
+      case WebRoutes.brandVoice:
+        return MaterialPageRoute(builder: (_) => const BrandVoiceScreen());
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
     }

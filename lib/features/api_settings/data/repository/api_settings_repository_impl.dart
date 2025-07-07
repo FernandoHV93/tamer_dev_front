@@ -6,6 +6,7 @@ class ApiSettingsRepositoryImpl implements ApiSettingsRepository {
   @override
   Future<Map<String, bool>> getProvidersStatus(
       {required String sessionId, required String userId}) async {
+    print('getProvidersStatus');
     final response = await api.get(
       BackendUrls.apiProvidersStatus,
       queryParams: {
@@ -13,6 +14,7 @@ class ApiSettingsRepositoryImpl implements ApiSettingsRepository {
         'userId': userId,
       },
     );
+    print(response);
     if (response['error'] != null) {
       throw Exception('Failed to load AI providers status');
     }

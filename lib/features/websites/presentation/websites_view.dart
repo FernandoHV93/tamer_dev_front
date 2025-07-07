@@ -19,6 +19,15 @@ class _WebsitesViewState extends State<WebsitesView> {
   WebsiteStatus _selectedStatus = WebsiteStatus.Active;
   bool _showAddForm = false;
 
+  @override
+  void initState() {
+    super.initState();
+    // Cargar websites al inicializar la vista
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadWebsites();
+    });
+  }
+
   bool get _isFormValid =>
       _nameController.text.isNotEmpty && _urlController.text.isNotEmpty;
 
@@ -27,6 +36,15 @@ class _WebsitesViewState extends State<WebsitesView> {
     _urlController.clear();
     _selectedStatus = WebsiteStatus.Active;
     setState(() => _showAddForm = false);
+  }
+
+  Future<void> _loadWebsites() async {
+    final sessionProvider = SessionProvider.of(context);
+    final provider = Provider.of<WebsitesProvider>(context, listen: false);
+    await provider.loadWebsites(
+      sessionProvider.sessionID,
+      sessionProvider.userID,
+    );
   }
 
   @override
@@ -270,8 +288,11 @@ class _WebsitesViewState extends State<WebsitesView> {
                 ),
               ),
             Expanded(
-              child: WebsitesList(
-                provider: provider,
+              child: RefreshIndicator(
+                onRefresh: _loadWebsites,
+                child: WebsitesList(
+                  provider: provider,
+                ),
               ),
             ),
           ],

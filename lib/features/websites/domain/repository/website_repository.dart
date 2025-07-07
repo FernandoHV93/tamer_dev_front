@@ -2,7 +2,7 @@ import 'package:ia_web_front/features/websites/domain/entities/website_entity.da
 
 abstract class WebsiteRepository {
   Future<List<WebsiteEntity>> loadWebsites(String sessionId, String userId);
-  Future<void> saveWebsite(
+  Future<WebsiteEntity> saveWebsite(
       String sessionId, String userId, WebsiteEntity website);
   Future<void> updateWebsite(
       String sessionId, String userId, WebsiteEntity website);
