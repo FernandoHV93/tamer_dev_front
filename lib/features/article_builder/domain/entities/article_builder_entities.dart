@@ -32,9 +32,13 @@ class ArticleGeneratorSettings {
   String toneOfVoice;
   String aiWordsRemoval;
   String detailsToInclude = "";
-  Map<String, String> brandVoice = {
-    'brandVoice': 'Brand Voice',
-    'brandVoiceDescription': 'Brand Voice Description',
+  Map<String, dynamic> brandVoice = {
+    'id': '',
+    'brandName': 'Brand Voice',
+    'toneOfVoice': '',
+    'keyValues': <String>[],
+    'targetAudience': '',
+    'brandIdentityInsights': '',
   };
 
   ArticleGeneratorSettings({

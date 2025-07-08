@@ -3,6 +3,8 @@ import 'package:ia_web_front/core/desing/app_constant.dart';
 import 'package:ia_web_front/features/article_builder/presentation/controller/article_builder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ia_web_front/features/article_builder/presentation/components/brand_voice_card.dart';
+import 'package:ia_web_front/features/brand_voice/presentation/provider/brand_voice_provider.dart';
+import 'package:ia_web_front/features/brand_voice/domain/entities/brand_voice_entity.dart';
 
 class ArticleSettingsCard extends StatefulWidget {
   const ArticleSettingsCard({super.key});
@@ -500,7 +502,52 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
               ],
             ),
             const SizedBox(height: 24),
-            BrandVoiceCard(),
+            Consumer2<BrandVoiceProvider, ArticleBuilderProvider>(
+              builder: (context, brandProvider, articleProvider, _) {
+                final brandVoices = brandProvider.savedBrands;
+                final brandNames = brandVoices.isNotEmpty
+                    ? brandVoices.map((b) => b.brandName).toList()
+                    : ['None'];
+                final selectedBrandMap = articleProvider.selectedBrandVoice;
+                String selectedBrandName =
+                    selectedBrandMap['brandName'] as String? ?? 'None';
+                if (!brandNames.contains(selectedBrandName)) {
+                  selectedBrandName = brandNames.first;
+                }
+                return BrandVoiceCard(
+                  brandVoices: brandNames,
+                  selectedVoice: selectedBrandName,
+                  onAdd: () {
+                    Navigator.pushNamed(context, '/brand_voice');
+                  },
+                  onChanged: (String? newName) {
+                    final selected = brandVoices.firstWhere(
+                      (b) => b.brandName == newName,
+                      orElse: () => brandVoices.isNotEmpty
+                          ? brandVoices.first
+                          : BrandVoice(
+                              id: '',
+                              brandName: 'None',
+                              toneOfVoice: '',
+                              keyValues: [],
+                              targetAudience: '',
+                              brandIdentityInsights: '',
+                            ),
+                    );
+                    if (selected != null) {
+                      articleProvider.setSelectedBrandVoice({
+                        'id': selected.id,
+                        'brandName': selected.brandName,
+                        'toneOfVoice': selected.toneOfVoice,
+                        'keyValues': selected.keyValues,
+                        'targetAudience': selected.targetAudience,
+                        'brandIdentityInsights': selected.brandIdentityInsights,
+                      });
+                    }
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),

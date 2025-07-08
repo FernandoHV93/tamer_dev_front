@@ -59,8 +59,7 @@ class ApiSettingsScreen extends StatelessWidget {
                       ),
                       ApiProviderCard(
                         providerName: 'OpenAI GPT-4',
-                        logoUrl:
-                            'https://seeklogo.com/images/O/openai-logo-8B9BFEDC26-seeklogo.com.png',
+                        logoAssetPath: 'assets/images/icons/OpenAI_light.svg',
                         description:
                             "Connect to OpenAI's GPT-4 for state-of-the-art language processing and content generation. ",
                         learnUrl: 'https://platform.openai.com/api-keys',
@@ -118,8 +117,7 @@ class ApiSettingsScreen extends StatelessWidget {
                       const SizedBox(height: 32),
                       ApiProviderCard(
                         providerName: 'Anthropic Claude',
-                        logoUrl:
-                            'https://upload.wikimedia.org/wikipedia/commons/7/7a/Anthropic_logo.png',
+                        logoAssetPath: 'assets/images/icons/claude-ai-icon.svg',
                         description:
                             "Integrate with Anthropic's Claude for enhanced AI capabilities and sophisticated content generation.",
                         learnUrl:
@@ -181,8 +179,7 @@ class ApiSettingsScreen extends StatelessWidget {
                       const SizedBox(height: 32),
                       ApiProviderCard(
                         providerName: 'Perplexity',
-                        logoUrl:
-                            'https://seeklogo.com/images/P/perplexity-ai-logo-8E8F5C6C7B-seeklogo.com.png',
+                        logoAssetPath: 'assets/images/icons/perplexity.svg',
                         description:
                             "Connect to Perplexity AI for advanced language understanding and generation.",
                         learnUrl: 'https://docs.perplexity.ai/docs/api-keys',
@@ -240,8 +237,8 @@ class ApiSettingsScreen extends StatelessWidget {
                       const SizedBox(height: 32),
                       ApiProviderCard(
                         providerName: 'Grok',
-                        logoUrl:
-                            'https://pbs.twimg.com/profile_images/1724894470119022592/0QbQKp2A_400x400.jpg',
+                        logoAssetPath:
+                            'assets/images/icons/xAI (Grok)_light.svg',
                         description:
                             "Connect to Tesla's Grok AI for cutting-edge language processing and real-time analysis.",
                         learnUrl: 'https://x.ai/',
