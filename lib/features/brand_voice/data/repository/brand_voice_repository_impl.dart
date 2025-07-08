@@ -1,5 +1,6 @@
 import '../../domain/entities/brand_voice_entity.dart';
 import '../../domain/repository/brand_voice_repository.dart';
+import '../../domain/entities/deep_analysis_wizard_entity.dart';
 
 class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
   final List<BrandVoice> _dummyBrands = [
@@ -53,5 +54,60 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
       _dummyBrands[idx] = brand;
     }
     return brand;
+  }
+
+  @override
+  Future<BrandVoice> generateBrandVoice(String sessionId, String userId,
+      DeepAnalysisWizardEntity wizardEntity) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    // Dummy mapping para demo
+    return BrandVoice(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      brandName: wizardEntity.brandIdentitySection.vision.isNotEmpty
+          ? wizardEntity.brandIdentitySection.vision
+          : 'Generated Brand',
+      toneOfVoice: wizardEntity.toneAndLanguageSection.tone.isNotEmpty
+          ? wizardEntity.toneAndLanguageSection.tone
+          : 'Professional',
+      keyValues: [
+        wizardEntity.fundamentalValuesSection.meaning,
+        wizardEntity.fundamentalValuesSection.essential,
+        wizardEntity.fundamentalValuesSection.convey,
+      ].where((e) => e.isNotEmpty).toList(),
+      targetAudience: wizardEntity.generalAudienceDataSection.occupation,
+      brandIdentityInsights: wizardEntity.brandIdentitySection.impact,
+    );
+  }
+
+  @override
+  Future<BrandVoice> analyzeContentAndGenerateBrandVoice(
+      String sessionId, String userId, String pastedText) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    return BrandVoice(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      brandName: pastedText.isNotEmpty
+          ? pastedText.substring(
+              0, pastedText.length > 20 ? 20 : pastedText.length)
+          : 'Analyzed Brand',
+      toneOfVoice: 'Analyzed Tone',
+      keyValues: ['Analyzed', 'From', 'Text'],
+      targetAudience: 'Analyzed Audience',
+      brandIdentityInsights: 'Insights generated from pasted text.',
+    );
+  }
+
+  @override
+  Future<BrandVoice> analyzeFileAndGenerateBrandVoice(
+      String sessionId, String userId, String filePath) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    final fileName = filePath.split('/').last;
+    return BrandVoice(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      brandName: fileName,
+      toneOfVoice: 'File Analyzed Tone',
+      keyValues: ['File', 'Analyzed', 'Brand'],
+      targetAudience: 'File Audience',
+      brandIdentityInsights: 'Insights generated from file: $fileName',
+    );
   }
 }

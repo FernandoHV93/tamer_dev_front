@@ -1,5 +1,6 @@
 import '../entities/brand_voice_entity.dart';
 import '../repository/brand_voice_repository.dart';
+import '../entities/deep_analysis_wizard_entity.dart';
 
 class BrandVoiceUseCases {
   final BrandVoiceRepository repository;
@@ -21,5 +22,22 @@ class BrandVoiceUseCases {
   Future<BrandVoice> updateBrand(
       String sessionId, String userId, BrandVoice brand) {
     return repository.updateBrand(sessionId, userId, brand);
+  }
+
+  Future<BrandVoice> generateBrandVoice(
+      String sessionId, String userId, DeepAnalysisWizardEntity wizardEntity) {
+    return repository.generateBrandVoice(sessionId, userId, wizardEntity);
+  }
+
+  Future<BrandVoice> analyzeContentAndGenerateBrandVoice(
+      String sessionId, String userId, String pastedText) {
+    return repository.analyzeContentAndGenerateBrandVoice(
+        sessionId, userId, pastedText);
+  }
+
+  Future<BrandVoice> analyzeFileAndGenerateBrandVoice(
+      String sessionId, String userId, String filePath) {
+    return repository.analyzeFileAndGenerateBrandVoice(
+        sessionId, userId, filePath);
   }
 }

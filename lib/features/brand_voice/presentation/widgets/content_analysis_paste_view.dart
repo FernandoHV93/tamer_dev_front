@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/brand_voice_provider.dart';
 
-class ContentAnalysisPasteView extends StatelessWidget {
+class ContentAnalysisPasteView extends StatefulWidget {
   final VoidCallback onBack;
-  final VoidCallback onAnalyze;
+  final void Function(String pastedText) onAnalyze;
 
-  const ContentAnalysisPasteView(
-      {super.key, required this.onBack, required this.onAnalyze});
+  const ContentAnalysisPasteView({
+    super.key,
+    required this.onBack,
+    required this.onAnalyze,
+  });
+
+  @override
+  State<ContentAnalysisPasteView> createState() =>
+      _ContentAnalysisPasteViewState();
+}
+
+class _ContentAnalysisPasteViewState extends State<ContentAnalysisPasteView> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final brandVoiceProvider = Provider.of<BrandVoiceProvider>(context);
+    final isLoading = brandVoiceProvider.isLoading;
+    final providerError = brandVoiceProvider.error;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -20,13 +42,14 @@ class ContentAnalysisPasteView extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: Colors.blueGrey.shade700, width: 1.2),
           ),
-          child: const Padding(
-            padding: EdgeInsets.all(16.0),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
+              controller: _controller,
               maxLines: null,
               expands: true,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Paste your content here...',
                 hintStyle: TextStyle(color: Colors.white38),
@@ -39,32 +62,61 @@ class ContentAnalysisPasteView extends StatelessWidget {
         Row(
           children: [
             OutlinedButton(
-              onPressed: onBack,
+              onPressed: isLoading ? null : widget.onBack,
               style: OutlinedButton.styleFrom(
                 foregroundColor: const Color(0xFF2D8EFF),
                 side: const BorderSide(color: Color(0xFF2D8EFF)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
               ),
               child: const Text('Back'),
             ),
             const SizedBox(width: 16),
             ElevatedButton(
-              onPressed: onAnalyze,
+              onPressed: isLoading
+                  ? null
+                  : () {
+                      final pastedText = _controller.text.trim();
+                      if (pastedText.isNotEmpty) {
+                        widget.onAnalyze(pastedText);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Please paste some content.')),
+                        );
+                      }
+                    },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2D8EFF),
+                backgroundColor:
+                    isLoading ? Colors.blueGrey : const Color(0xFF2D8EFF),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
               ),
-              child: const Text('Analyze Content'),
+              child: isLoading
+                  ? const SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : const Text('Analyze Content'),
             ),
           ],
         ),
+        if (providerError != null && providerError.isNotEmpty) ...[
+          const SizedBox(height: 16),
+          Text(providerError,
+              style: const TextStyle(color: Colors.redAccent, fontSize: 15)),
+        ],
       ],
     );
   }

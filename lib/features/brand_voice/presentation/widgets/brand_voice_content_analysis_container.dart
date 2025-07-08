@@ -4,9 +4,54 @@ import '../provider/brand_voice_provider.dart';
 import 'content_analysis_option_card.dart';
 import 'content_analysis_upload_view.dart';
 import 'content_analysis_paste_view.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
+import '../provider/brand_form_provider.dart';
+import 'dart:io';
 
-class BrandVoiceContentAnalysisContainer extends StatelessWidget {
+class BrandVoiceContentAnalysisContainer extends StatefulWidget {
   const BrandVoiceContentAnalysisContainer({super.key});
+
+  @override
+  State<BrandVoiceContentAnalysisContainer> createState() =>
+      _BrandVoiceContentAnalysisContainerState();
+}
+
+class _BrandVoiceContentAnalysisContainerState
+    extends State<BrandVoiceContentAnalysisContainer> {
+  bool showBrandVoiceForm = false;
+
+  Future<void> _handleAnalyzeContent(
+      BuildContext context, String pastedText) async {
+    final provider = Provider.of<BrandVoiceProvider>(context, listen: false);
+    final sessionProvider = SessionProvider.of(context);
+    final brandFormProvider =
+        Provider.of<BrandFormProvider>(context, listen: false);
+    final brand = await provider.analyzeContentAndGenerateBrandVoice(
+      sessionProvider.sessionID,
+      sessionProvider.userID,
+      pastedText,
+    );
+    if (brand != null) {
+      brandFormProvider.setEditingBrand(brand);
+      setState(() => showBrandVoiceForm = true);
+    }
+  }
+
+  Future<void> _handleAnalyzeFile(BuildContext context, File file) async {
+    final provider = Provider.of<BrandVoiceProvider>(context, listen: false);
+    final sessionProvider = SessionProvider.of(context);
+    final brandFormProvider =
+        Provider.of<BrandFormProvider>(context, listen: false);
+    final brand = await provider.analyzeFileAndGenerateBrandVoice(
+      sessionProvider.sessionID,
+      sessionProvider.userID,
+      file.path,
+    );
+    if (brand != null) {
+      brandFormProvider.setEditingBrand(brand);
+      setState(() => showBrandVoiceForm = true);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +108,16 @@ class BrandVoiceContentAnalysisContainer extends StatelessWidget {
               } else if (step == ContentAnalysisStep.upload) {
                 return ContentAnalysisUploadView(
                   onBack: provider.goBackToOptions,
-                  onAnalyze: () {},
+                  onAnalyze: (file) async {
+                    await _handleAnalyzeFile(context, file);
+                  },
                 );
               } else if (step == ContentAnalysisStep.paste) {
                 return ContentAnalysisPasteView(
                   onBack: provider.goBackToOptions,
-                  onAnalyze: () {},
+                  onAnalyze: (pastedText) async {
+                    await _handleAnalyzeContent(context, pastedText);
+                  },
                 );
               } else {
                 return const SizedBox.shrink();

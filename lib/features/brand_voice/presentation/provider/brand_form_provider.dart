@@ -78,6 +78,10 @@ class BrandFormProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setEditingBrandFromWizard(BrandVoice brand) {
+    setEditingBrand(brand);
+  }
+
   Future<void> saveEdit(
       BrandVoiceProvider brandProvider, String sessionId, String userId) async {
     if (_editingBrand != null) {

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ApiProviderCard extends StatelessWidget {
   final String providerName;
-  final String logoUrl;
+  final String logoAssetPath;
   final String description;
   final String learnUrl;
   final List<String> features;
@@ -16,7 +17,7 @@ class ApiProviderCard extends StatelessWidget {
   const ApiProviderCard({
     super.key,
     required this.providerName,
-    required this.logoUrl,
+    required this.logoAssetPath,
     required this.description,
     required this.learnUrl,
     required this.features,
@@ -48,8 +49,12 @@ class ApiProviderCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2D8EFF),
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
+                ),
+                child: SvgPicture.asset(
+                  logoAssetPath,
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(width: 18),

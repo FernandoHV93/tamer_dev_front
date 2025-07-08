@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ia_web_front/features/brand_voice/data/repository/brand_voice_repository_impl.dart';
 import 'package:provider/provider.dart';
 import 'provider/brand_voice_provider.dart';
 import 'widgets/brand_voice_method_card.dart';
@@ -7,6 +8,9 @@ import 'provider/brand_form_provider.dart';
 import 'widgets/brand_voice_form.dart';
 import 'widgets/brand_voice_table.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
+import 'widgets/deep_analysis_stepper.dart';
+import 'provider/deep_analysis_wizard_provider.dart';
+import 'package:ia_web_front/features/brand_voice/domain/usecases/brand_voice_usecases.dart';
 
 class BrandVoiceScreen extends StatefulWidget {
   const BrandVoiceScreen({super.key});
@@ -34,7 +38,6 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
   @override
   void initState() {
     super.initState();
-    // Ya no se carga aquí los brands
   }
 
   @override
@@ -131,6 +134,16 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
                       if (provider.selectedMethod ==
                           BrandVoiceMethod.contentAnalysis)
                         const BrandVoiceContentAnalysisContainer(),
+                      if (provider.selectedMethod == BrandVoiceMethod.deep)
+                        ChangeNotifierProvider(
+                          create: (context) => DeepAnalysisWizardProvider(
+                            BrandVoiceUseCases(BrandVoiceRepositoryImpl()),
+                            brandVoiceProvider: Provider.of<BrandVoiceProvider>(
+                                context,
+                                listen: false),
+                          ),
+                          child: const DeepAnalysisStepper(),
+                        ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

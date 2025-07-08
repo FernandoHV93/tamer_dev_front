@@ -132,9 +132,10 @@ class BrandVoiceTable extends StatelessWidget {
                                             child: Text(
                                               kv,
                                               style: const TextStyle(
-                                                color: Color(0xFF3A7BFF),
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                                  color: Color.fromARGB(
+                                                      255, 152, 186, 255),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 10),
                                             ),
                                           ))
                                       .toList(),
