@@ -110,4 +110,13 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
       brandIdentityInsights: 'Insights generated from file: $fileName',
     );
   }
+
+  @override
+  Future<BrandVoice> analyzeFileBytesAndGenerateBrandVoice(
+      String sessionId, String userId, List<int> bytes, String fileName) async {
+    // TODO: Implementar lógica real para enviar bytes al backend
+    // Por ahora, retorna un BrandVoice dummy o lanza error
+    throw UnimplementedError(
+        'analyzeFileBytesAndGenerateBrandVoice is not implemented yet');
+  }
 }

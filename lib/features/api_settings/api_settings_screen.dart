@@ -59,7 +59,7 @@ class ApiSettingsScreen extends StatelessWidget {
                       ),
                       ApiProviderCard(
                         providerName: 'OpenAI GPT-4',
-                        logoAssetPath: 'assets/images/icons/OpenAI_light.svg',
+                        logoAssetPath: 'assets/images/icons/OpenAI_dark.svg',
                         description:
                             "Connect to OpenAI's GPT-4 for state-of-the-art language processing and content generation. ",
                         learnUrl: 'https://platform.openai.com/api-keys',

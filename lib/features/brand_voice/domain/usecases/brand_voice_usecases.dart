@@ -40,4 +40,10 @@ class BrandVoiceUseCases {
     return repository.analyzeFileAndGenerateBrandVoice(
         sessionId, userId, filePath);
   }
+
+  Future<BrandVoice> analyzeFileBytesAndGenerateBrandVoice(
+      String sessionId, String userId, List<int> bytes, String fileName) {
+    return repository.analyzeFileBytesAndGenerateBrandVoice(
+        sessionId, userId, bytes, fileName);
+  }
 }

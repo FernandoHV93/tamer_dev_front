@@ -7,6 +7,8 @@ import 'content_analysis_paste_view.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
 import '../provider/brand_form_provider.dart';
 import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import '../../domain/entities/brand_voice_entity.dart';
 
 class BrandVoiceContentAnalysisContainer extends StatefulWidget {
   const BrandVoiceContentAnalysisContainer({super.key});
@@ -37,16 +39,26 @@ class _BrandVoiceContentAnalysisContainerState
     }
   }
 
-  Future<void> _handleAnalyzeFile(BuildContext context, File file) async {
+  Future<void> _handleAnalyzeFile(BuildContext context,
+      {File? file, List<int>? bytes, String? fileName}) async {
     final provider = Provider.of<BrandVoiceProvider>(context, listen: false);
     final sessionProvider = SessionProvider.of(context);
     final brandFormProvider =
         Provider.of<BrandFormProvider>(context, listen: false);
-    final brand = await provider.analyzeFileAndGenerateBrandVoice(
-      sessionProvider.sessionID,
-      sessionProvider.userID,
-      file.path,
-    );
+    BrandVoice? brand;
+    if (kIsWeb && bytes != null && fileName != null) {
+      // Aquí deberías implementar el método correcto en el provider/usecase para web
+      // brand = await provider.analyzeFileBytesAndGenerateBrandVoice(sessionProvider.sessionID, sessionProvider.userID, bytes, fileName);
+      // Por ahora, solo muestra un error o ignora
+      provider.setError('Web file upload not implemented');
+      return;
+    } else if (file != null) {
+      brand = await provider.analyzeFileAndGenerateBrandVoice(
+        sessionProvider.sessionID,
+        sessionProvider.userID,
+        file.path,
+      );
+    }
     if (brand != null) {
       brandFormProvider.setEditingBrand(brand);
       setState(() => showBrandVoiceForm = true);
@@ -108,8 +120,10 @@ class _BrandVoiceContentAnalysisContainerState
               } else if (step == ContentAnalysisStep.upload) {
                 return ContentAnalysisUploadView(
                   onBack: provider.goBackToOptions,
-                  onAnalyze: (file) async {
-                    await _handleAnalyzeFile(context, file);
+                  onAnalyze: (
+                      {File? file, List<int>? bytes, String? fileName}) async {
+                    await _handleAnalyzeFile(context,
+                        file: file, bytes: bytes, fileName: fileName);
                   },
                 );
               } else if (step == ContentAnalysisStep.paste) {

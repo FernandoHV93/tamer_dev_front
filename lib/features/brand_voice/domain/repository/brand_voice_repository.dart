@@ -14,4 +14,6 @@ abstract class BrandVoiceRepository {
       String sessionId, String userId, String pastedText);
   Future<BrandVoice> analyzeFileAndGenerateBrandVoice(
       String sessionId, String userId, String filePath);
+  Future<BrandVoice> analyzeFileBytesAndGenerateBrandVoice(
+      String sessionId, String userId, List<int> bytes, String fileName);
 }

@@ -27,22 +27,23 @@ import '../provider/deep_analysis_wizard_provider.dart';
 import '../provider/brand_form_provider.dart';
 import '../../domain/entities/brand_voice_entity.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
+import '../provider/brand_voice_provider.dart';
 
-class _DeepAnalysisStepper extends StatefulWidget {
-  const _DeepAnalysisStepper({super.key});
+class DeepAnalysisStepper extends StatefulWidget {
+  final ScrollController scrollController;
+  const DeepAnalysisStepper({super.key, required this.scrollController});
 
   @override
-  State<_DeepAnalysisStepper> createState() => _DeepAnalysisStepperState();
+  State<DeepAnalysisStepper> createState() => DeepAnalysisStepperState();
 }
 
-class _DeepAnalysisStepperState extends State<_DeepAnalysisStepper> {
+class DeepAnalysisStepperState extends State<DeepAnalysisStepper> {
   static const int totalSections = 22;
   int currentSection = 0;
   bool showSummary = false;
   bool showBrandVoiceForm = false;
   BrandVoice? generatedBrandVoice;
   final TextEditingController _titleController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
 
   List<Widget> get sections => [
         const GeneralAudienceDataSection(),
@@ -71,7 +72,6 @@ class _DeepAnalysisStepperState extends State<_DeepAnalysisStepper> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     _titleController.dispose();
     super.dispose();
   }
@@ -82,12 +82,15 @@ class _DeepAnalysisStepperState extends State<_DeepAnalysisStepper> {
       showSummary = false;
       showBrandVoiceForm = false;
     });
+    // Scroll al tope después de cambiar de sección
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeInOut,
-      );
+      if (widget.scrollController.hasClients) {
+        widget.scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeInOut,
+        );
+      }
     });
   }
 
@@ -108,6 +111,8 @@ class _DeepAnalysisStepperState extends State<_DeepAnalysisStepper> {
     final brandFormProvider =
         Provider.of<BrandFormProvider>(context, listen: false);
     brandFormProvider.setEditingBrandFromWizard(brand);
+    Provider.of<BrandVoiceProvider>(context, listen: false).selectMethod(null);
+    ;
   }
 
   @override
@@ -191,7 +196,7 @@ class _DeepAnalysisStepperState extends State<_DeepAnalysisStepper> {
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: SingleChildScrollView(
-                    controller: _scrollController,
+                    // El scroll principal ahora es externo, así que no se usa controller aquí
                     child: sections[currentSection],
                   ),
                 ),
@@ -215,8 +220,18 @@ class _DeepAnalysisStepperState extends State<_DeepAnalysisStepper> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: currentSection < totalSections - 1
-                      ? () => _goToSection(currentSection + 1)
-                      : _goToSummary,
+                      ? () {
+                          _goToSection(currentSection + 1);
+                        }
+                      : () {
+                          // Al ir al resumen, también scrollea al tope
+                          widget.scrollController.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 350),
+                            curve: Curves.easeInOut,
+                          );
+                          _goToSummary();
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
                   ),
@@ -231,14 +246,5 @@ class _DeepAnalysisStepperState extends State<_DeepAnalysisStepper> {
         ),
       ),
     );
-  }
-}
-
-class DeepAnalysisStepper extends StatelessWidget {
-  const DeepAnalysisStepper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const _DeepAnalysisStepper();
   }
 }

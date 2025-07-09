@@ -21,6 +21,7 @@ class BrandVoiceScreen extends StatefulWidget {
 
 class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
   bool _brandsLoaded = false;
+  final ScrollController _mainScrollController = ScrollController();
 
   @override
   void didChangeDependencies() {
@@ -41,6 +42,12 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
   }
 
   @override
+  void dispose() {
+    _mainScrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<BrandVoiceProvider>(
       builder: (context, provider, _) {
@@ -53,6 +60,7 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
                 child: SingleChildScrollView(
+                  controller: _mainScrollController,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -134,15 +142,26 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
                       if (provider.selectedMethod ==
                           BrandVoiceMethod.contentAnalysis)
                         const BrandVoiceContentAnalysisContainer(),
-                      if (provider.selectedMethod == BrandVoiceMethod.deep)
+                      if (provider.selectedMethod == BrandVoiceMethod.deep &&
+                          !Provider.of<BrandFormProvider>(context)
+                              .isEditingFromWizard)
                         ChangeNotifierProvider(
-                          create: (context) => DeepAnalysisWizardProvider(
-                            BrandVoiceUseCases(BrandVoiceRepositoryImpl()),
-                            brandVoiceProvider: Provider.of<BrandVoiceProvider>(
-                                context,
-                                listen: false),
-                          ),
-                          child: const DeepAnalysisStepper(),
+                          create: (context) {
+                            final wizardProvider = DeepAnalysisWizardProvider(
+                              BrandVoiceUseCases(BrandVoiceRepositoryImpl()),
+                              brandVoiceProvider:
+                                  Provider.of<BrandVoiceProvider>(context,
+                                      listen: false),
+                            );
+                            // Limpiar wizard y formulario al seleccionar deep
+                            wizardProvider.clearWizard();
+                            Provider.of<BrandFormProvider>(context,
+                                    listen: false)
+                                .resetForm();
+                            return wizardProvider;
+                          },
+                          child: DeepAnalysisStepper(
+                              scrollController: _mainScrollController),
                         ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

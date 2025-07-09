@@ -3,11 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import '../provider/brand_voice_provider.dart';
 
 class ContentAnalysisUploadView extends StatefulWidget {
   final VoidCallback onBack;
-  final void Function(File file) onAnalyze;
+  final void Function({File? file, List<int>? bytes, String? fileName})
+      onAnalyze;
 
   const ContentAnalysisUploadView({
     super.key,
@@ -24,6 +26,7 @@ class _ContentAnalysisUploadViewState extends State<ContentAnalysisUploadView> {
   File? _selectedFile;
   String? _fileName;
   String? _error;
+  List<int>? _selectedFileBytes;
   static const int maxFileSize = 5 * 1024 * 1024; // 5MB
 
   Future<void> _pickFile() async {
@@ -33,36 +36,45 @@ class _ContentAnalysisUploadViewState extends State<ContentAnalysisUploadView> {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc', 'docx', 'txt'],
+      withData: true, // necesario para web
     );
-    if (result != null && result.files.single.path != null) {
-      final file = File(result.files.single.path!);
-      final fileSize = await file.length();
+    if (result != null && result.files.isNotEmpty) {
+      final file = result.files.single;
+      final fileSize = file.size;
       if (fileSize > maxFileSize) {
         setState(() {
           _selectedFile = null;
           _fileName = null;
+          _selectedFileBytes = null;
           _error = 'File size must be less than 5MB.';
         });
         return;
       }
       setState(() {
-        _selectedFile = file;
-        _fileName = result.files.single.name;
+        _fileName = file.name;
+        if (kIsWeb) {
+          _selectedFile = null;
+          _selectedFileBytes = file.bytes;
+        } else {
+          _selectedFile = File(file.path!);
+          _selectedFileBytes = null;
+        }
         _error = null;
       });
     }
   }
 
   Widget _buildFilePreview() {
-    if (_selectedFile == null) return const SizedBox.shrink();
+    final hasFile = kIsWeb ? _selectedFileBytes != null : _selectedFile != null;
+    if (!hasFile) return const SizedBox.shrink();
     final ext = _fileName?.split('.').last.toLowerCase();
     String iconAsset;
     if (ext == 'pdf') {
       iconAsset = 'assets/images/icons/pdf.svg';
     } else if (ext == 'doc' || ext == 'docx') {
-      iconAsset = 'assets/images/icons/doc.svg';
+      iconAsset = 'assets/images/icons/word.svg';
     } else {
-      iconAsset = 'assets/images/icons/text.svg';
+      iconAsset = 'assets/images/icons/txt.svg';
     }
     return Column(
       children: [
@@ -70,8 +82,6 @@ class _ContentAnalysisUploadViewState extends State<ContentAnalysisUploadView> {
           iconAsset,
           width: 48,
           height: 48,
-          colorFilter:
-              const ColorFilter.mode(Color(0xFF2D8EFF), BlendMode.srcIn),
         ),
         const SizedBox(height: 10),
         Text(
@@ -100,7 +110,7 @@ class _ContentAnalysisUploadViewState extends State<ContentAnalysisUploadView> {
             border: Border.all(color: Colors.blueGrey.shade700, width: 1.2),
           ),
           child: Center(
-            child: _selectedFile == null
+            child: _selectedFile == null && _selectedFileBytes == null
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -140,7 +150,27 @@ class _ContentAnalysisUploadViewState extends State<ContentAnalysisUploadView> {
                       ),
                     ],
                   )
-                : _buildFilePreview(),
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildFilePreview(),
+                      const SizedBox(height: 12),
+                      ElevatedButton(
+                        onPressed: isLoading ? null : _pickFile,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF2D8EFF),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 28, vertical: 12),
+                        ),
+                        child: const Text('Change File',
+                            style: TextStyle(fontSize: 15)),
+                      ),
+                    ],
+                  ),
           ),
         ),
         if (_error != null) ...[
@@ -166,13 +196,17 @@ class _ContentAnalysisUploadViewState extends State<ContentAnalysisUploadView> {
             ),
             const SizedBox(width: 16),
             ElevatedButton(
-              onPressed: (_selectedFile != null && !isLoading)
-                  ? () => widget.onAnalyze(_selectedFile!)
+              onPressed: (((kIsWeb && _selectedFileBytes != null) ||
+                          (!kIsWeb && _selectedFile != null)) &&
+                      !isLoading)
+                  ? () => widget.onAnalyze(
+                        file: kIsWeb ? null : _selectedFile,
+                        bytes: kIsWeb ? _selectedFileBytes : null,
+                        fileName: _fileName,
+                      )
                   : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: (_selectedFile != null && !isLoading)
-                    ? const Color(0xFF2D8EFF)
-                    : Colors.blueGrey,
+                backgroundColor: const Color(0xFF2D8EFF),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

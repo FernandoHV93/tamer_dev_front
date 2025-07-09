@@ -22,6 +22,7 @@ import 'sections/implementation_section_entity.dart';
 import 'sections/brand_perception_section_entity.dart';
 
 class DeepAnalysisWizardEntity {
+  final String brandTitle;
   final GeneralAudienceDataSectionEntity generalAudienceDataSection;
   final ProblemsAndDesiresSectionEntity problemsAndDesiresSection;
   final MotivationsAndValuesSectionEntity motivationsAndValuesSection;
@@ -48,6 +49,7 @@ class DeepAnalysisWizardEntity {
   final BrandPerceptionSectionEntity brandPerceptionSection;
 
   DeepAnalysisWizardEntity({
+    this.brandTitle = '',
     required this.generalAudienceDataSection,
     required this.problemsAndDesiresSection,
     required this.motivationsAndValuesSection,
@@ -74,6 +76,7 @@ class DeepAnalysisWizardEntity {
 
   factory DeepAnalysisWizardEntity.fromJson(Map<String, dynamic> json) =>
       DeepAnalysisWizardEntity(
+        brandTitle: json['brandTitle'] ?? '',
         generalAudienceDataSection: GeneralAudienceDataSectionEntity.fromJson(
             json['generalAudienceDataSection'] ?? {}),
         problemsAndDesiresSection: ProblemsAndDesiresSectionEntity.fromJson(
@@ -124,6 +127,7 @@ class DeepAnalysisWizardEntity {
       );
 
   Map<String, dynamic> toJson() => {
+        'brandTitle': brandTitle,
         'generalAudienceDataSection': generalAudienceDataSection.toJson(),
         'problemsAndDesiresSection': problemsAndDesiresSection.toJson(),
         'motivationsAndValuesSection': motivationsAndValuesSection.toJson(),
@@ -149,4 +153,76 @@ class DeepAnalysisWizardEntity {
         'implementationSection': implementationSection.toJson(),
         'brandPerceptionSection': brandPerceptionSection.toJson(),
       };
+
+  DeepAnalysisWizardEntity copyWith({
+    String? brandTitle,
+    GeneralAudienceDataSectionEntity? generalAudienceDataSection,
+    ProblemsAndDesiresSectionEntity? problemsAndDesiresSection,
+    MotivationsAndValuesSectionEntity? motivationsAndValuesSection,
+    UserBehavioralPatternsSectionEntity? userBehavioralPatternsSection,
+    FearsFrustrationsObstaclesSectionEntity? fearsFrustrationsObstaclesSection,
+    ContentConsumptionSectionEntity? contentConsumptionSection,
+    ToneAndLanguageSectionEntity? toneAndLanguageSection,
+    AudienceExpectationsSectionEntity? audienceExpectationsSection,
+    CompetitorAnalysisSectionEntity? competitorAnalysisSection,
+    BrandIdentitySectionEntity? brandIdentitySection,
+    BrandPersonalitySectionEntity? brandPersonalitySection,
+    FundamentalValuesSectionEntity? fundamentalValuesSection,
+    BrandArchetypesSectionEntity? brandArchetypesSection,
+    BrandDimensionsSectionEntity? brandDimensionsSection,
+    DesiredUserBehaviorSectionEntity? desiredUserBehaviorSection,
+    ToneAndStyleSectionEntity? toneAndStyleSection,
+    BrandVoiceGuideSectionEntity? brandVoiceGuideSection,
+    ConsistencyAndAdaptabilitySectionEntity? consistencyAndAdaptabilitySection,
+    BrandStorytellingSectionEntity? brandStorytellingSection,
+    VoiceEvaluationSectionEntity? voiceEvaluationSection,
+    ImplementationSectionEntity? implementationSection,
+    BrandPerceptionSectionEntity? brandPerceptionSection,
+  }) {
+    return DeepAnalysisWizardEntity(
+      brandTitle: brandTitle ?? this.brandTitle,
+      generalAudienceDataSection:
+          generalAudienceDataSection ?? this.generalAudienceDataSection,
+      problemsAndDesiresSection:
+          problemsAndDesiresSection ?? this.problemsAndDesiresSection,
+      motivationsAndValuesSection:
+          motivationsAndValuesSection ?? this.motivationsAndValuesSection,
+      userBehavioralPatternsSection:
+          userBehavioralPatternsSection ?? this.userBehavioralPatternsSection,
+      fearsFrustrationsObstaclesSection: fearsFrustrationsObstaclesSection ??
+          this.fearsFrustrationsObstaclesSection,
+      contentConsumptionSection:
+          contentConsumptionSection ?? this.contentConsumptionSection,
+      toneAndLanguageSection:
+          toneAndLanguageSection ?? this.toneAndLanguageSection,
+      audienceExpectationsSection:
+          audienceExpectationsSection ?? this.audienceExpectationsSection,
+      competitorAnalysisSection:
+          competitorAnalysisSection ?? this.competitorAnalysisSection,
+      brandIdentitySection: brandIdentitySection ?? this.brandIdentitySection,
+      brandPersonalitySection:
+          brandPersonalitySection ?? this.brandPersonalitySection,
+      fundamentalValuesSection:
+          fundamentalValuesSection ?? this.fundamentalValuesSection,
+      brandArchetypesSection:
+          brandArchetypesSection ?? this.brandArchetypesSection,
+      brandDimensionsSection:
+          brandDimensionsSection ?? this.brandDimensionsSection,
+      desiredUserBehaviorSection:
+          desiredUserBehaviorSection ?? this.desiredUserBehaviorSection,
+      toneAndStyleSection: toneAndStyleSection ?? this.toneAndStyleSection,
+      brandVoiceGuideSection:
+          brandVoiceGuideSection ?? this.brandVoiceGuideSection,
+      consistencyAndAdaptabilitySection: consistencyAndAdaptabilitySection ??
+          this.consistencyAndAdaptabilitySection,
+      brandStorytellingSection:
+          brandStorytellingSection ?? this.brandStorytellingSection,
+      voiceEvaluationSection:
+          voiceEvaluationSection ?? this.voiceEvaluationSection,
+      implementationSection:
+          implementationSection ?? this.implementationSection,
+      brandPerceptionSection:
+          brandPerceptionSection ?? this.brandPerceptionSection,
+    );
+  }
 }

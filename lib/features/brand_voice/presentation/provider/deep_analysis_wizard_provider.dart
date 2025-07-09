@@ -41,6 +41,7 @@ class DeepAnalysisWizardProvider extends ChangeNotifier {
     this.brandVoiceUseCases, {
     required this.brandVoiceProvider,
   }) : _wizardEntity = DeepAnalysisWizardEntity(
+          brandTitle: '',
           generalAudienceDataSection: GeneralAudienceDataSectionEntity(
             averageAge: null,
             generations: [],
@@ -168,688 +169,258 @@ class DeepAnalysisWizardProvider extends ChangeNotifier {
 
   DeepAnalysisWizardEntity get wizardEntity => _wizardEntity;
 
+  String get brandTitle => _wizardEntity.brandTitle;
+  void updateBrandTitle(String title) {
+    _wizardEntity = _wizardEntity.copyWith(brandTitle: title);
+    notifyListeners();
+  }
+
   void updateGeneralAudienceDataSection(
       GeneralAudienceDataSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: entity,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(generalAudienceDataSection: entity);
     notifyListeners();
   }
 
   void updateProblemsAndDesiresSection(ProblemsAndDesiresSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: entity,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(problemsAndDesiresSection: entity);
     notifyListeners();
   }
 
   void updateMotivationsAndValuesSection(
       MotivationsAndValuesSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: entity,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(motivationsAndValuesSection: entity);
     notifyListeners();
   }
 
   void updateUserBehavioralPatternsSection(
       UserBehavioralPatternsSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection: entity,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity =
+        _wizardEntity.copyWith(userBehavioralPatternsSection: entity);
     notifyListeners();
   }
 
   void updateFearsFrustrationsObstaclesSection(
       FearsFrustrationsObstaclesSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection: entity,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity =
+        _wizardEntity.copyWith(fearsFrustrationsObstaclesSection: entity);
     notifyListeners();
   }
 
   void updateContentConsumptionSection(ContentConsumptionSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: entity,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(contentConsumptionSection: entity);
     notifyListeners();
   }
 
   void updateToneAndLanguageSection(ToneAndLanguageSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: entity,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(toneAndLanguageSection: entity);
     notifyListeners();
   }
 
   void updateAudienceExpectationsSection(
       AudienceExpectationsSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: entity,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(audienceExpectationsSection: entity);
     notifyListeners();
   }
 
   void updateCompetitorAnalysisSection(CompetitorAnalysisSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: entity,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(competitorAnalysisSection: entity);
     notifyListeners();
   }
 
   void updateBrandIdentitySection(BrandIdentitySectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: entity,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(brandIdentitySection: entity);
     notifyListeners();
   }
 
   void updateBrandPersonalitySection(BrandPersonalitySectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: entity,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(brandPersonalitySection: entity);
     notifyListeners();
   }
 
   void updateFundamentalValuesSection(FundamentalValuesSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: entity,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(fundamentalValuesSection: entity);
     notifyListeners();
   }
 
   void updateBrandArchetypesSection(BrandArchetypesSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: entity,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(brandArchetypesSection: entity);
     notifyListeners();
   }
 
   void updateBrandDimensionsSection(BrandDimensionsSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: entity,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(brandDimensionsSection: entity);
     notifyListeners();
   }
 
   void updateDesiredUserBehaviorSection(
       DesiredUserBehaviorSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: entity,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(desiredUserBehaviorSection: entity);
     notifyListeners();
   }
 
   void updateToneAndStyleSection(ToneAndStyleSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: entity,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(toneAndStyleSection: entity);
     notifyListeners();
   }
 
   void updateBrandVoiceGuideSection(BrandVoiceGuideSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: entity,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(brandVoiceGuideSection: entity);
     notifyListeners();
   }
 
   void updateConsistencyAndAdaptabilitySection(
       ConsistencyAndAdaptabilitySectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection: entity,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity =
+        _wizardEntity.copyWith(consistencyAndAdaptabilitySection: entity);
     notifyListeners();
   }
 
   void updateBrandStorytellingSection(BrandStorytellingSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: entity,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(brandStorytellingSection: entity);
     notifyListeners();
   }
 
   void updateVoiceEvaluationSection(VoiceEvaluationSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: entity,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(voiceEvaluationSection: entity);
     notifyListeners();
   }
 
   void updateImplementationSection(ImplementationSectionEntity entity) {
-    _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
-      fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
-      consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: entity,
-      brandPerceptionSection: _wizardEntity.brandPerceptionSection,
-    );
+    _wizardEntity = _wizardEntity.copyWith(implementationSection: entity);
     notifyListeners();
   }
 
   void updateBrandPerceptionSection(BrandPerceptionSectionEntity entity) {
+    _wizardEntity = _wizardEntity.copyWith(brandPerceptionSection: entity);
+    notifyListeners();
+  }
+
+  void clearWizard() {
     _wizardEntity = DeepAnalysisWizardEntity(
-      generalAudienceDataSection: _wizardEntity.generalAudienceDataSection,
-      problemsAndDesiresSection: _wizardEntity.problemsAndDesiresSection,
-      motivationsAndValuesSection: _wizardEntity.motivationsAndValuesSection,
-      userBehavioralPatternsSection:
-          _wizardEntity.userBehavioralPatternsSection,
+      brandTitle: '',
+      generalAudienceDataSection: GeneralAudienceDataSectionEntity(
+        averageAge: null,
+        generations: [],
+        predominantGender: null,
+        educationLevel: null,
+        occupation: '',
+      ),
+      problemsAndDesiresSection: ProblemsAndDesiresSectionEntity(
+        problems: '',
+        desires: '',
+      ),
+      motivationsAndValuesSection: MotivationsAndValuesSectionEntity(
+        motivation: '',
+      ),
+      userBehavioralPatternsSection: UserBehavioralPatternsSectionEntity(
+        patterns: '',
+      ),
       fearsFrustrationsObstaclesSection:
-          _wizardEntity.fearsFrustrationsObstaclesSection,
-      contentConsumptionSection: _wizardEntity.contentConsumptionSection,
-      toneAndLanguageSection: _wizardEntity.toneAndLanguageSection,
-      audienceExpectationsSection: _wizardEntity.audienceExpectationsSection,
-      competitorAnalysisSection: _wizardEntity.competitorAnalysisSection,
-      brandIdentitySection: _wizardEntity.brandIdentitySection,
-      brandPersonalitySection: _wizardEntity.brandPersonalitySection,
-      fundamentalValuesSection: _wizardEntity.fundamentalValuesSection,
-      brandArchetypesSection: _wizardEntity.brandArchetypesSection,
-      brandDimensionsSection: _wizardEntity.brandDimensionsSection,
-      desiredUserBehaviorSection: _wizardEntity.desiredUserBehaviorSection,
-      toneAndStyleSection: _wizardEntity.toneAndStyleSection,
-      brandVoiceGuideSection: _wizardEntity.brandVoiceGuideSection,
+          FearsFrustrationsObstaclesSectionEntity(
+        fears: '',
+        frustrations: '',
+        obstacles: '',
+      ),
+      contentConsumptionSection: ContentConsumptionSectionEntity(
+        contentType: '',
+        channels: [],
+      ),
+      toneAndLanguageSection: ToneAndLanguageSectionEntity(
+        tone: '',
+        describeProblems: '',
+        brandHelp: '',
+      ),
+      audienceExpectationsSection: AudienceExpectationsSectionEntity(
+        expectations: '',
+      ),
+      competitorAnalysisSection: CompetitorAnalysisSectionEntity(
+        communication: '',
+        selectedTone: '',
+        personality: [],
+        brandDifference: '',
+        brandPerception: '',
+        voiceStrategy: '',
+      ),
+      brandIdentitySection: BrandIdentitySectionEntity(
+        vision: '',
+        mission: '',
+        coreValues: '',
+        alignValues: '',
+        problem: '',
+        impact: '',
+      ),
+      brandPersonalitySection: BrandPersonalitySectionEntity(
+        dropdownValues: List.filled(8, null),
+        brandAsPerson: '',
+        brandAsFamous: '',
+      ),
+      fundamentalValuesSection: FundamentalValuesSectionEntity(
+        meaning: '',
+        essential: '',
+        convey: '',
+      ),
+      brandArchetypesSection: BrandArchetypesSectionEntity(
+        selectedArchetype: null,
+        motivation: '',
+        emotionalConnection: '',
+        emotionsToEvoke: '',
+        combineArchetypes: '',
+      ),
+      brandDimensionsSection: BrandDimensionsSectionEntity(
+        sincerity: '',
+        emotional: '',
+        competence: '',
+        sophistication: '',
+        robust: '',
+      ),
+      desiredUserBehaviorSection: DesiredUserBehaviorSectionEntity(
+        honest: '',
+        friendly: '',
+        valued: '',
+      ),
+      toneAndStyleSection: ToneAndStyleSectionEntity(
+        selectedFormality: null,
+        selectedSeriousness: null,
+        vocabulary: '',
+        badNews: '',
+        platformTone: '',
+      ),
+      brandVoiceGuideSection: BrandVoiceGuideSectionEntity(
+        expressions: '',
+        avoid: '',
+        criticism: '',
+        gratitude: '',
+        digitalVsPrint: '',
+      ),
       consistencyAndAdaptabilitySection:
-          _wizardEntity.consistencyAndAdaptabilitySection,
-      brandStorytellingSection: _wizardEntity.brandStorytellingSection,
-      voiceEvaluationSection: _wizardEntity.voiceEvaluationSection,
-      implementationSection: _wizardEntity.implementationSection,
-      brandPerceptionSection: entity,
+          ConsistencyAndAdaptabilitySectionEntity(
+        consistency: '',
+        guidelines: '',
+        adapt: '',
+      ),
+      brandStorytellingSection: BrandStorytellingSectionEntity(
+        centralStory: '',
+        narrativeElements: '',
+        humanRelatable: '',
+      ),
+      voiceEvaluationSection: VoiceEvaluationSectionEntity(
+        indicators: '',
+        feedback: '',
+        evolve: '',
+        adjustments: '',
+      ),
+      implementationSection: ImplementationSectionEntity(
+        instagramVsBlog: '',
+        negativeComment: '',
+        dosDonts: '',
+        customerJourney: '',
+      ),
+      brandPerceptionSection: BrandPerceptionSectionEntity(
+        object: '',
+        slogan: '',
+        feeling: '',
+        afterPurchase: '',
+      ),
     );
     notifyListeners();
   }

@@ -13,6 +13,9 @@ class BrandFormProvider extends ChangeNotifier {
   BrandVoice? get editingBrand => _editingBrand;
   bool get isEditing => _editingBrand != null;
 
+  bool _isEditingFromWizard = false;
+  bool get isEditingFromWizard => _isEditingFromWizard;
+
   String get brandName => _brandName;
   String get toneOfVoice => _toneOfVoice;
   List<String> get keyValues => List.unmodifiable(_keyValues);
@@ -65,6 +68,7 @@ class BrandFormProvider extends ChangeNotifier {
     _targetAudience = '';
     _brandIdentityInsights = '';
     _editingBrand = null;
+    _isEditingFromWizard = false;
     notifyListeners();
   }
 
@@ -75,11 +79,14 @@ class BrandFormProvider extends ChangeNotifier {
     _keyValues = List<String>.from(brand.keyValues);
     _targetAudience = brand.targetAudience;
     _brandIdentityInsights = brand.brandIdentityInsights;
+    _isEditingFromWizard = false;
     notifyListeners();
   }
 
   void setEditingBrandFromWizard(BrandVoice brand) {
     setEditingBrand(brand);
+    _isEditingFromWizard = true;
+    notifyListeners();
   }
 
   Future<void> saveEdit(
@@ -99,6 +106,7 @@ class BrandFormProvider extends ChangeNotifier {
         updated,
       );
       resetForm();
+      _isEditingFromWizard = false;
     }
   }
 }

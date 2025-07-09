@@ -7,7 +7,7 @@ enum BrandVoiceMethod { deep, contentAnalysis }
 enum ContentAnalysisStep { options, upload, paste }
 
 class BrandVoiceProvider extends ChangeNotifier {
-  BrandVoiceMethod _selectedMethod = BrandVoiceMethod.deep;
+  BrandVoiceMethod? _selectedMethod;
   ContentAnalysisStep _contentAnalysisStep = ContentAnalysisStep.options;
 
   // Nueva lista de brands
@@ -23,10 +23,10 @@ class BrandVoiceProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
 
-  BrandVoiceMethod get selectedMethod => _selectedMethod;
+  BrandVoiceMethod? get selectedMethod => _selectedMethod;
   ContentAnalysisStep get contentAnalysisStep => _contentAnalysisStep;
 
-  void selectMethod(BrandVoiceMethod method) {
+  void selectMethod(BrandVoiceMethod? method) {
     _selectedMethod = method;
     // Reset step al cambiar de método
     if (method == BrandVoiceMethod.contentAnalysis) {
@@ -58,6 +58,10 @@ class BrandVoiceProvider extends ChangeNotifier {
   void _setError(String? value) {
     _error = value;
     notifyListeners();
+  }
+
+  void setError(String? value) {
+    _setError(value);
   }
 
   Future<void> loadBrands(String sessionId, String userId) async {
@@ -169,6 +173,28 @@ class BrandVoiceProvider extends ChangeNotifier {
     } catch (e) {
       _setLoading(false);
       _setError('Error analyzing file: [${e.toString()}');
+      return null;
+    }
+  }
+
+  Future<BrandVoice?> analyzeFileBytesAndGenerateBrandVoice(
+      String sessionId, String userId, List<int> bytes, String fileName) async {
+    _setLoading(true);
+    _setError(null);
+    try {
+      final brandVoice = await useCases.analyzeFileBytesAndGenerateBrandVoice(
+        sessionId,
+        userId,
+        bytes,
+        fileName,
+      );
+      await addBrand(sessionId, userId, brandVoice);
+      _setLoading(false);
+      notifyListeners();
+      return brandVoice;
+    } catch (e) {
+      _setLoading(false);
+      _setError('Error analyzing file (web): [${e.toString()}');
       return null;
     }
   }
