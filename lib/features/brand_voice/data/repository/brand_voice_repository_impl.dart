@@ -7,25 +7,6 @@ import '../../domain/entities/deep_analysis_wizard_entity.dart';
 import 'package:http/http.dart' as HTTP;
 
 class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
-  // final List<BrandVoice> _dummyBrands = [
-  //   BrandVoice(
-  //     id: '1',
-  //     brandName: 'Acme Corp',
-  //     toneOfVoice: 'Friendly',
-  //     keyValues: ['Innovation', 'Trust'],
-  //     targetAudience: 'Tech enthusiasts',
-  //     brandIdentityInsights: 'Acme is known for its innovative products.',
-  //   ),
-  //   BrandVoice(
-  //     id: '2',
-  //     brandName: 'Globex',
-  //     toneOfVoice: 'Professional',
-  //     keyValues: ['Quality', 'Reliability'],
-  //     targetAudience: 'Business clients',
-  //     brandIdentityInsights: 'Globex delivers reliable solutions worldwide.',
-  //   ),
-  // ];
-
   @override
   Future<List<BrandVoice>> loadBrands(String sessionId, String userId) async {
     try {
@@ -43,7 +24,6 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
           response is List ? response : (response['brands'] ?? []);
       return brandsData.map((data) => BrandVoice.fromJson(data)).toList();
     } catch (e, st) {
-      print('Error in loadBrands: $e\n$st');
       rethrow;
     }
   }
@@ -66,7 +46,6 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
       }
       return BrandVoice.fromJson(response);
     } catch (e, st) {
-      print('Error in addBrand: $e\n$st');
       rethrow;
     }
   }
@@ -83,7 +62,6 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
         throw Exception('Error deleting brand: ${response['error']}');
       }
     } catch (e, st) {
-      print('Error in deleteBrand: $e\n$st');
       rethrow;
     }
   }
@@ -106,7 +84,6 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
       }
       return BrandVoice.fromJson(response);
     } catch (e, st) {
-      print('Error in updateBrand: $e\n$st');
       rethrow;
     }
   }
@@ -129,7 +106,6 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
       }
       return BrandVoice.fromJson(response);
     } catch (e, st) {
-      print('Error in generateBrandVoice: $e\n$st');
       rethrow;
     }
   }
@@ -152,7 +128,6 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
       }
       return BrandVoice.fromJson(response);
     } catch (e, st) {
-      print('Error in analyzeContentAndGenerateBrandVoice: $e\n$st');
       rethrow;
     }
   }
@@ -175,7 +150,6 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
       }
       return BrandVoice.fromJson(response);
     } catch (e, st) {
-      print('Error in analyzeFileAndGenerateBrandVoice: $e\n$st');
       rethrow;
     }
   }
@@ -204,7 +178,6 @@ class BrandVoiceRepositoryImpl implements BrandVoiceRepository {
       }
       return BrandVoice.fromJson(response);
     } catch (e, st) {
-      print('Error in analyzeFileBytesAndGenerateBrandVoice: $e\n$st');
       rethrow;
     }
   }

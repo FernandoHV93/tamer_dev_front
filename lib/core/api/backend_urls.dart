@@ -5,7 +5,7 @@ class BackendUrls {
   static String analysisKeywords = '/analysis_keywords';
   static String titleRunAnalysis = '/title_run_analysis_first';
 
-  static String baseUrl = 'https://4454ddf86f35.ngrok-free.app';
+  static String baseUrl = 'https://10af7add859c.ngrok-free.app';
   static String saveRoadmap = '/new_roadmap';
   static String loadRoadmap = '/get_roadmap';
 

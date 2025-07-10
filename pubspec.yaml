@@ -16,8 +16,14 @@ dependencies:
   provider: ^6.1.5
   uuid: ^4.5.1
   file_picker: ^6.1.1
-  intl: ^0.18.1
+  intl: ^0.19.0
   url_launcher: ^6.3.1
+  flutter_quill: 11.4.0
+  flutter_quill_extensions:
+    git:
+      url: https://github.com/singerdmx/flutter-quill.git
+      path: flutter_quill_extensions
+      ref: master
 
 dev_dependencies:
   flutter_test:

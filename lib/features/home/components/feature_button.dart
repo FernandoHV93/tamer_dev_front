@@ -23,7 +23,7 @@ class FeatureButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF23272F), // Gris claro
+          backgroundColor: const Color(0xFF23272F),
           elevation: 4,
           padding: const EdgeInsets.all(0),
           shape:
@@ -34,13 +34,12 @@ class FeatureButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
           child: Row(
             children: [
-              // Icon container
               Container(
                 width: 48,
                 height: 48,
                 padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF181A20), // Fondo icono
+                  color: const Color(0xFF181A20),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: SvgPicture.asset(
@@ -50,7 +49,6 @@ class FeatureButton extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 18),
-              // Title & description
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,12 +69,11 @@ class FeatureButton extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 18),
-              // Badge container
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF31343B), // Badge color
+                  color: const Color(0xFF31343B),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(

@@ -38,11 +38,9 @@ class MediaHubCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            // Primera fila: AI Images, Number of images, Image style, Image Size
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // AI Images Dropdown
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,7 +87,6 @@ class MediaHubCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                // Number of images Dropdown
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +130,6 @@ class MediaHubCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                // Image style Dropdown
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +174,6 @@ class MediaHubCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                // Image Size Dropdown
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,7 +228,6 @@ class MediaHubCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            // Segunda fila: Additional Instructions y Brand Name
             const SizedBox(height: 24),
             Row(
               children: [
@@ -305,7 +299,6 @@ class MediaHubCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            // Checkbox: Include main keyword
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -341,11 +334,9 @@ class MediaHubCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            // Fila de opciones de video
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // YouTube videos Dropdown
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,7 +383,6 @@ class MediaHubCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                // Number of videos Dropdown
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -436,7 +426,6 @@ class MediaHubCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                // Layout options Dropdown
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -482,7 +471,6 @@ class MediaHubCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            // Checkbox: All media elements...
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

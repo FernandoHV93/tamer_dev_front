@@ -400,7 +400,7 @@ class _ArticleDistributionSectionState
                 ),
               ),
               const SizedBox(height: 24),
-              // Syndication
+
               Container(
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 30, 30, 30),
@@ -491,7 +491,6 @@ class _ArticleDistributionSectionState
                 ),
               ),
               const SizedBox(height: 24),
-              // External Linking
             ],
           ),
         ),

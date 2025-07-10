@@ -78,7 +78,6 @@ class _MainFormState extends State<MainForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top Title Card (fusionado)
                 Row(
                   children: [
                     const Icon(Icons.edit_document,
@@ -136,7 +135,6 @@ class _MainFormState extends State<MainForm> {
                   ],
                 ),
                 const SizedBox(height: 32),
-                // Language & Article Type
                 Row(
                   children: [
                     Expanded(
@@ -243,7 +241,6 @@ class _MainFormState extends State<MainForm> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                // Main Keyword + Analysis
                 Text('Main Keyword',
                     style: TextStyle(
                         fontSize: 16,
@@ -252,7 +249,6 @@ class _MainFormState extends State<MainForm> {
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    // TextField
                     Expanded(
                       child: TextField(
                         controller: keywordController,
@@ -283,7 +279,6 @@ class _MainFormState extends State<MainForm> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    // Toggle con Tooltip
                     Tooltip(
                       message: toggleValue ? 'Auto Mode' : 'Manual Mode',
                       child: Switch(
@@ -294,7 +289,6 @@ class _MainFormState extends State<MainForm> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    // Analysis Button
                     MouseRegion(
                       onEnter: (_) => setState(() => isHovering = true),
                       onExit: (_) => setState(() => isHovering = false),
@@ -338,11 +332,9 @@ class _MainFormState extends State<MainForm> {
                     ),
                   ],
                 ),
-                // Mostrar resultado solo si analysisResult no es null y toggleValue es true
                 if (toggleValue && provider.analysisResult != null)
                   KeywordAnalysisResultCard(result: provider.analysisResult!),
                 const SizedBox(height: 24),
-                // Title
                 Text('Title',
                     style: TextStyle(
                         fontSize: 16,
@@ -372,7 +364,6 @@ class _MainFormState extends State<MainForm> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                // Meta Title
                 Text('Meta Title',
                     style: TextStyle(
                         fontSize: 16,

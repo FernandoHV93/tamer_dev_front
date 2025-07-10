@@ -8,13 +8,13 @@ class KeywordAnalysisResultCard extends StatelessWidget {
   Color _getIntentBgColor(String intent) {
     switch (intent.toLowerCase()) {
       case 'c':
-        return const Color(0xFFFFE0B2); // naranja claro
+        return const Color(0xFFFFE0B2);
       case 'i':
-        return const Color(0xFFB3E5FC); // azul claro
+        return const Color(0xFFB3E5FC);
       case 'n':
-        return const Color(0xFFE1BEE7); // morado claro
+        return const Color(0xFFE1BEE7);
       case 't':
-        return const Color(0xFFC8E6C9); // verde claro
+        return const Color(0xFFC8E6C9);
       default:
         return Colors.grey.shade300;
     }
@@ -23,13 +23,13 @@ class KeywordAnalysisResultCard extends StatelessWidget {
   Color _getIntentTextColor(String intent) {
     switch (intent.toLowerCase()) {
       case 'c':
-        return const Color(0xFFF57C00); // naranja oscuro
+        return const Color(0xFFF57C00);
       case 'i':
-        return const Color(0xFF0288D1); // azul oscuro
+        return const Color(0xFF0288D1);
       case 'n':
-        return const Color(0xFF8E24AA); // morado oscuro
+        return const Color(0xFF8E24AA);
       case 't':
-        return const Color(0xFF388E3C); // verde oscuro
+        return const Color(0xFF388E3C);
       default:
         return Colors.black87;
     }
@@ -68,7 +68,6 @@ class KeywordAnalysisResultCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Primera fila: Search Intent y KW Difficulty
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -112,7 +111,6 @@ class KeywordAnalysisResultCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 18),
-          // Segunda fila: Headings, Media, Content
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -155,7 +153,7 @@ class KeywordAnalysisResultCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              // Media
+
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,7 +192,7 @@ class KeywordAnalysisResultCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              // Content
+
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

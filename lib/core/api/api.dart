@@ -39,7 +39,6 @@ class API implements PUT, GET, DELETE, POST {
       if (headers != null) ...headers,
     };
     final response = await ApiProviderDELETE(uri, headers: mergedHeaders);
-    print('DELETE status: ${response.statusCode}, body: ${response.body}');
     if (!_isJson(response.body)) {
       return {'error': 'Invalid JSON response', 'raw': response.body};
     }
@@ -54,14 +53,12 @@ class API implements PUT, GET, DELETE, POST {
     if (queryParams != null) {
       uri = uri.replace(queryParameters: queryParams);
     }
-    print('URL final GET: ' + uri.toString()); // <-- Línea agregada para debug
     final mergedHeaders = {
       'Accept': 'application/json',
       'ngrok-skip-browser-warning': 'test',
       if (headers != null) ...headers,
     };
     final response = await ApiProviderGET(uri, headers: mergedHeaders);
-    print('GET status: ${response.statusCode}, body: ${response.body}');
     if (!_isJson(response.body)) {
       return {'error': 'Invalid JSON response', 'raw': response.body};
     }
@@ -83,7 +80,6 @@ class API implements PUT, GET, DELETE, POST {
       headers: mergedHeaders,
       body: json.encode(data),
     );
-    print('PUT status: ${response.statusCode}, body: ${response.body}');
     if (!_isJson(response.body)) {
       return {'error': 'Invalid JSON response', 'raw': response.body};
     }
@@ -104,8 +100,6 @@ class API implements PUT, GET, DELETE, POST {
       headers: mergedHeaders,
       body: json.encode(data),
     );
-    print('POST status: ${response.statusCode}, body: ${response.body}');
-    debugPrint('response ${response.body}');
     if (!_isJson(response.body)) {
       return {'error': 'Invalid JSON response', 'raw': response.body};
     }
@@ -126,7 +120,6 @@ class API implements PUT, GET, DELETE, POST {
       headers: mergedHeaders,
       body: json.encode(data),
     );
-    print('PATCH status: ${response.statusCode}, body: ${response.body}');
     if (!_isJson(response.body)) {
       return {'error': 'Invalid JSON response', 'raw': response.body};
     }

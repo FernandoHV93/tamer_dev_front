@@ -34,7 +34,6 @@ class RoadmapController with ChangeNotifier {
 
       final List<dynamic> roadmapList = roadmapData['roadmap'] ?? [];
 
-      // Limpiamos los bloques existentes si es necesario
       _blocks.clear();
 
       for (var blockJson in roadmapList) {
@@ -43,9 +42,7 @@ class RoadmapController with ChangeNotifier {
       }
 
       notifyListeners();
-    } catch (e) {
-      debugPrint('Error loading roadmap: $e');
-    }
+    } catch (e) {}
   }
 
   void setSelectedBlock(Block? block) {
@@ -97,11 +94,9 @@ class RoadmapController with ChangeNotifier {
   }
 
   void addConnectedBlock(Block parent) {
-    // Find all children of the parent
     final children = _blocks.where((b) => b.parentId?.id == parent.id).toList();
 
-    // Calculate vertical offset based on number of children
-    final verticalOffset = 150.0; // Base vertical spacing
+    final verticalOffset = 150.0;
     final newY = parent.position.dy +
         verticalOffset +
         (children.length * verticalOffset);
@@ -155,9 +150,8 @@ class RoadmapController with ChangeNotifier {
         final numChildren = childTitles.length;
         if (numChildren == 0) continue;
 
-        // Calcula el ancho total ocupado por los hijos
         final totalWidth = (numChildren - 1) * horizontalSpacing;
-        // Centra los hijos respecto al padre
+
         final startX = parentBlock.position.dx - (totalWidth / 2);
         final y = parentBlock.position.dy + verticalSpacing;
 

@@ -29,7 +29,6 @@ class SeoStructure extends StatelessWidget {
               tooltip: 'Keywords will be used to generate relevant content.',
             ),
             const SizedBox(height: 12),
-            // Label y contador
             Row(
               children: [
                 const Text(
@@ -44,7 +43,6 @@ class SeoStructure extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            // TextField + botón NLP
             Row(
               children: [
                 Expanded(
@@ -92,21 +90,17 @@ class SeoStructure extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {
-                    // Aquí va tu lógica de NLP keywords generation
-                  },
+                  onPressed: () {},
                   child: const Text('NLP keywords generation'),
                 ),
               ],
             ),
             const SizedBox(height: 10),
-            // Texto de ayuda
             const Text(
               'Keywords will be used to generate relevant content. You can add them manually or generate them automatically.',
               style: TextStyle(color: Colors.white70, fontSize: 13),
             ),
             const SizedBox(height: 8),
-            // Chips de keywords
             Wrap(
               spacing: 8,
               runSpacing: 8,

@@ -14,7 +14,6 @@ class ArticleFuncImpl implements ArticleFunc {
     required String userID,
   }) async {
     try {
-      debugPrint('Fetching the article');
       final response = await api.post(
         BackendUrls.generateArticle,
         {
@@ -27,23 +26,14 @@ class ArticleFuncImpl implements ArticleFunc {
         throw Exception("Error del servidor: ${response['error']}");
       }
 
-      debugPrint("Respuesta del servidor (GET Article Builder): $response");
-
-      // Elimina sessionID y userID del mapa antes de parsear
       final responseCopy = Map<String, dynamic>.from(response);
       responseCopy.remove('sessionID');
       responseCopy.remove('userID');
 
-      debugPrint(
-          'Respuesta del servidor (GET Article Builder) sin sessionID y userID: $responseCopy');
-
       final dto = ArticleDto.fromJson(responseCopy);
-
-      debugPrint('Mappeo hecho con exito ${dto.h1}');
 
       return dto;
     } catch (e) {
-      debugPrint('error $e');
       throw Exception("Error al obtener el artículo: $e");
     }
   }
@@ -55,8 +45,7 @@ class ArticleFuncImpl implements ArticleFunc {
       final jsonToSend = {
         "userID": userId,
         "sessionID": sessionId,
-        ...defaultDto
-            .toJson(), // Spread operator para incluir todo el contenido del DTO
+        ...defaultDto.toJson(),
       };
 
       final result =
@@ -65,7 +54,6 @@ class ArticleFuncImpl implements ArticleFunc {
       if (result.containsKey('error')) {
         throw Exception("Error del servidor: ${result['error']}");
       }
-      debugPrint("Respuesta del servidor (Article Builder): $result");
     } catch (e) {
       throw Exception("Error al enviar el artículo: $e");
     }
@@ -78,8 +66,7 @@ class ArticleFuncImpl implements ArticleFunc {
       final jsonToSend = {
         "userID": userId,
         "sessionID": sessionId,
-        ...model
-            .toJson(), // Spread operator para incluir todo el contenido del modelo
+        ...model.toJson(),
       };
 
       final result = await api.post(BackendUrls.saveForm, jsonToSend);
@@ -87,7 +74,6 @@ class ArticleFuncImpl implements ArticleFunc {
       if (result.containsKey('error')) {
         throw Exception("Error del servidor: ${result['error']}");
       }
-      debugPrint("Respuesta del servidor (Article Builder): $result");
     } catch (e) {
       throw Exception("Error al enviar el artículo: $e");
     }
@@ -109,9 +95,7 @@ class ArticleFuncImpl implements ArticleFunc {
       "content": {"Words": 1500, "Paragraphs": 15}
     };
 
-    debugPrint("Respuesta del servidor (Keyword Analysis): $response");
     final keywordAnalysis = KeywordAnalysisResult.fromJson(response);
-    // Dummy data para pruebas
     return keywordAnalysis;
   }
 }

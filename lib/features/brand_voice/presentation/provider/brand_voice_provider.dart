@@ -10,14 +10,12 @@ class BrandVoiceProvider extends ChangeNotifier {
   BrandVoiceMethod? _selectedMethod;
   ContentAnalysisStep _contentAnalysisStep = ContentAnalysisStep.options;
 
-  // Nueva lista de brands
   final List<BrandVoice> _savedBrands = [];
   List<BrandVoice> get savedBrands => List.unmodifiable(_savedBrands);
 
   final BrandVoiceUseCases useCases;
   BrandVoiceProvider(this.useCases);
 
-  // Feedback visual
   bool _isLoading = false;
   String? _error;
   bool get isLoading => _isLoading;
@@ -28,7 +26,7 @@ class BrandVoiceProvider extends ChangeNotifier {
 
   void selectMethod(BrandVoiceMethod? method) {
     _selectedMethod = method;
-    // Reset step al cambiar de método
+
     if (method == BrandVoiceMethod.contentAnalysis) {
       _contentAnalysisStep = ContentAnalysisStep.options;
     }

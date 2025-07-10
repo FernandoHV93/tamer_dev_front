@@ -39,31 +39,24 @@ class WebsitesProvider extends ChangeNotifier {
     _setLoading(true);
     _setError(null);
     try {
-      // Creamos el website sin ID (el backend lo generará)
       final newWebsite = WebsiteEntity(
-        id: '', // ID vacío, será generado por el backend
+        id: '',
         status: status,
         url: url,
         name: name,
         lastChecked: DateTime.now(),
       );
 
-      // Guardamos en el backend y obtenemos el website con ID generado
       final savedWebsite =
           await useCases.saveWebsite(sessionId, userId, newWebsite);
-      // Añadir el website devuelto por el backend a la lista local
-      _websites.add(savedWebsite);
-      print(_websites);
 
-      // Recargamos desde el backend para asegurar sincronización completa
+      _websites.add(savedWebsite);
+
       await refreshWebsites(sessionId, userId);
 
-      print(
-          "Website added successfully: ${savedWebsite.name} with ID: ${savedWebsite.id}");
       _setLoading(false);
       notifyListeners();
     } catch (e) {
-      print("Error adding website: $e");
       _setLoading(false);
       _setError('Error adding website: ${e.toString()}');
       notifyListeners();
@@ -105,17 +98,13 @@ class WebsitesProvider extends ChangeNotifier {
       );
 
       try {
-        // Primero actualizamos en la capa de datos
         await useCases.updateWebsite(sessionId, userId, updatedWebsite);
 
-        // Recargamos desde el backend para asegurar sincronización
         await refreshWebsites(sessionId, userId);
 
-        print("Website updated successfully: ${updatedWebsite.name}");
         _setLoading(false);
         notifyListeners();
       } catch (e) {
-        print("Error updating website: $e");
         _setLoading(false);
         _setError('Error updating website: ${e.toString()}');
         notifyListeners();
@@ -123,7 +112,6 @@ class WebsitesProvider extends ChangeNotifier {
     }
   }
 
-  // Método para recargar websites desde el backend
   Future<void> refreshWebsites(String sessionId, String userId) async {
     await loadWebsites(sessionId, userId);
   }
@@ -141,7 +129,6 @@ class WebsitesProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      print("Error loading websites: $e");
       _isLoading = false;
       _setError('Error loading websites: ${e.toString()}');
       notifyListeners();
@@ -168,7 +155,6 @@ class WebsitesProvider extends ChangeNotifier {
       _setLoading(false);
       notifyListeners();
     } catch (e) {
-      print("Error saving website: $e");
       _setLoading(false);
       _setError('Error saving website: ${e.toString()}');
       notifyListeners();
@@ -184,7 +170,6 @@ class WebsitesProvider extends ChangeNotifier {
       _setLoading(false);
       notifyListeners();
     } catch (e) {
-      print("Error updating website: $e");
       _setLoading(false);
       _setError('Error updating website: ${e.toString()}');
       notifyListeners();
@@ -202,7 +187,6 @@ class WebsitesProvider extends ChangeNotifier {
       _setLoading(false);
       notifyListeners();
     } catch (e) {
-      print("Error deleting website: $e");
       _setLoading(false);
       _setError('Error deleting website: ${e.toString()}');
       notifyListeners();
@@ -217,7 +201,6 @@ class WebsitesProvider extends ChangeNotifier {
       _setLoading(false);
       notifyListeners();
     } catch (e) {
-      print("Error saving websites data: $e");
       _setLoading(false);
       _setError('Error saving websites data: ${e.toString()}');
       notifyListeners();

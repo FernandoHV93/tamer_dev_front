@@ -22,24 +22,22 @@ import 'features/brand_voice/data/repository/brand_voice_repository_impl.dart';
 import 'features/brand_voice/domain/usecases/brand_voice_usecases.dart';
 import 'features/brand_voice/presentation/provider/brand_voice_provider.dart';
 import 'features/brand_voice/presentation/provider/brand_form_provider.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:provider/provider.dart';
 
 void main() {
-  // Configuración para el feature de websites
   final websiteRepo = WebsiteRepositoryImpl();
   final websiteUseCases = WebsiteUseCases(websiteRepo);
 
-  // Configuración para el feature de content
   final contentRepository = ContentRepositoryImpl();
   final contentCardUseCases = ContentCardUsesCases(contentRepository);
   final topicUseCases = TopicUsesCases(contentRepository);
 
-  // Configuración para el feature de performance
   final performanceRepo = PerformanceRepositoryImpl();
   final inspectWebsiteUseCase = InspectWebsiteUseCase(performanceRepo);
 
-  // Configuración para el feature de brand voice
   final brandVoiceRepo = BrandVoiceRepositoryImpl();
   final brandVoiceUseCases = BrandVoiceUseCases(brandVoiceRepo);
 
@@ -54,15 +52,12 @@ void main() {
                 LoadRecentArticles(RecentArticlesRepoImpl()),
           ),
         ),
-        // Provider para websites
         ChangeNotifierProvider<WebsitesProvider>(
           create: (_) => WebsitesProvider(websiteUseCases),
         ),
-        // Provider para content
         ChangeNotifierProvider<ContentProvider>(
           create: (_) => ContentProvider(contentCardUseCases, topicUseCases),
         ),
-        // Provider para performance (depende de ContentProvider)
         ChangeNotifierProxyProvider<ContentProvider, PerformanceProvider>(
           create: (context) => PerformanceProvider(
             inspectWebsiteUseCase,
@@ -75,7 +70,6 @@ void main() {
                 contentProvider,
               ),
         ),
-        // Provider para brand voice
         ChangeNotifierProvider<BrandVoiceProvider>(
           create: (_) => BrandVoiceProvider(brandVoiceUseCases),
         ),
@@ -102,10 +96,16 @@ class MainApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
             textTheme: constraints.maxWidth < 600
-                ? ThemeData.light().textTheme.apply(fontSizeFactor: 0.8)
-                : ThemeData.light().textTheme,
+                ? ThemeData.dark().textTheme.apply(fontSizeFactor: 0.8)
+                : ThemeData.dark().textTheme,
             fontFamily: 'Roboto',
           ),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            FlutterQuillLocalizations.delegate,
+          ],
         );
       },
     );

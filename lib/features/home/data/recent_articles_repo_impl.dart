@@ -5,7 +5,6 @@ import 'package:ia_web_front/features/article_editor/domain/entities/article_ent
 class RecentArticlesRepoImpl implements RecentArticlesRepo {
   @override
   Future<List<PreviewArticleEntity>> getRecentArticles() async {
-    // Dummy data
     return [
       PreviewArticleEntity(
         id: '1',

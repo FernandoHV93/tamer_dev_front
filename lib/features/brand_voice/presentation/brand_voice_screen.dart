@@ -58,13 +58,12 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
           duration: const Duration(seconds: 4),
         ),
       );
-      // Limpiar el error después de mostrarlo
+
       brandProvider.clearError();
     }
   }
 
   void _scrollToForm() {
-    // Scroll hacia el formulario cuando se presiona el botón del estado vacío
     if (_mainScrollController.hasClients) {
       _mainScrollController.animateTo(
         _mainScrollController.position.maxScrollExtent,
@@ -190,7 +189,7 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
                                   Provider.of<BrandVoiceProvider>(context,
                                       listen: false),
                             );
-                            // Limpiar wizard y formulario al seleccionar deep
+
                             wizardProvider.clearWizard();
                             Provider.of<BrandFormProvider>(context,
                                     listen: false)
@@ -211,8 +210,7 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
                               return BrandVoiceTable(
                                 brands: brandProvider.savedBrands,
                                 isLoading: brandProvider.isLoading,
-                                error:
-                                    null, // Los errores se manejan con SnackBar
+                                error: null,
                                 onEdit: (brand) {
                                   formProvider.setEditingBrand(brand);
                                 },
@@ -223,8 +221,7 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
                                     brand.id,
                                   );
                                 },
-                                onCreateFirst:
-                                    _scrollToForm, // Callback para el botón del estado vacío
+                                onCreateFirst: _scrollToForm,
                               );
                             },
                           ),

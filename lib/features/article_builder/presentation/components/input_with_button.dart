@@ -39,9 +39,8 @@ class InputWithButton extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: hint,
                   hintStyle: const TextStyle(
-                    color: Colors.grey, // Cambia este color al que desees
-                    fontSize:
-                        14, // Opcional: Cambia el tamaño de la fuente si es necesario
+                    color: Colors.grey,
+                    fontSize: 14,
                   ),
                   border: const OutlineInputBorder(),
                 ),
