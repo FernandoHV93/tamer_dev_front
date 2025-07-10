@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ia_web_front/features/websites/domain/entities/website_entity.dart';
 import 'package:ia_web_front/features/websites/presentation/controller/websites_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:ia_web_front/core/providers/session_provider.dart';
 
 class WebsiteListItem extends StatelessWidget {
   final WebsiteEntity website;
@@ -238,12 +239,202 @@ class WebsiteListItem extends StatelessWidget {
   }
 
   void _showEditDialog(BuildContext context) {
-    // TODO: Implementar diálogo de edición
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Edit functionality coming soon!'),
-        duration: Duration(seconds: 2),
-      ),
+    final nameController = TextEditingController(text: website.name);
+    final urlController = TextEditingController(text: website.url);
+    WebsiteStatus status = website.status;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFF8FAFC),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+          contentPadding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+          title: Row(
+            children: const [
+              Icon(Icons.edit_outlined, color: Color(0xFF3B82F6), size: 28),
+              SizedBox(width: 10),
+              Text(
+                'Edit Website',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E293B),
+                ),
+              ),
+            ],
+          ),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Website Name',
+                      labelStyle: const TextStyle(color: Color(0xFF3B82F6)),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF3B82F6)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF3B82F6)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: urlController,
+                    decoration: InputDecoration(
+                      labelText: 'Website URL',
+                      labelStyle: const TextStyle(color: Color(0xFF3B82F6)),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF3B82F6)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF3B82F6)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border:
+                          Border.all(color: const Color(0xFF3B82F6), width: 1),
+                    ),
+                    child: DropdownButtonFormField<WebsiteStatus>(
+                      value: status,
+                      decoration: const InputDecoration(
+                        labelText: 'Status',
+                        labelStyle: TextStyle(color: Color(0xFF3B82F6)),
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                      items: WebsiteStatus.values.map((s) {
+                        final isActive = s == WebsiteStatus.Active;
+                        return DropdownMenuItem<WebsiteStatus>(
+                          value: s,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  color: isActive
+                                      ? const Color(0xFF10B981)
+                                      : const Color(0xFFF59E0B),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                s.name,
+                                style: TextStyle(
+                                  color: isActive
+                                      ? const Color(0xFF10B981)
+                                      : const Color(0xFFF59E0B),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value != null) setState(() => status = value);
+                      },
+                      icon: const Icon(Icons.keyboard_arrow_down,
+                          color: Color(0xFF3B82F6)),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              style: TextButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              ),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Color(0xFF64748B),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final newName = nameController.text.trim();
+                final newUrl = urlController.text.trim();
+                if (newName.isNotEmpty && newUrl.isNotEmpty) {
+                  final sessionProvider = SessionProvider.of(context);
+                  try {
+                    await provider.editWebsite(
+                      website.id,
+                      newName,
+                      newUrl,
+                      status,
+                      sessionProvider.sessionID,
+                      sessionProvider.userID,
+                    );
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Website updated successfully'),
+                        backgroundColor: Color(0xFF10B981),
+                      ),
+                    );
+                  } catch (e) {
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content:
+                            Text('Error updating website: ${e.toString()}'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3B82F6),
+                foregroundColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                elevation: 0,
+              ),
+              child: const Text(
+                'Save',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -281,15 +472,27 @@ class WebsiteListItem extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                provider.removeWebsite(website.id);
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('${website.name} deleted successfully'),
-                    backgroundColor: const Color(0xFF10B981),
-                  ),
-                );
+              onPressed: () async {
+                final sessionProvider = SessionProvider.of(context);
+                try {
+                  provider.deleteWebsite(sessionProvider.sessionID,
+                      sessionProvider.userID, website.id);
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${website.name} deleted successfully'),
+                      backgroundColor: const Color(0xFF10B981),
+                    ),
+                  );
+                } catch (e) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error deleting website: ${e.toString()}'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFEF4444),

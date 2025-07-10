@@ -8,6 +8,7 @@ class BrandVoiceTable extends StatelessWidget {
   final String? error;
   final void Function(BrandVoice brand) onEdit;
   final Future<void> Function(BrandVoice brand) onDelete;
+  final VoidCallback? onCreateFirst;
 
   const BrandVoiceTable({
     super.key,
@@ -16,6 +17,7 @@ class BrandVoiceTable extends StatelessWidget {
     required this.error,
     required this.onEdit,
     required this.onDelete,
+    this.onCreateFirst,
   });
 
   @override
@@ -43,15 +45,6 @@ class BrandVoiceTable extends StatelessWidget {
           if (isLoading)
             const Center(
                 child: CircularProgressIndicator(color: Color(0xFF3A7BFF))),
-          if (!isLoading && error != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Text(
-                error!,
-                style: const TextStyle(
-                    color: Colors.redAccent, fontWeight: FontWeight.bold),
-              ),
-            ),
           if (!isLoading && error == null)
             LayoutBuilder(
               builder: (context, constraints) {
@@ -100,16 +93,7 @@ class BrandVoiceTable extends StatelessWidget {
                                         fontWeight: FontWeight.bold)))),
                       ],
                       rows: brands.isEmpty
-                          ? [
-                              DataRow(cells: [
-                                DataCell(Text('No brands saved',
-                                    style: TextStyle(color: Colors.white54))),
-                                DataCell(Container()),
-                                DataCell(Container()),
-                                DataCell(Container()),
-                                DataCell(Container()),
-                              ])
-                            ]
+                          ? [] // No mostrar filas vacías, mostrar el estado vacío personalizado
                           : brands.map((brand) {
                               return DataRow(cells: [
                                 DataCell(Text(brand.brandName,
@@ -175,6 +159,65 @@ class BrandVoiceTable extends StatelessWidget {
                   ),
                 );
               },
+            ),
+          // Estado vacío personalizado
+          if (!isLoading && brands.isEmpty)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/icons/flag.svg',
+                    width: 80,
+                    height: 80,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFF3A7BFF),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'No Brand Voices Yet',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Create your first brand voice to establish a consistent tone across all your content.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  ElevatedButton.icon(
+                    onPressed: onCreateFirst,
+                    icon: const Icon(Icons.add, color: Colors.white),
+                    label: const Text(
+                      'Create Your First Brand Voice',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3A7BFF),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
         ],
       ),

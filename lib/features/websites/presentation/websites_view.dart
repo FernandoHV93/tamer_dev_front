@@ -25,7 +25,25 @@ class _WebsitesViewState extends State<WebsitesView> {
     // Cargar websites al inicializar la vista
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadWebsites();
+      // Agregar listener para mostrar errores como SnackBar
+      final provider = Provider.of<WebsitesProvider>(context, listen: false);
+      provider.addListener(_showErrorSnackBar);
     });
+  }
+
+  void _showErrorSnackBar() {
+    final provider = Provider.of<WebsitesProvider>(context, listen: false);
+    if (provider.error != null && provider.error!.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(provider.error!),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+      // Limpiar el error después de mostrarlo
+      provider.clearError();
+    }
   }
 
   bool get _isFormValid =>
@@ -48,31 +66,39 @@ class _WebsitesViewState extends State<WebsitesView> {
   }
 
   @override
+  void dispose() {
+    // Remover listener
+    final provider = Provider.of<WebsitesProvider>(context, listen: false);
+    provider.removeListener(_showErrorSnackBar);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<WebsitesProvider>(
       builder: (context, provider, child) {
         return Scaffold(
           backgroundColor: const Color(0xFFF8FAFC),
-          body: SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(context, provider),
-                const SizedBox(height: 32),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildStatsSection(provider),
-                        const SizedBox(height: 24),
-                        _buildContentSection(provider),
-                      ],
-                    ),
+          body: Column(
+            children: [
+              _buildHeader(context, provider),
+              const SizedBox(height: 32),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildStatsSection(provider),
+                      const SizedBox(height: 24),
+                      Expanded(
+                        child: _buildContentSection(provider),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
@@ -224,79 +250,77 @@ class _WebsitesViewState extends State<WebsitesView> {
   }
 
   Widget _buildContentSection(WebsitesProvider provider) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Row(
-                children: [
-                  const Text(
-                    'Your Websites',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1E293B),
-                    ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Row(
+              children: [
+                const Text(
+                  'Your Websites',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E293B),
                   ),
-                  const Spacer(),
-                  if (provider.isLoading)
-                    const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                ],
+                ),
+                const Spacer(),
+                if (provider.isLoading)
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+              ],
+            ),
+          ),
+          if (_showAddForm)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: AddWebsiteForm(
+                nameController: _nameController,
+                urlController: _urlController,
+                selectedStatus: _selectedStatus,
+                onStatusChanged: (status) =>
+                    setState(() => _selectedStatus = status),
+                onCancel: _resetForm,
+                onSubmit: () async {
+                  if (_isFormValid) {
+                    final sessionProvider = SessionProvider.of(context);
+                    await provider.addWebsite(
+                      _nameController.text,
+                      _urlController.text,
+                      _selectedStatus,
+                      sessionProvider.sessionID,
+                      sessionProvider.userID,
+                    );
+                    _resetForm();
+                  }
+                },
               ),
             ),
-            if (_showAddForm)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: AddWebsiteForm(
-                  nameController: _nameController,
-                  urlController: _urlController,
-                  selectedStatus: _selectedStatus,
-                  onStatusChanged: (status) =>
-                      setState(() => _selectedStatus = status),
-                  onCancel: _resetForm,
-                  onSubmit: () async {
-                    if (_isFormValid) {
-                      final sessionProvider = SessionProvider.of(context);
-                      await provider.addWebsite(
-                        _nameController.text,
-                        _urlController.text,
-                        _selectedStatus,
-                        sessionProvider.sessionID,
-                        sessionProvider.userID,
-                      );
-                      _resetForm();
-                    }
-                  },
-                ),
-              ),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: _loadWebsites,
-                child: WebsitesList(
-                  provider: provider,
-                ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _loadWebsites,
+              child: WebsitesList(
+                provider: provider,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

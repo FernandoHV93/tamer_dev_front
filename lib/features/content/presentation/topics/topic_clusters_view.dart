@@ -431,7 +431,7 @@ class _TopicClustersViewState extends State<TopicClustersView> {
               websiteId: '',
               title: '',
               keyWordsScore: 0,
-              status: ContentCardStatus.ready),
+              status: ContentCardStatus.done),
     );
     return card.title;
   }

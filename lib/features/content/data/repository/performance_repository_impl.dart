@@ -21,7 +21,7 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
         title: 'SEO Optimization Guide',
         url: '${website.url}/seo-guide',
         keyWordsScore: 85,
-        status: ContentCardStatus.ready,
+        status: ContentCardStatus.done,
       ),
       ContentCardEntity(
         id: 'card_${website.id}_2',
@@ -29,7 +29,7 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
         title: 'Content Marketing Strategy',
         url: '${website.url}/content-strategy',
         keyWordsScore: 92,
-        status: ContentCardStatus.ready,
+        status: ContentCardStatus.done,
       ),
       ContentCardEntity(
         id: 'card_${website.id}_3',
@@ -37,7 +37,7 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
         title: 'Technical SEO Audit',
         url: '${website.url}/technical-audit',
         keyWordsScore: 78,
-        status: ContentCardStatus.ready,
+        status: ContentCardStatus.done,
       ),
       ContentCardEntity(
         id: 'card_${website.id}_4',
@@ -45,7 +45,7 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
         title: 'Keyword Research Report',
         url: '${website.url}/keyword-research',
         keyWordsScore: 88,
-        status: ContentCardStatus.ready,
+        status: ContentCardStatus.done,
       ),
     ];
 

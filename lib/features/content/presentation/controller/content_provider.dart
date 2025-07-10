@@ -16,6 +16,8 @@ class ContentProvider extends ChangeNotifier {
   bool _isLoadingCards = false;
   String? _selectedWebsiteId;
   String? _selectedCardId;
+  bool _isInsideCard = false;
+  bool get isInsideCard => _isInsideCard;
 
   // Estado para topics por cardId
   final Map<String, List<TopicEntity>> _topicsByCardId = {};
@@ -36,18 +38,19 @@ class ContentProvider extends ChangeNotifier {
   Future<void> loadContentCardsByWebsiteId(
       String websiteId, String sessionId, String userId) async {
     _selectedWebsiteId = websiteId;
+    print(_selectedWebsiteId);
     notifyListeners();
-
+    _isLoadingCards = true;
     try {
       _contentCards = await _contentCardUsesCases.loadContentCardsByWebsiteId(
           websiteId, sessionId, userId);
-      // Selecciona la primera card automáticamente
+
       if (_contentCards.isNotEmpty) {
         _selectedCardId = _contentCards.first.id;
       } else {
         _selectedCardId = null;
       }
-      // Cargar todos los topics de todas las cards
+
       await _loadAllTopicsForCards(_contentCards, sessionId, userId);
     } catch (e) {
       debugPrint('Error loading content cards: $e');
@@ -127,6 +130,7 @@ class ContentProvider extends ChangeNotifier {
 
   void selectCard(String cardId) {
     _selectedCardId = cardId;
+    _isInsideCard = true;
     notifyListeners();
   }
 
@@ -174,6 +178,7 @@ class ContentProvider extends ChangeNotifier {
   // Utility Methods
   void clearSelection() {
     _selectedCardId = null;
+    _isInsideCard = false;
     notifyListeners();
   }
 

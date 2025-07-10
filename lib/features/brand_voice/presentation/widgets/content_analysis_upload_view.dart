@@ -173,11 +173,6 @@ class _ContentAnalysisUploadViewState extends State<ContentAnalysisUploadView> {
                   ),
           ),
         ),
-        if (_error != null) ...[
-          const SizedBox(height: 12),
-          Text(_error!,
-              style: const TextStyle(color: Colors.redAccent, fontSize: 14)),
-        ],
         const SizedBox(height: 24),
         Row(
           children: [
@@ -227,11 +222,6 @@ class _ContentAnalysisUploadViewState extends State<ContentAnalysisUploadView> {
             ),
           ],
         ),
-        if (providerError != null && providerError.isNotEmpty) ...[
-          const SizedBox(height: 16),
-          Text(providerError,
-              style: const TextStyle(color: Colors.redAccent, fontSize: 15)),
-        ],
       ],
     );
   }

@@ -112,11 +112,6 @@ class _ContentAnalysisPasteViewState extends State<ContentAnalysisPasteView> {
             ),
           ],
         ),
-        if (providerError != null && providerError.isNotEmpty) ...[
-          const SizedBox(height: 16),
-          Text(providerError,
-              style: const TextStyle(color: Colors.redAccent, fontSize: 15)),
-        ],
       ],
     );
   }

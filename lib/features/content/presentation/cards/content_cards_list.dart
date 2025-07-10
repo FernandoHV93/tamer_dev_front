@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_web_front/core/providers/session_provider.dart';
 import 'package:ia_web_front/features/content/presentation/controller/content_provider.dart';
-import 'package:ia_web_front/features/content/presentation/widgets/loading_indicator.dart';
 
 import 'add_card_dialog.dart';
 import 'content_card.dart';
@@ -23,12 +22,7 @@ class ContentCardsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (contentProvider.isLoadingCards) {
-      return const LoadingIndicator(text: 'Loading content cards...');
-    }
-
     final contentCards = contentProvider.contentCards;
-
     // Show empty state if no cards
     if (contentCards.isEmpty) {
       return Center(
@@ -163,7 +157,6 @@ class ContentCardsList extends StatelessWidget {
               children: contentCards.map((contentCard) {
                 return ContentCard(
                   contentCard: contentCard,
-                  isSelected: contentProvider.selectedCardId == contentCard.id,
                   onPressed: () => onCardPressed(contentCard.id),
                   onEdit: () {
                     showDialog(

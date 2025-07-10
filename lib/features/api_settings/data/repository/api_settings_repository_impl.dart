@@ -6,12 +6,11 @@ class ApiSettingsRepositoryImpl implements ApiSettingsRepository {
   @override
   Future<Map<String, bool>> getProvidersStatus(
       {required String sessionId, required String userId}) async {
-    print('getProvidersStatus');
     final response = await api.get(
       BackendUrls.apiProvidersStatus,
-      queryParams: {
-        'sessionId': sessionId,
-        'userId': userId,
+      {
+        'session_id': sessionId,
+        'user_id': userId,
       },
     );
     print(response);
@@ -31,7 +30,7 @@ class ApiSettingsRepositoryImpl implements ApiSettingsRepository {
       BackendUrls.connectApiProvider,
       {
         'sessionId': sessionId,
-        'userId': userId,
+        'userID': userId,
         'apiKey': apiKey,
         'providerName': providerName,
       },
@@ -51,7 +50,7 @@ class ApiSettingsRepositoryImpl implements ApiSettingsRepository {
       BackendUrls.disconnectApiProvider,
       {
         'sessionId': sessionId,
-        'userId': userId,
+        'userID': userId,
         'providerName': providerName,
       },
     );

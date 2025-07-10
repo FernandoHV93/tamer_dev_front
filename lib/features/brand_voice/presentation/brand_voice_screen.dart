@@ -39,10 +39,47 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
   @override
   void initState() {
     super.initState();
+    // Agregar listener para mostrar errores como SnackBar
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final brandProvider =
+          Provider.of<BrandVoiceProvider>(context, listen: false);
+      brandProvider.addListener(_showErrorSnackBar);
+    });
+  }
+
+  void _showErrorSnackBar() {
+    final brandProvider =
+        Provider.of<BrandVoiceProvider>(context, listen: false);
+    if (brandProvider.error != null && brandProvider.error!.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(brandProvider.error!),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+      // Limpiar el error después de mostrarlo
+      brandProvider.clearError();
+    }
+  }
+
+  void _scrollToForm() {
+    // Scroll hacia el formulario cuando se presiona el botón del estado vacío
+    if (_mainScrollController.hasClients) {
+      _mainScrollController.animateTo(
+        _mainScrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
   void dispose() {
+    // Remover listener
+    final brandProvider =
+        Provider.of<BrandVoiceProvider>(context, listen: false);
+    brandProvider.removeListener(_showErrorSnackBar);
     _mainScrollController.dispose();
     super.dispose();
   }
@@ -174,7 +211,8 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
                               return BrandVoiceTable(
                                 brands: brandProvider.savedBrands,
                                 isLoading: brandProvider.isLoading,
-                                error: brandProvider.error,
+                                error:
+                                    null, // Los errores se manejan con SnackBar
                                 onEdit: (brand) {
                                   formProvider.setEditingBrand(brand);
                                 },
@@ -185,6 +223,8 @@ class _BrandVoiceScreenState extends State<BrandVoiceScreen> {
                                     brand.id,
                                   );
                                 },
+                                onCreateFirst:
+                                    _scrollToForm, // Callback para el botón del estado vacío
                               );
                             },
                           ),

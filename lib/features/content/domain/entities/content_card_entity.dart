@@ -1,4 +1,4 @@
-enum ContentCardStatus { ready, notReady }
+enum ContentCardStatus { done, no_done, in_progress }
 
 class ContentCardEntity {
   final String id;
@@ -37,7 +37,7 @@ class ContentCardEntity {
       keyWordsScore: json['keyWordsScore'] as int,
       status: ContentCardStatus.values.firstWhere(
         (e) => e.name == json['status'],
-        orElse: () => ContentCardStatus.notReady,
+        orElse: () => ContentCardStatus.no_done,
       ),
     );
   }
