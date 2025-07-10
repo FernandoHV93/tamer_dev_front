@@ -46,14 +46,3 @@ lib/
    ```bash
    flutter run -d chrome # o el dispositivo que prefieras
    ```
-
-## Buenas prácticas
-
-- Elimina archivos `.DS_Store` antes de hacer commit.
-- No dejes prints ni debugPrints en producción.
-- Usa `dart format .` para mantener el código limpio.
-- Documenta nuevos features en este README.
-
-## Contacto
-
-Para dudas o feedback, contacta a `mariobernalperez` o abre un issue en el repo.
