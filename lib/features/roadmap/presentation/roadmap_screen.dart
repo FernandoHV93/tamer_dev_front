@@ -58,28 +58,13 @@ class RoadmapScreen extends StatelessWidget {
                     // Canvas elevado y moderno
                     Expanded(
                       child: Center(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 32, horizontal: 24),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF23272F),
-                            borderRadius: BorderRadius.circular(18),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.18),
-                                blurRadius: 24,
-                                offset: const Offset(0, 8),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: InteractiveViewer(
-                              constrained: false,
-                              minScale: minScale,
-                              maxScale: maxScale,
-                              child: const RoadmapCanvas(),
-                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: InteractiveViewer(
+                            constrained: false,
+                            minScale: minScale,
+                            maxScale: maxScale,
+                            child: const RoadmapCanvas(),
                           ),
                         ),
                       ),

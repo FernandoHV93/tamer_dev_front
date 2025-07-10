@@ -20,15 +20,29 @@ class API implements PUT, GET, DELETE, POST {
   final ApiProviderDELETE;
   final ApiProviderPATCH;
 
+  bool _isJson(String str) {
+    try {
+      json.decode(str);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   @override
   Future<Map<String, dynamic>> delete(String url,
       {Map<String, String>? headers}) async {
     var uri = Uri.parse(BackendUrls.baseUrl + url);
-    final response = headers != null
-        ? await ApiProviderDELETE(uri, headers: headers)
-        : await ApiProviderDELETE(uri);
-    print('DELETE ${uri.toString()} status: \\${response.statusCode}');
-    print('DELETE body: \\${response.body}');
+    final mergedHeaders = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      if (headers != null) ...headers,
+    };
+    final response = await ApiProviderDELETE(uri, headers: mergedHeaders);
+    print('DELETE status: ${response.statusCode}, body: ${response.body}');
+    if (!_isJson(response.body)) {
+      return {'error': 'Invalid JSON response', 'raw': response.body};
+    }
     if (response.statusCode != 200) return {'error': response.statusCode};
     return json.decode(response.body);
   }
@@ -40,11 +54,17 @@ class API implements PUT, GET, DELETE, POST {
     if (queryParams != null) {
       uri = uri.replace(queryParameters: queryParams);
     }
-    final response = headers != null
-        ? await ApiProviderGET(uri, headers: headers)
-        : await ApiProviderGET(uri);
-    print('GET ${uri.toString()} status: \\${response.statusCode}');
-    print('GET body: \\${response.body}');
+    print('URL final GET: ' + uri.toString()); // <-- Línea agregada para debug
+    final mergedHeaders = {
+      'Accept': 'application/json',
+      'ngrok-skip-browser-warning': 'test',
+      if (headers != null) ...headers,
+    };
+    final response = await ApiProviderGET(uri, headers: mergedHeaders);
+    print('GET status: ${response.statusCode}, body: ${response.body}');
+    if (!_isJson(response.body)) {
+      return {'error': 'Invalid JSON response', 'raw': response.body};
+    }
     if (response.statusCode != 200) return {'error': response.statusCode};
     return json.decode(response.body);
   }
@@ -54,7 +74,8 @@ class API implements PUT, GET, DELETE, POST {
       {Map<String, String>? headers}) async {
     var uri = Uri.parse(BackendUrls.baseUrl + url);
     final mergedHeaders = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
       if (headers != null) ...headers,
     };
     final response = await ApiProviderPUT(
@@ -62,8 +83,10 @@ class API implements PUT, GET, DELETE, POST {
       headers: mergedHeaders,
       body: json.encode(data),
     );
-    print('PUT ${uri.toString()} status: \\${response.statusCode}');
-    print('PUT body: \\${response.body}');
+    print('PUT status: ${response.statusCode}, body: ${response.body}');
+    if (!_isJson(response.body)) {
+      return {'error': 'Invalid JSON response', 'raw': response.body};
+    }
     if (response.statusCode != 200) return {'error': response.statusCode};
     return json.decode(response.body);
   }
@@ -73,7 +96,7 @@ class API implements PUT, GET, DELETE, POST {
       {Map<String, String>? headers}) async {
     var uri = Uri.parse(BackendUrls.baseUrl + url);
     final mergedHeaders = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       if (headers != null) ...headers,
     };
     final response = await ApiProviderPOST(
@@ -81,9 +104,11 @@ class API implements PUT, GET, DELETE, POST {
       headers: mergedHeaders,
       body: json.encode(data),
     );
-    print('POST ${uri.toString()} status: \\${response.statusCode}');
-    print('POST body: \\${response.body}');
-    debugPrint('response \\${response.body}');
+    print('POST status: ${response.statusCode}, body: ${response.body}');
+    debugPrint('response ${response.body}');
+    if (!_isJson(response.body)) {
+      return {'error': 'Invalid JSON response', 'raw': response.body};
+    }
     if (response.statusCode != 200) return {'error': response.statusCode};
     return json.decode(response.body);
   }
@@ -92,7 +117,8 @@ class API implements PUT, GET, DELETE, POST {
       {Map<String, String>? headers}) async {
     var uri = Uri.parse(BackendUrls.baseUrl + url);
     final mergedHeaders = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
       if (headers != null) ...headers,
     };
     final response = await ApiProviderPATCH(
@@ -100,8 +126,10 @@ class API implements PUT, GET, DELETE, POST {
       headers: mergedHeaders,
       body: json.encode(data),
     );
-    print('PATCH ${uri.toString()} status: \\${response.statusCode}');
-    print('PATCH body: \\${response.body}');
+    print('PATCH status: ${response.statusCode}, body: ${response.body}');
+    if (!_isJson(response.body)) {
+      return {'error': 'Invalid JSON response', 'raw': response.body};
+    }
     if (response.statusCode != 200) return {'error': response.statusCode};
     return json.decode(response.body);
   }

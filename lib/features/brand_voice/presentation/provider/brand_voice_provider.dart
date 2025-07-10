@@ -64,6 +64,10 @@ class BrandVoiceProvider extends ChangeNotifier {
     _setError(value);
   }
 
+  void clearError() {
+    _setError(null);
+  }
+
   Future<void> loadBrands(String sessionId, String userId) async {
     _isLoading = true;
     _error = null;

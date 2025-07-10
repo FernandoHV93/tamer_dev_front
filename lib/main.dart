@@ -31,7 +31,7 @@ void main() {
   final websiteUseCases = WebsiteUseCases(websiteRepo);
 
   // Configuración para el feature de content
-  final contentRepository = DummyContentRepositoryImpl();
+  final contentRepository = ContentRepositoryImpl();
   final contentCardUseCases = ContentCardUsesCases(contentRepository);
   final topicUseCases = TopicUsesCases(contentRepository);
 

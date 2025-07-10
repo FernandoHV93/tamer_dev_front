@@ -21,7 +21,7 @@ class RoadmapController with ChangeNotifier {
     addBlock(
       Block(
         id: UniqueKey().toString(),
-        position: const Offset(700, 50),
+        position: const Offset(330, 50),
         title: 'Initial Block',
       ),
     );

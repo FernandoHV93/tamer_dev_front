@@ -96,42 +96,40 @@ class WebsitesList extends StatelessWidget {
   }
 
   Widget _buildEmptyState() {
-    return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Icon(
-                Icons.language_outlined,
-                size: 48,
-                color: Colors.grey[400],
-              ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(16),
             ),
-            const SizedBox(height: 24),
-            Text(
-              'No websites yet',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[700],
-              ),
+            child: Icon(
+              Icons.language_outlined,
+              size: 48,
+              color: Colors.grey[400],
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Add your first website to get started',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            'No websites yet',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[700],
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Add your first website to get started',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[500],
+            ),
+          ),
+        ],
       ),
     );
   }

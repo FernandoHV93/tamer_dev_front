@@ -10,10 +10,21 @@ class WebsitesProvider extends ChangeNotifier {
   List<WebsiteEntity> _websites = [];
   bool _isLoading = false;
   WebsiteEntity? _selectedWebsite;
+  String? _error;
 
   List<WebsiteEntity> get websites => _websites;
   bool get isLoading => _isLoading;
   WebsiteEntity? get selectedWebsite => _selectedWebsite;
+  String? get error => _error;
+
+  void _setError(String? value) {
+    _error = value;
+    notifyListeners();
+  }
+
+  void clearError() {
+    _setError(null);
+  }
 
   void selectWebsite(String websiteId) {
     _selectedWebsite = _websites.firstWhere(
@@ -25,6 +36,8 @@ class WebsitesProvider extends ChangeNotifier {
 
   Future<void> addWebsite(String name, String url, WebsiteStatus status,
       String sessionId, String userId) async {
+    _setLoading(true);
+    _setError(null);
     try {
       // Creamos el website sin ID (el backend lo generará)
       final newWebsite = WebsiteEntity(
@@ -38,15 +51,22 @@ class WebsitesProvider extends ChangeNotifier {
       // Guardamos en el backend y obtenemos el website con ID generado
       final savedWebsite =
           await useCases.saveWebsite(sessionId, userId, newWebsite);
+      // Añadir el website devuelto por el backend a la lista local
+      _websites.add(savedWebsite);
+      print(_websites);
 
       // Recargamos desde el backend para asegurar sincronización completa
       await refreshWebsites(sessionId, userId);
 
       print(
           "Website added successfully: ${savedWebsite.name} with ID: ${savedWebsite.id}");
+      _setLoading(false);
+      notifyListeners();
     } catch (e) {
       print("Error adding website: $e");
-      rethrow;
+      _setLoading(false);
+      _setError('Error adding website: ${e.toString()}');
+      notifyListeners();
     }
   }
 
@@ -73,6 +93,8 @@ class WebsitesProvider extends ChangeNotifier {
 
   Future<void> editWebsite(String websiteId, String newName, String newUrl,
       WebsiteStatus status, String sessionId, String userId) async {
+    _setLoading(true);
+    _setError(null);
     final index = _websites.indexWhere((website) => website.id == websiteId);
     if (index != -1) {
       final updatedWebsite = _websites[index].copyWith(
@@ -90,9 +112,13 @@ class WebsitesProvider extends ChangeNotifier {
         await refreshWebsites(sessionId, userId);
 
         print("Website updated successfully: ${updatedWebsite.name}");
+        _setLoading(false);
+        notifyListeners();
       } catch (e) {
         print("Error updating website: $e");
-        rethrow;
+        _setLoading(false);
+        _setError('Error updating website: ${e.toString()}');
+        notifyListeners();
       }
     }
   }
@@ -104,6 +130,7 @@ class WebsitesProvider extends ChangeNotifier {
 
   Future<void> loadWebsites(String sessionId, String userId) async {
     _isLoading = true;
+    _setError(null);
     notifyListeners();
 
     try {
@@ -111,52 +138,89 @@ class WebsitesProvider extends ChangeNotifier {
       if (_websites.isNotEmpty && _selectedWebsite == null) {
         _selectedWebsite = _websites.first;
       }
+      _isLoading = false;
+      notifyListeners();
     } catch (e) {
       print("Error loading websites: $e");
+      _isLoading = false;
+      _setError('Error loading websites: ${e.toString()}');
+      notifyListeners();
     }
+  }
 
-    _isLoading = false;
+  void _setLoading(bool value) {
+    _isLoading = value;
     notifyListeners();
   }
 
   Future<void> saveWebsite(
       String sessionId, String userId, WebsiteEntity website) async {
+    _setLoading(true);
+    _setError(null);
     try {
-      await useCases.saveWebsite(sessionId, userId, website);
+      final savedWebsite =
+          await useCases.saveWebsite(sessionId, userId, website);
+      // Añadir el website devuelto por el backend a la lista local
+      _websites.add(savedWebsite);
+      notifyListeners();
+      // Luego refrescar desde el backend para asegurar sincronización
+      await refreshWebsites(sessionId, userId);
+      _setLoading(false);
+      notifyListeners();
     } catch (e) {
       print("Error saving website: $e");
-      rethrow;
+      _setLoading(false);
+      _setError('Error saving website: ${e.toString()}');
+      notifyListeners();
     }
   }
 
   Future<void> updateWebsite(
       String sessionId, String userId, WebsiteEntity website) async {
+    _setLoading(true);
+    _setError(null);
     try {
       await useCases.updateWebsite(sessionId, userId, website);
+      _setLoading(false);
+      notifyListeners();
     } catch (e) {
       print("Error updating website: $e");
-      rethrow;
+      _setLoading(false);
+      _setError('Error updating website: ${e.toString()}');
+      notifyListeners();
     }
   }
 
   Future<void> deleteWebsite(
       String sessionId, String userId, String websiteId) async {
+    _setLoading(true);
+    _setError(null);
     try {
       await useCases.deleteWebsite(sessionId, userId, websiteId);
       // Recargamos desde el backend para asegurar sincronización
       await refreshWebsites(sessionId, userId);
+      _setLoading(false);
+      notifyListeners();
     } catch (e) {
       print("Error deleting website: $e");
-      rethrow;
+      _setLoading(false);
+      _setError('Error deleting website: ${e.toString()}');
+      notifyListeners();
     }
   }
 
   Future<void> saveWebsitesData(String sessionId, String userId) async {
+    _setLoading(true);
+    _setError(null);
     try {
       await useCases.saveWebsitesData(sessionId, userId, _websites);
+      _setLoading(false);
+      notifyListeners();
     } catch (e) {
       print("Error saving websites data: $e");
-      rethrow;
+      _setLoading(false);
+      _setError('Error saving websites data: ${e.toString()}');
+      notifyListeners();
     }
   }
 }

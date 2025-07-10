@@ -21,7 +21,7 @@ class AddCardDialog extends StatefulWidget {
 
 class _AddCardDialogState extends State<AddCardDialog> {
   final TextEditingController cardNameController = TextEditingController();
-  ContentCardStatus _selectedStatus = ContentCardStatus.ready;
+  ContentCardStatus _selectedStatus = ContentCardStatus.done;
   String? _selectedWebsiteId;
 
   @override
@@ -216,15 +216,20 @@ class _AddCardDialogState extends State<AddCardDialog> {
                   onPressed: () async {
                     if (cardNameController.text.isNotEmpty &&
                         _selectedWebsiteId != null) {
+                      // Buscar la URL del website seleccionado
+                      final selectedWebsite = websites.firstWhere(
+                        (w) => w.id == _selectedWebsiteId,
+                        orElse: () => throw Exception('Website not found'),
+                      );
                       final newCard = ContentCardEntity(
                         id: DateTime.now().millisecondsSinceEpoch.toString(),
                         websiteId: _selectedWebsiteId!,
                         title: cardNameController.text,
-                        url: null,
+                        url: selectedWebsite
+                            .url, // Asigna la url del website seleccionado
                         keyWordsScore: 0,
                         status: _selectedStatus,
                       );
-
                       await widget.contentProvider.addContentCard(
                         newCard,
                         widget.sessionProvider.sessionID,

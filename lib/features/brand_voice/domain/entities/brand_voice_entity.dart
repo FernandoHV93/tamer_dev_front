@@ -33,4 +33,22 @@ class BrandVoice {
           brandIdentityInsights ?? this.brandIdentityInsights,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'brandName': brandName,
+        'toneOfVoice': toneOfVoice,
+        'keyValues': keyValues,
+        'targetAudience': targetAudience,
+        'brandIdentityInsights': brandIdentityInsights,
+      };
+
+  factory BrandVoice.fromJson(Map<String, dynamic> json) => BrandVoice(
+        id: json['id'] ?? '',
+        brandName: json['brandName'] ?? '',
+        toneOfVoice: json['toneOfVoice'] ?? '',
+        keyValues: List<String>.from(json['keyValues'] ?? []),
+        targetAudience: json['targetAudience'] ?? '',
+        brandIdentityInsights: json['brandIdentityInsights'] ?? '',
+      );
 }

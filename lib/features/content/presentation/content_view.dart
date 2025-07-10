@@ -10,7 +10,6 @@ import 'package:ia_web_front/features/content/presentation/widgets/tab_bar_secti
 import 'package:ia_web_front/features/content/presentation/widgets/website_dropdown.dart';
 import 'package:ia_web_front/features/content/presentation/topics/topic_clusters_view.dart';
 import 'package:provider/provider.dart';
-import 'package:ia_web_front/features/content/presentation/widgets/loading_indicator.dart';
 import 'package:ia_web_front/features/content/presentation/inspected/performance_view.dart';
 import 'package:ia_web_front/features/content/presentation/widgets/content_body_gaps.dart';
 
@@ -39,23 +38,7 @@ class _ContentViewState extends State<ContentView> {
             builder: (context, websitesProvider, child) {
               return Consumer<ContentProvider>(
                 builder: (context, contentProvider, child) {
-                  if (websitesProvider.selectedWebsite == null) {
-                    return const LoadingIndicator(text: 'Loading websites...');
-                  }
-
-                  if (contentProvider.selectedWebsiteId !=
-                      websitesProvider.selectedWebsite!.id) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      contentProvider.loadContentCardsByWebsiteId(
-                        websitesProvider.selectedWebsite!.id,
-                        sessionProvider.sessionID,
-                        sessionProvider.userID,
-                      );
-                    });
-                  }
-
                   final websites = websitesProvider.websites;
-
                   return Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 1200),
@@ -157,49 +140,148 @@ class _ContentViewState extends State<ContentView> {
                                   }),
                                 ),
                                 const SizedBox(height: 32),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.03),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  padding: const EdgeInsets.all(24),
-                                  child: IndexedStack(
-                                    index: selectedTab,
-                                    children: [
-                                      selectedTab == 0 &&
-                                              contentProvider.selectedCardId !=
-                                                  null
-                                          ? InsideCard(
-                                              contentProvider: contentProvider,
-                                              sessionProvider: sessionProvider,
-                                              backOnPressed: () {
-                                                contentProvider
-                                                    .clearSelection();
-                                              },
-                                            )
-                                          : ContentCardsList(
-                                              contentProvider: contentProvider,
-                                              sessionProvider: sessionProvider,
-                                              onCardPressed: (cardId) {
-                                                contentProvider
-                                                    .selectCard(cardId);
-                                              },
+                                if (websites.isEmpty ||
+                                    websitesProvider.selectedWebsite == null)
+                                  Center(
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(24),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFF1F5F9),
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                          child: Icon(
+                                            Icons.language_outlined,
+                                            size: 48,
+                                            color: Colors.grey[400],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 24),
+                                        Text(
+                                          'No websites yet',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.grey[700],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          'Add your first website to get started',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[500],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 24),
+                                        ElevatedButton.icon(
+                                          icon: const Icon(Icons.arrow_forward),
+                                          label: const Text('Go to Websites'),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xFF1757DF),
+                                            foregroundColor: Colors.white,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 24, vertical: 14),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                             ),
-                                      PerformanceView(
-                                          sessionProvider: sessionProvider),
-                                      TopicClustersView(
-                                          sessionProvider: sessionProvider),
-                                      const ContentGaps(),
-                                    ],
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pushNamed('/websites');
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                else
+                                  Builder(
+                                    builder: (context) {
+                                      // Lógica de carga de cards y selección de primera card
+                                      if (contentProvider.selectedWebsiteId !=
+                                          websitesProvider
+                                              .selectedWebsite!.id) {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) {
+                                          contentProvider
+                                              .loadContentCardsByWebsiteId(
+                                            websitesProvider
+                                                .selectedWebsite!.id,
+                                            sessionProvider.sessionID,
+                                            sessionProvider.userID,
+                                          );
+                                        });
+                                      }
+
+                                      if (selectedTab == 2 &&
+                                          contentProvider.selectedCardId ==
+                                              null &&
+                                          contentProvider
+                                              .contentCards.isNotEmpty) {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) {
+                                          contentProvider.selectCard(
+                                              contentProvider
+                                                  .contentCards.first.id);
+                                        });
+                                      }
+
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.03),
+                                              blurRadius: 8,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        padding: const EdgeInsets.all(24),
+                                        child: IndexedStack(
+                                          index: selectedTab,
+                                          children: [
+                                            // Mostrar InsideCard solo si isInsideCard es true
+                                            contentProvider.isInsideCard
+                                                ? InsideCard(
+                                                    contentProvider:
+                                                        contentProvider,
+                                                    sessionProvider:
+                                                        sessionProvider,
+                                                    backOnPressed: () {
+                                                      contentProvider
+                                                          .clearSelection();
+                                                    },
+                                                  )
+                                                : ContentCardsList(
+                                                    contentProvider:
+                                                        contentProvider,
+                                                    sessionProvider:
+                                                        sessionProvider,
+                                                    onCardPressed: (cardId) {
+                                                      contentProvider
+                                                          .selectCard(cardId);
+                                                    },
+                                                  ),
+                                            PerformanceView(
+                                                sessionProvider:
+                                                    sessionProvider),
+                                            TopicClustersView(
+                                                sessionProvider:
+                                                    sessionProvider),
+                                            const ContentGaps(),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                ),
                               ],
                             ),
                           ),
