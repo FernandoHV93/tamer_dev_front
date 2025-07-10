@@ -8,12 +8,11 @@ class ApiSettingsRepositoryImpl implements ApiSettingsRepository {
       {required String sessionId, required String userId}) async {
     final response = await api.get(
       BackendUrls.apiProvidersStatus,
-      {
+      queryParams: {
         'session_id': sessionId,
         'user_id': userId,
       },
     );
-    print(response);
     if (response['error'] != null) {
       throw Exception('Failed to load AI providers status');
     }

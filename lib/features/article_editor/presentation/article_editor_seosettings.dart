@@ -35,6 +35,7 @@ class _SeoSettingsWidgetState extends State<SeoSettingsWidget> {
     return Card(
       color: const Color.fromARGB(255, 45, 45, 46),
       margin: EdgeInsets.only(bottom: 10),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: Column(
         children: [
           // Header
@@ -78,7 +79,6 @@ class _SeoSettingsWidgetState extends State<SeoSettingsWidget> {
                           vertical: 4, horizontal: 7),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(51, 64, 150, 255),
-                        borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Text(
                         'Google Desktop',
@@ -94,10 +94,11 @@ class _SeoSettingsWidgetState extends State<SeoSettingsWidget> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 37, 37, 37),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.white10),
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 37, 37, 37),
+                    borderRadius: BorderRadius.zero,
+                    border: Border.fromBorderSide(
+                        BorderSide(color: Colors.white10)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,7 +231,7 @@ class _SeoSettingsWidgetState extends State<SeoSettingsWidget> {
           Container(
             decoration: BoxDecoration(
                 color: const Color.fromARGB(74, 33, 89, 243),
-                borderRadius: BorderRadius.all(Radius.circular(5))),
+                borderRadius: BorderRadius.zero),
             child: TextButton.icon(
               onPressed: onButtonPressed,
               icon: Icon(icon, size: 16),
@@ -294,8 +295,8 @@ class _SeoSettingsWidgetState extends State<SeoSettingsWidget> {
         fillColor: const Color.fromARGB(255, 37, 37, 37),
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.zero,
         ),
       ),
     );

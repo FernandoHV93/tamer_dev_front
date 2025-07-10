@@ -126,7 +126,6 @@ class WidgetRenderer extends StatelessWidget {
               height: imageBlock.height.toDouble(),
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
-                debugPrint('error cargando la imagen: $error');
                 return const Text(
                   'error',
                   style: TextStyle(color: Colors.red),
@@ -201,7 +200,6 @@ class WidgetRenderer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1) Editable Title
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
@@ -214,12 +212,12 @@ class WidgetRenderer extends StatelessWidget {
                     ),
                   ),
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Título de la tabla',
                   hintStyle: TextStyle(color: Colors.white54),
                   border: InputBorder.none,
@@ -242,10 +240,7 @@ class WidgetRenderer extends StatelessWidget {
                 },
               ),
             ),
-
-            const SizedBox(height: 8),
-
-            // 2) La propia tabla editable
+            const SizedBox(height: 16),
             Column(
               children: tableBlock.rows.asMap().entries.map((entry) {
                 final rowIndex = entry.key;
@@ -273,7 +268,6 @@ class WidgetRenderer extends StatelessWidget {
                             border: OutlineInputBorder(),
                           ),
                           onChanged: (newCell) {
-                            // clonamos la matriz de filas
                             final newRows = tableBlock.rows
                                 .map((r) => List<String>.from(r))
                                 .toList();
@@ -296,7 +290,6 @@ class WidgetRenderer extends StatelessWidget {
               }).toList(),
             ),
             const SizedBox(height: 8),
-            // 3) Editable Description
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
@@ -309,11 +302,11 @@ class WidgetRenderer extends StatelessWidget {
                     ),
                   ),
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white70,
                   fontStyle: FontStyle.italic,
                 ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Descripción',
                   hintStyle: TextStyle(color: Colors.white38),
                   border: InputBorder.none,

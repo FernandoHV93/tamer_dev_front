@@ -15,7 +15,7 @@ class ArticleTypeChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.blueGrey.shade50, // Color de fondo suave
+        color: Colors.blueGrey.shade50,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

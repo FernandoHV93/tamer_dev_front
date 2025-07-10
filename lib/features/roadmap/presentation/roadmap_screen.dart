@@ -22,7 +22,6 @@ class RoadmapScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          // Fondo degradado
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -34,11 +33,9 @@ class RoadmapScreen extends StatelessWidget {
           ),
           Column(
             children: [
-              // Main content
               Expanded(
                 child: Row(
                   children: [
-                    // Sidebar moderno
                     Container(
                       decoration: BoxDecoration(
                         color: const Color(0xFF23272F),
@@ -55,7 +52,6 @@ class RoadmapScreen extends StatelessWidget {
                       ),
                       child: const SidebarStatus(),
                     ),
-                    // Canvas elevado y moderno
                     Expanded(
                       child: Center(
                         child: Padding(
@@ -74,7 +70,6 @@ class RoadmapScreen extends StatelessWidget {
               ),
             ],
           ),
-          // Speed Dial FAB moderno
           Positioned(
             bottom: 32,
             right: 32,

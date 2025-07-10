@@ -22,10 +22,10 @@ class _WebsitesViewState extends State<WebsitesView> {
   @override
   void initState() {
     super.initState();
-    // Cargar websites al inicializar la vista
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadWebsites();
-      // Agregar listener para mostrar errores como SnackBar
+
       final provider = Provider.of<WebsitesProvider>(context, listen: false);
       provider.addListener(_showErrorSnackBar);
     });
@@ -41,7 +41,7 @@ class _WebsitesViewState extends State<WebsitesView> {
           duration: const Duration(seconds: 4),
         ),
       );
-      // Limpiar el error después de mostrarlo
+
       provider.clearError();
     }
   }

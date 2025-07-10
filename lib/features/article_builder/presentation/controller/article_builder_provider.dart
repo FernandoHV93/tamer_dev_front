@@ -19,7 +19,6 @@ class ArticleBuilderProvider with ChangeNotifier {
   })  : _useCases = useCases ?? ArticleBuilderUsescases(ArticleFuncImpl()),
         _articleBuilderEntity = _createDefaultEntity();
 
-  // Getters
   ArticleBuilderEntity get articleBuilderEntity => _articleBuilderEntity;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
@@ -27,7 +26,6 @@ class ArticleBuilderProvider with ChangeNotifier {
   Map<String, dynamic> get selectedBrandVoice =>
       _articleBuilderEntity.articleSettings.brandVoice;
 
-  // Crear entidad por defecto (sin sessionId y userId)
   static ArticleBuilderEntity _createDefaultEntity() {
     return ArticleBuilderEntity(
       articleGeneratorGeneral: ArticleGeneratorGeneral(
@@ -91,7 +89,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     );
   }
 
-  // Métodos para actualizar ArticleGeneratorGeneral
   void updateLanguage(String language) {
     _articleBuilderEntity.articleGeneratorGeneral.language = language;
     notifyListeners();
@@ -117,7 +114,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Métodos para actualizar ArticleGeneratorSettings
   void updateArticleSize(String size) {
     _articleBuilderEntity.articleSettings.articleSize = size;
     notifyListeners();
@@ -163,7 +159,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Métodos para actualizar ArticleMediaHub
   void updateAiImages(bool aiImages) {
     _articleBuilderEntity.articleMediaHub.aiImages = aiImages;
     notifyListeners();
@@ -219,7 +214,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Métodos para actualizar ArticleSEO
   void updateKeywords(List<String> keywords) {
     _articleBuilderEntity.articleSEO.keywords = keywords;
     notifyListeners();
@@ -237,7 +231,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Métodos para actualizar ArticleStructure
   void updateTypeOfHook(String hook) {
     _articleBuilderEntity.articleStructure.typeOfHook = hook;
     notifyListeners();
@@ -253,7 +246,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Métodos para actualizar ArticleDistribution
   void updateSourceLinks(bool sourceLinks) {
     _articleBuilderEntity.articleDistribution.sourceLinks = sourceLinks;
     notifyListeners();
@@ -279,7 +271,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Use Cases - Ahora reciben sessionId y userId como parámetros
   Future<void> saveForm({
     required String sessionId,
     required String userId,
@@ -288,9 +279,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     _clearError();
 
     try {
-      debugPrint("Guardando datos...");
-
-      // Crear una copia temporal con los IDs para enviar
       final entityToSend = ArticleBuilderEntity(
         articleGeneratorGeneral: _articleBuilderEntity.articleGeneratorGeneral,
         articleSettings: _articleBuilderEntity.articleSettings,
@@ -300,14 +288,9 @@ class ArticleBuilderProvider with ChangeNotifier {
         articleDistribution: _articleBuilderEntity.articleDistribution,
       );
 
-      debugPrint("Datos a enviar: ${entityToSend.toJson()}");
-
       await _useCases.saveForm(sessionId, userId, entityToSend);
-
-      debugPrint("Datos enviados exitosamente al servidor.");
     } catch (e) {
       _setError("Error al guardar el formulario: $e");
-      debugPrint("Error al enviar los datos: $e");
       rethrow;
     } finally {
       _setLoading(false);
@@ -322,8 +305,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     _clearError();
 
     try {
-      debugPrint("Enviando ArticleDto por defecto al backend...");
-
       final defaultArticleDto = ArticleDto(
         h1: TextFormatDto(
           N: true,
@@ -337,11 +318,8 @@ class ArticleBuilderProvider with ChangeNotifier {
       );
 
       await _useCases.sendDefaultData(sessionId, userId, defaultArticleDto);
-
-      debugPrint("ArticleDto enviado exitosamente.");
     } catch (e) {
       _setError("Error al enviar datos por defecto: $e");
-      debugPrint("Error al enviar el ArticleDto: $e");
       rethrow;
     } finally {
       _setLoading(false);
@@ -361,7 +339,6 @@ class ArticleBuilderProvider with ChangeNotifier {
       return article;
     } catch (e) {
       _setError("Error al obtener el artículo generado: $e");
-      debugPrint("Error al obtener el artículo: $e");
       rethrow;
     } finally {
       _setLoading(false);
@@ -387,7 +364,6 @@ class ArticleBuilderProvider with ChangeNotifier {
     }
   }
 
-  // Métodos privados para manejo de estado
   void _setLoading(bool loading) {
     _isLoading = loading;
     notifyListeners();
@@ -403,14 +379,12 @@ class ArticleBuilderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Método para reset completo
   void resetForm() {
     _articleBuilderEntity = _createDefaultEntity();
     _clearError();
     notifyListeners();
   }
 
-  // Setter para el brand voice seleccionado
   void setSelectedBrandVoice(Map<String, dynamic> brandVoice) {
     _articleBuilderEntity.articleSettings.brandVoice = brandVoice;
     notifyListeners();

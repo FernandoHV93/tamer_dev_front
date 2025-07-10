@@ -41,7 +41,6 @@ class RecentArticlesController extends ChangeNotifier {
   Future<void> _generateArticle(String sessionId, String userId) async {
     final repo = ArticleFuncImpl();
     try {
-      // Enviar datos por defecto
       final defaultArticleDto = ArticleDto(
         h1: TextFormatDto(
           N: true,
@@ -54,7 +53,7 @@ class RecentArticlesController extends ChangeNotifier {
         body: [],
       );
       await repo.postDefaultData(sessionId, userId, defaultArticleDto);
-      // Esperar el artículo generado
+
       final articleDto = await repo.fetchArticleBuilderJson(
         sessionID: sessionId,
         userID: userId,

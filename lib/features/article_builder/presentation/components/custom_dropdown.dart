@@ -53,8 +53,7 @@ class CustomDropdownTile extends StatelessWidget {
             contentPadding: EdgeInsets.fromLTRB(12, 8, 12, 8),
           ),
           dropdownColor: const Color.fromARGB(255, 41, 41, 41),
-          isExpanded:
-              true, // Esto permite que el dropdown use todo el ancho disponible
+          isExpanded: true,
           items: List.generate(items.length, (index) {
             final item = items[index];
             final icon =
@@ -74,10 +73,9 @@ class CustomDropdownTile extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Icono o imagen con ancho fijo
                         if (icon != null || image != null)
                           SizedBox(
-                            width: 28, // Ancho fijo para el icono/imagen
+                            width: 28,
                             child: icon != null
                                 ? Icon(
                                     icon,
@@ -88,7 +86,6 @@ class CustomDropdownTile extends StatelessWidget {
                           ),
                         if (icon != null || image != null)
                           const SizedBox(width: 8),
-                        // Contenido del texto expandible
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,8 +112,7 @@ class CustomDropdownTile extends StatelessWidget {
                                     height: 1.2,
                                   ),
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines:
-                                      2, // Permitir máximo 2 líneas para la descripción
+                                  maxLines: 2,
                                 ),
                               ],
                             ],
@@ -130,7 +126,6 @@ class CustomDropdownTile extends StatelessWidget {
             );
           }),
           onChanged: onChanged,
-          // Personalizar cómo se muestra el valor seleccionado
           selectedItemBuilder: (BuildContext context) {
             return items.map<Widget>((String item) {
               final index = items.indexOf(item);

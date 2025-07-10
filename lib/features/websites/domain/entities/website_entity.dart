@@ -18,7 +18,6 @@ class WebsiteEntity {
     this.lastChecked,
   });
 
-  // Método para convertir a Map (útil para Firebase/persistencia)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -29,7 +28,6 @@ class WebsiteEntity {
     };
   }
 
-  // Método para crear objeto desde Map
   factory WebsiteEntity.fromMap(Map<String, dynamic> map) {
     return WebsiteEntity(
       id: map['id'] ?? '',
@@ -45,14 +43,11 @@ class WebsiteEntity {
     );
   }
 
-  // Método para convertir a JSON (alias de toMap para consistencia con API)
   Map<String, dynamic> toJson() => toMap();
 
-  // Método para crear objeto desde JSON (alias de fromMap para consistencia con API)
   factory WebsiteEntity.fromJson(Map<String, dynamic> json) =>
       WebsiteEntity.fromMap(json);
 
-  // Método para copiar con valores modificados
   WebsiteEntity copyWith({
     String? id,
     WebsiteStatus? status,

@@ -14,15 +14,14 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
   @override
   Future<List<WebsiteEntity>> loadWebsites(
       String sessionId, String userId) async {
-    print('Loading websites for user: $userId');
     try {
       final response = await api.get(
         BackendUrls.loadWebsites,
         queryParams: {
-          'user_id': userId, // query param
+          'user_id': userId,
         },
       );
-      print(response);
+
       if (response['error'] != null) {
         throw Exception('Failed to load websites: ${response['error']}');
       }
@@ -30,7 +29,6 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
           response is List ? response : (response['websites'] ?? []);
       return websitesData.map((data) => WebsiteEntity.fromJson(data)).toList();
     } catch (e) {
-      print('Error loading websites: $e');
       rethrow;
     }
   }
@@ -38,7 +36,6 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
   @override
   Future<WebsiteEntity> saveWebsite(
       String sessionId, String userId, WebsiteEntity website) async {
-    print('Saving website: ${website.name}');
     try {
       final body = {
         'sessionID': sessionId,
@@ -54,7 +51,7 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
       if (response['error'] != null) {
         throw Exception('Failed to save website: ${response['error']}');
       }
-      // El backend debe devolver el website creado con el ID generado
+
       final savedWebsiteData =
           response is Map<String, dynamic> && response['website'] != null
               ? response['website']
@@ -63,10 +60,9 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
         throw Exception('Backend did not return the created website');
       }
       final savedWebsite = WebsiteEntity.fromJson(savedWebsiteData);
-      print('Website saved successfully with ID: ${savedWebsite.id}');
+
       return savedWebsite;
     } catch (e) {
-      print('Error saving website: $e');
       rethrow;
     }
   }
@@ -74,7 +70,6 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
   @override
   Future<void> updateWebsite(
       String sessionId, String userId, WebsiteEntity website) async {
-    print('Updating website: \${website.name}');
     try {
       final body = {
         'name': website.name,
@@ -89,9 +84,7 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
       if (response['error'] != null) {
         throw Exception('Failed to update website: ${response['error']}');
       }
-      print('Website updated successfully');
     } catch (e) {
-      print('Error updating website: $e');
       rethrow;
     }
   }
@@ -99,7 +92,6 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
   @override
   Future<void> deleteWebsite(
       String sessionId, String userId, String websiteId) async {
-    print('Deleting website with ID: \${websiteId}');
     try {
       final response = await api.delete(
         BackendUrls.deleteWebsite(websiteId),
@@ -107,9 +99,7 @@ class WebsiteRepositoryImpl implements WebsiteRepository {
       if (response['error'] != null) {
         throw Exception('Failed to delete website: ${response['error']}');
       }
-      print('Website deleted successfully');
     } catch (e) {
-      print('Error deleting website: $e');
       rethrow;
     }
   }

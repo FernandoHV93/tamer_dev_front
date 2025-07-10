@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final controller =
           Provider.of<RecentArticlesController>(context, listen: false);
       await controller.loadRecentArticles();
-      // Cargar brands globalmente para BrandVoice
+
       final brandVoiceProvider =
           Provider.of<BrandVoiceProvider>(context, listen: false);
       await brandVoiceProvider.loadBrands(
@@ -88,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, WebRoutes.websites);
               },
             ),
-
             FeatureButton(
               iconPath: 'assets/images/icons/network.svg',
               title: 'Roadmap',
@@ -129,7 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, WebRoutes.apiSettings);
               },
             ),
-            // Sección Last Articles
             const SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -236,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   builder: (context) => ChangeNotifierProvider(
                                     create: (_) => WidgetsController(),
                                     child: ArticleEditorScreen(
-                                      initialArticleDto: preview.article,
+                                      article: preview.article,
                                     ),
                                   ),
                                 ),

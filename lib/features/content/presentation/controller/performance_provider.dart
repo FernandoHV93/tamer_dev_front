@@ -31,12 +31,8 @@ class PerformanceProvider extends ChangeNotifier {
 
       // Automatically add the inspected data to ContentProvider
       await contentProvider.addInspectedData(inspected, sessionId, userId);
-
-      debugPrint(
-          'Website inspection completed and data added to content provider');
     } catch (e) {
       _error = e.toString();
-      debugPrint('Error during website inspection: $e');
     } finally {
       _isLoading = false;
       notifyListeners();

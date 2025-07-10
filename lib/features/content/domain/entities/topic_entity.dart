@@ -52,7 +52,7 @@ class TopicEntity {
   factory TopicEntity.fromJson(Map<String, dynamic> json) {
     return TopicEntity(
       id: json['id'] as String,
-      cardId: json['cardId'] as String,
+      cardId: json['card_id'] as String,
       keyWord: json['keyWord'] as String,
       kd: json['kd'] as String?,
       categories: json['categories'] as String?,

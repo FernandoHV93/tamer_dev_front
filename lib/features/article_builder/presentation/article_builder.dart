@@ -62,7 +62,6 @@ class _ArticleBuilderContent extends StatelessWidget {
     final title =
         provider.articleBuilderEntity.articleGeneratorGeneral.articleTitle;
 
-    // Navega inmediatamente a Home y dispara el estado de generación con los datos necesarios
     Navigator.of(context).popUntil((route) => route.isFirst);
     homeController.startGeneratingArticle(
       title: title,
@@ -101,7 +100,6 @@ class _ArticleBuilderContent extends StatelessWidget {
                   ),
                 ),
               ),
-              // Loading overlay
               if (provider.isLoading)
                 Container(
                   color: Colors.black54,

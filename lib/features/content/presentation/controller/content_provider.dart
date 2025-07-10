@@ -38,7 +38,6 @@ class ContentProvider extends ChangeNotifier {
   Future<void> loadContentCardsByWebsiteId(
       String websiteId, String sessionId, String userId) async {
     _selectedWebsiteId = websiteId;
-    print(_selectedWebsiteId);
     notifyListeners();
     _isLoadingCards = true;
     try {
@@ -53,7 +52,6 @@ class ContentProvider extends ChangeNotifier {
 
       await _loadAllTopicsForCards(_contentCards, sessionId, userId);
     } catch (e) {
-      debugPrint('Error loading content cards: $e');
       _contentCards = [];
       _topicsByCardId.clear();
       _selectedCardId = null;
@@ -75,7 +73,6 @@ class ContentProvider extends ChangeNotifier {
         _topicsByCardId[card.id] = topics;
       }
     } catch (e) {
-      debugPrint('Error loading topics for cards: $e');
     } finally {
       _isLoadingTopics = false;
       notifyListeners();
@@ -94,9 +91,7 @@ class ContentProvider extends ChangeNotifier {
         _topicsByCardId[card.id] = topics;
         notifyListeners();
       }
-    } catch (e) {
-      debugPrint('Error adding content card: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> updateContentCard(
@@ -108,9 +103,7 @@ class ContentProvider extends ChangeNotifier {
         _contentCards[index] = card;
         notifyListeners();
       }
-    } catch (e) {
-      debugPrint('Error updating content card: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> deleteContentCard(
@@ -123,9 +116,7 @@ class ContentProvider extends ChangeNotifier {
         _selectedCardId = null;
       }
       notifyListeners();
-    } catch (e) {
-      debugPrint('Error deleting content card: $e');
-    }
+    } catch (e) {}
   }
 
   void selectCard(String cardId) {
@@ -142,9 +133,7 @@ class ContentProvider extends ChangeNotifier {
       final list = _topicsByCardId[topic.cardId] ?? [];
       _topicsByCardId[topic.cardId] = [...list, topic];
       notifyListeners();
-    } catch (e) {
-      debugPrint('Error adding topic: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> updateTopic(
@@ -158,9 +147,7 @@ class ContentProvider extends ChangeNotifier {
         _topicsByCardId[topic.cardId] = List.from(list);
         notifyListeners();
       }
-    } catch (e) {
-      debugPrint('Error updating topic: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> deleteTopic(
@@ -170,9 +157,7 @@ class ContentProvider extends ChangeNotifier {
       final list = _topicsByCardId[cardId] ?? [];
       _topicsByCardId[cardId] = list.where((t) => t.id != topicId).toList();
       notifyListeners();
-    } catch (e) {
-      debugPrint('Error deleting topic: $e');
-    }
+    } catch (e) {}
   }
 
   // Utility Methods
@@ -211,12 +196,7 @@ class ContentProvider extends ChangeNotifier {
           await addTopic(topic, sessionId, userId);
         }
       }
-
-      debugPrint(
-          'Successfully added ${inspectedWebsite.contentCards.length} cards and their topics from inspection');
-    } catch (e) {
-      debugPrint('Error adding inspected data: $e');
-    }
+    } catch (e) {}
   }
 
   // Helper method to generate dummy topics for a card
