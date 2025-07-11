@@ -6,8 +6,6 @@ class BackendUrls {
   static String titleRunAnalysis = '/title_run_analysis_first';
   static String baseUrl = String.fromEnvironment('BASE_URL',
       defaultValue: 'https://backend.tamercode.com');
-
-  // static String baseUrl = 'https://10af7add859c.ngrok-free.app';
   static String saveRoadmap = '/new_roadmap';
   static String loadRoadmap = '/get_roadmap';
 
