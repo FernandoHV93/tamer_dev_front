@@ -389,4 +389,25 @@ class ArticleBuilderProvider with ChangeNotifier {
     _articleBuilderEntity.articleSettings.brandVoice = brandVoice;
     notifyListeners();
   }
+
+  void ensureBrandVoiceInitialized(List<dynamic> savedBrands) {
+    final current = _articleBuilderEntity.articleSettings.brandVoice;
+    if (savedBrands.isEmpty) return;
+    if (current.isNotEmpty &&
+        current['id'] != null &&
+        current['id'] != '' &&
+        current['brandName'] != null &&
+        current['brandName'] != 'None') {
+      return;
+    }
+    final first = savedBrands.first;
+    setSelectedBrandVoice({
+      'id': first.id,
+      'brandName': first.brandName,
+      'toneOfVoice': first.toneOfVoice,
+      'keyValues': first.keyValues,
+      'targetAudience': first.targetAudience,
+      'brandIdentityInsights': first.brandIdentityInsights,
+    });
+  }
 }

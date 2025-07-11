@@ -33,19 +33,19 @@ class BackendUrls {
       '/api/content-cards/$contentCardId'; // DELETE
 
   // BrandVoice endpoints
-  static String loadBrands = '/api/brand_voice'; // GET
-  static String addBrand = '/api/brand_voice'; // POST
+  static String loadBrands = '/api/brand-voice'; // GET
+  static String addBrand = '/api/brand-voice'; // POST
   static String updateBrand(String brandId) =>
-      '/api/brand_voice/$brandId'; // PUT
+      '/api/brand-voice/$brandId'; // PUT
   static String deleteBrand(String brandId) =>
-      '/api/brand_voice/$brandId'; // DELETE
-  static String generateBrandVoice = '/api/brand_voice/generate'; // POST
+      '/api/brand-voice/$brandId'; // DELETE
+  static String generateBrandVoice = '/api/brand-voice/generate'; // POST
   static String analyzeContentAndGenerateBrandVoice =
-      '/api/brand_voice/analyze_content'; // POST
+      '/api/brand-voice/analyze_content'; // POST
   static String analyzeFileAndGenerateBrandVoice =
-      '/api/brand_voice/analyze_file'; // POST
+      '/api/brand-voice/analyze_file'; // POST
   static String analyzeFileBytesAndGenerateBrandVoice =
-      '/api/brand_voice/analyze_file_bytes'; // POST
+      '/api/brand-voice/analyze_file_bytes'; // POST
 
   // Topics endpoints
   static String loadTopicsByCardId(String contentCardId) =>
@@ -55,6 +55,4 @@ class BackendUrls {
   static String updateTopic(String topicId) => '/api/topics/$topicId';
   static String deleteTopic(String topicId) =>
       '/api/content-cards/$topicId/topics';
-
-  
 }

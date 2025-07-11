@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart'; // Import necesario para debugPrint
-import 'package:flutter/material.dart';
 import 'package:ia_web_front/core/api/api.dart';
 import 'package:ia_web_front/core/api/backend_urls.dart';
 import 'package:ia_web_front/features/article_builder/domain/entities/article_builder_entities.dart';
@@ -68,6 +66,7 @@ class ArticleFuncImpl implements ArticleFunc {
         "sessionID": sessionId,
         ...model.toJson(),
       };
+      print(jsonToSend);
 
       final result = await api.post(BackendUrls.saveForm, jsonToSend);
 

@@ -511,6 +511,9 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                 final selectedBrandMap = articleProvider.selectedBrandVoice;
                 String selectedBrandName =
                     selectedBrandMap['brandName'] as String? ?? 'None';
+
+                articleProvider.ensureBrandVoiceInitialized(brandVoices);
+
                 if (!brandNames.contains(selectedBrandName)) {
                   selectedBrandName = brandNames.first;
                 }
@@ -544,6 +547,7 @@ class _ArticleSettingsCardState extends State<ArticleSettingsCard> {
                         'brandIdentityInsights': selected.brandIdentityInsights,
                       });
                     }
+                    // print eliminado para producción
                   },
                 );
               },
