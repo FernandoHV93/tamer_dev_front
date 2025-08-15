@@ -1,0 +1,53 @@
+import { create } from 'zustand'
+import type { ContentCard, Topic } from '../types/content'
+import * as api from '../services/content'
+
+type State = {
+  cards: ContentCard[]
+  topicsByCardId: Record<string, Topic[]>
+  selectedWebsiteId?: string | null
+  selectedCardId?: string | null
+  isLoading: boolean
+  error?: string | null
+}
+
+type Actions = {
+  loadCards: (websiteId: string) => Promise<void>
+  selectCard: (cardId: string | null) => void
+  loadTopics: (cardId: string) => Promise<void>
+}
+
+export const useContent = create<State & Actions>((set, get) => ({
+  cards: [],
+  topicsByCardId: {},
+  selectedWebsiteId: null,
+  selectedCardId: null,
+  isLoading: false,
+  error: null,
+
+  async loadCards(websiteId) {
+    set({ isLoading: true, error: null, selectedWebsiteId: websiteId })
+    try {
+      const list = await api.loadContentCardsByWebsiteId(websiteId)
+      set({ cards: list, isLoading: false })
+    } catch (e: any) {
+      set({ isLoading: false, error: e?.message ?? String(e) })
+    }
+  },
+
+  selectCard(cardId) {
+    set({ selectedCardId: cardId })
+  },
+
+  async loadTopics(cardId) {
+    set({ isLoading: true, error: null })
+    try {
+      const list = await api.loadTopicsByCardId(cardId)
+      set({ topicsByCardId: { ...get().topicsByCardId, [cardId]: list }, isLoading: false })
+    } catch (e: any) {
+      set({ isLoading: false, error: e?.message ?? String(e) })
+    }
+  },
+}))
+
+
