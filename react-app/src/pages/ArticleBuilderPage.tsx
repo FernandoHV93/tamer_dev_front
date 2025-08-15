@@ -47,10 +47,16 @@ export default function ArticleBuilderPage() {
       </div>
 
       <div style={{ display: 'flex', gap: 12 }}>
-        <button disabled={isSaving} onClick={() => saveForm(sessionId, userId)}>
+        <button
+          disabled={isSaving || !model.articleGeneratorGeneral.language || !model.articleGeneratorGeneral.articleType || !model.articleGeneratorGeneral.articleMainKeyword || !model.articleGeneratorGeneral.articleTitle}
+          onClick={() => saveForm(sessionId, userId)}
+        >
           {isSaving ? 'Saving…' : 'Save Form'}
         </button>
-        <button disabled={isGenerating} onClick={() => generate(sessionId, userId)}>
+        <button
+          disabled={isGenerating || !model.articleGeneratorGeneral.language || !model.articleGeneratorGeneral.articleType || !model.articleGeneratorGeneral.articleMainKeyword || !model.articleGeneratorGeneral.articleTitle}
+          onClick={() => generate(sessionId, userId)}
+        >
           {isGenerating ? 'Generating…' : 'Generate Article'}
         </button>
       </div>

@@ -60,6 +60,27 @@ export default function ArticleEditorPage() {
         >
           Send Default Data
         </button>
+        <button
+          onClick={() => {
+            try {
+              navigator.clipboard.writeText(html)
+            } catch {}
+          }}
+        >
+          Copy HTML
+        </button>
+        <button
+          onClick={() => {
+            const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
+            const a = document.createElement('a')
+            a.href = URL.createObjectURL(blob)
+            a.download = 'article.html'
+            a.click()
+            URL.revokeObjectURL(a.href)
+          }}
+        >
+          Download HTML
+        </button>
       </div>
       <ArticleEditor html={html} onChange={setHtml} />
     </div>
