@@ -22,9 +22,24 @@ export default function ArticleEditorPage() {
   const [error, setError] = useState<string | null>(null)
   const { sessionId, userId } = useSession()
   const { showToast } = useToast()
-  const [] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { addArticle } = useRecentArticles()
+
+  // Load article by id from Home store if present
+  useEffect(() => {
+    const id = searchParams.get('id')
+    if (!id) return
+    try {
+      const state = (useRecentArticles as any).getState?.()
+      if (state?.articles) {
+        const found = state.articles.find((a: any) => a.id === id)
+        if (found?.article) {
+          setHtml(articleDtoToHtml(found.article))
+        }
+      }
+    } catch {}
+  }, [searchParams])
 
   // Load draft if present
   useEffect(() => {
