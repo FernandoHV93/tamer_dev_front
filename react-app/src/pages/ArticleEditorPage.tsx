@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import ArticleEditor from '../components/editor/ArticleEditor'
 import { articleDtoToHtml } from '../lib/articleDtoToHtml'
+import { fetchGeneratedArticle, sendDefaultData } from '../services/articleBuilder'
 
 export default function ArticleEditorPage() {
   // Placeholder de un ArticleDto mínimo
@@ -12,10 +13,55 @@ export default function ArticleEditorPage() {
   }), [])
 
   const [html, setHtml] = useState(articleDtoToHtml(dto))
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const sessionId = 'Mayo8.com'
+  const userId = 'Mayo8.com'
 
   return (
     <div style={{ padding: 24, display: 'grid', gap: 12 }}>
       <h1>Article Editor</h1>
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+      <div style={{ display: 'flex', gap: 12 }}>
+        <button
+          disabled={loading}
+          onClick={async () => {
+            setLoading(true)
+            setError(null)
+            try {
+              const data = await fetchGeneratedArticle(sessionId, userId)
+              setHtml(articleDtoToHtml(data))
+            } catch (e: any) {
+              setError(e?.message ?? String(e))
+            } finally {
+              setLoading(false)
+            }
+          }}
+        >
+          {loading ? 'Loading…' : 'Load Generated Article'}
+        </button>
+        <button
+          disabled={loading}
+          onClick={async () => {
+            setLoading(true)
+            setError(null)
+            try {
+              const defaultDto = {
+                H1: { N: true, I: false, U: false, text: '', aligment: 'center', size: 'H1' },
+                body: [],
+              }
+              await sendDefaultData(sessionId, userId, defaultDto as any)
+            } catch (e: any) {
+              setError(e?.message ?? String(e))
+            } finally {
+              setLoading(false)
+            }
+          }}
+        >
+          Send Default Data
+        </button>
+      </div>
       <ArticleEditor html={html} onChange={setHtml} />
     </div>
   )
