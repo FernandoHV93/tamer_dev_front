@@ -46,3 +46,63 @@ lib/
    ```bash
    flutter run -d chrome # o el dispositivo que prefieras
    ```
+
+---
+
+## React migration (rama `traslado-a-react`)
+
+Se ha creado una versión React (Vite + React + TypeScript) en `react-app/` dentro de esta rama.
+
+### Requisitos
+
+- Node 18+ (probado con Node 22.17) y npm
+
+### Variables de entorno
+
+Crear `react-app/.env.local` (si no existe) con:
+
+```
+VITE_BASE_URL=https://backend.tamercode.com
+```
+
+La app usa headers `sessionID` y `userID` (se gestionan desde un contexto de sesión) y `VITE_BASE_URL` para el backend.
+
+### Ejecutar en desarrollo
+
+```
+cd react-app
+npm i
+npm run dev
+```
+
+Abrir `http://localhost:5173`.
+
+### Build y preview
+
+```
+cd react-app
+npm run build
+npm run preview
+```
+
+### Estructura clave React
+
+- `src/pages/*`: páginas principales (`Home`, `Content`, `Websites`, `ArticleBuilder`, `ArticleEditor`, etc.)
+- `src/store/*`: Zustand stores (artículos, content, websites, builder, etc.)
+- `src/services/*`: servicios HTTP (axios) contra el backend
+- `src/context/*`: `SessionProvider` (gestiona `sessionId/userId`) y `ToastProvider` (toasts)
+- `src/styles/theme.css`: tema oscuro y utilitarios de UI
+
+### Notas
+
+- Home: generar artículo (default DTO) y abrirlo en el editor. Tarjetas responsivas.
+- Editor: Quill inicializado manualmente; Copy/Download HTML; borrador en localStorage; “Save Article” simula guardado y vuelve a Home.
+- Websites/Content: CRUD básico conectado a endpoints reales con headers de sesión.
+- Toasts globales para feedback.
+
+### Flutter web (existente)
+
+```
+./.flutter-sdk/bin/flutter build web --release
+python3 -m http.server 8080 -d build/web
+```
