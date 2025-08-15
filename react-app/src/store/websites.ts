@@ -7,6 +7,7 @@ type State = {
   selectedWebsiteId?: string | null
   isLoading: boolean
   error?: string | null
+  lastUserId?: string | null
 }
 
 type Actions = {
@@ -22,12 +23,13 @@ export const useWebsites = create<State & Actions>((set, get) => ({
   selectedWebsiteId: null,
   isLoading: false,
   error: null,
+  lastUserId: null,
 
   async load(userId) {
     set({ isLoading: true, error: null })
     try {
       const list = await api.loadWebsites(userId)
-      set({ websites: list, isLoading: false, selectedWebsiteId: list[0]?.id ?? null })
+      set({ websites: list, isLoading: false, selectedWebsiteId: list[0]?.id ?? null, lastUserId: userId })
     } catch (e: any) {
       set({ isLoading: false, error: e?.message ?? String(e) })
     }
@@ -53,8 +55,10 @@ export const useWebsites = create<State & Actions>((set, get) => ({
     set({ isLoading: true, error: null })
     try {
       await api.updateWebsite({ websiteId, website })
-      const userId = ''
-      await get().load(userId)
+      const userId = get().lastUserId ?? ''
+      if (userId) {
+        await get().load(userId)
+      }
     } catch (e: any) {
       set({ isLoading: false, error: e?.message ?? String(e) })
       return
@@ -66,8 +70,10 @@ export const useWebsites = create<State & Actions>((set, get) => ({
     set({ isLoading: true, error: null })
     try {
       await api.deleteWebsite(websiteId)
-      const userId = ''
-      await get().load(userId)
+      const userId = get().lastUserId ?? ''
+      if (userId) {
+        await get().load(userId)
+      }
     } catch (e: any) {
       set({ isLoading: false, error: e?.message ?? String(e) })
       return
