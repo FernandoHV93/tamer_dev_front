@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useWebsites } from '../store/websites'
 import { useContent } from '../store/content'
+import { useMemo, useState as useLocalState } from 'react'
 
 export default function ContentPage() {
   const { websites, selectedWebsiteId, select, load } = useWebsites()
@@ -95,10 +96,7 @@ export default function ContentPage() {
             </div>
           )}
           {tab === 'topics' && (
-            <div>
-              <h3>Topics</h3>
-              <div>Pendiente de implementación</div>
-            </div>
+            <TopicsPanel />
           )}
           {tab === 'gaps' && (
             <div>
@@ -108,6 +106,52 @@ export default function ContentPage() {
           )}
         </div>
       </div>
+    </div>
+  )
+}
+
+function TopicsPanel() {
+  const { selectedCardId, topicsByCardId, loadTopics, addTopic, deleteTopic, isLoading } = useContent()
+  const topics = useMemo(() => (selectedCardId ? topicsByCardId[selectedCardId] ?? [] : []), [topicsByCardId, selectedCardId])
+  const [keyWord, setKeyWord] = useLocalState('')
+  const [status, setStatus] = useLocalState<'covered' | 'draft' | 'initiated'>('initiated')
+
+  if (!selectedCardId) {
+    return <div>Selecciona una card</div>
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+        <button disabled={isLoading} onClick={() => loadTopics(selectedCardId)}>Refresh</button>
+        <input placeholder="Keyword" value={keyWord} onChange={(e) => setKeyWord(e.target.value)} />
+        <select value={status} onChange={(e) => setStatus(e.target.value as any)}>
+          <option value="initiated">initiated</option>
+          <option value="draft">draft</option>
+          <option value="covered">covered</option>
+        </select>
+        <button
+          disabled={!keyWord || isLoading}
+          onClick={async () => {
+            await addTopic(selectedCardId, {
+              keyWord,
+              date: new Date().toISOString(),
+              status,
+            } as any)
+            setKeyWord('')
+          }}
+        >
+          Add
+        </button>
+      </div>
+      <ul>
+        {topics.map((t) => (
+          <li key={t.id}>
+            {t.keyWord} — {t.status}
+            <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={() => deleteTopic(selectedCardId, t.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
