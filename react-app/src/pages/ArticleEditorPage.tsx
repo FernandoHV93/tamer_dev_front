@@ -5,6 +5,7 @@ import { fetchGeneratedArticle, sendDefaultData } from '../services/articleBuild
 import { useSession } from '../context/SessionContext'
 import { useToast } from '../context/ToastContext'
 import { useSearchParams } from 'react-router-dom'
+import { extractTitleFromHtml } from '../lib/htmlUtils'
 
 export default function ArticleEditorPage() {
   // Placeholder de un ArticleDto mínimo
@@ -92,6 +93,25 @@ export default function ArticleEditorPage() {
           }}
         >
           Download HTML
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={async () => {
+            // simulate save to backend by reusing sendDefaultData with H1 from editor
+            const title = extractTitleFromHtml(html) || 'Untitled'
+            setLoading(true)
+            setError(null)
+            try {
+              await sendDefaultData(sessionId, userId, { H1: { N: true, I: false, U: false, text: title, aligment: 'center', size: 'H1' }, body: [] } as any)
+              showToast('Article saved', 'success')
+            } catch (e: any) {
+              setError(e?.message ?? String(e))
+            } finally {
+              setLoading(false)
+            }
+          }}
+        >
+          Save Article
         </button>
         <button
           onClick={() => { try { localStorage.setItem('editor_draft', html); showToast('Draft saved', 'success') } catch {} }}
