@@ -130,7 +130,8 @@ export default function ContentPage() {
 }
 
 function TopicsPanel() {
-  const { selectedCardId, topicsByCardId, loadTopics, addTopic, deleteTopic, isLoading } = useContent()
+  const { selectedCardId, topicsByCardId, loadTopics, addTopic, deleteTopic, updateTopic, isLoading } = useContent()
+  const { sessionId, userId } = useSession()
   const topics = useMemo(() => (selectedCardId ? topicsByCardId[selectedCardId] ?? [] : []), [topicsByCardId, selectedCardId])
   const [keyWord, setKeyWord] = useLocalState('')
   const [status, setStatus] = useLocalState<'covered' | 'draft' | 'initiated'>('initiated')
@@ -156,7 +157,7 @@ function TopicsPanel() {
               keyWord,
               date: new Date().toISOString(),
               status,
-            } as any)
+            } as any, sessionId, userId)
             setKeyWord('')
           }}
         >
@@ -167,7 +168,8 @@ function TopicsPanel() {
         {topics.map((t) => (
           <li key={t.id}>
             {t.keyWord} — {t.status}
-            <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={() => deleteTopic(selectedCardId, t.id)}>Delete</button>
+            <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={() => updateTopic(t.id, { status: 'covered' }, sessionId, userId)}>Mark Covered</button>
+            <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={() => deleteTopic(selectedCardId, t.id, sessionId, userId)}>Delete</button>
           </li>
         ))}
       </ul>

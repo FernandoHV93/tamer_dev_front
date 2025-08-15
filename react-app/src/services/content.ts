@@ -35,11 +35,13 @@ export async function addTopic(cardId: string, topic: Omit<Topic, 'id' | 'cardId
   await http.post(`/api/content-cards/${cardId}/topics`, topic)
 }
 
-export async function updateTopic(topicId: string, topic: Partial<Topic>) {
+export async function updateTopic(topicId: string, topic: Partial<Topic>, sessionId?: string, userId?: string) {
+  if (sessionId && userId) setSessionHeaders(sessionId, userId)
   await http.put(`/api/topics/${topicId}`, topic)
 }
 
-export async function deleteTopic(topicId: string) {
+export async function deleteTopic(topicId: string, sessionId?: string, userId?: string) {
+  if (sessionId && userId) setSessionHeaders(sessionId, userId)
   await http.delete(`/api/content-cards/${topicId}/topics`)
 }
 

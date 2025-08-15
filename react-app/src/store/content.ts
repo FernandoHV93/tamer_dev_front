@@ -20,9 +20,9 @@ type Actions = {
   selectCard: (cardId: string | null) => void
   loadTopics: (cardId: string) => Promise<void>
   inspectWebsite: (website: WebsiteEntity) => Promise<void>
-  addTopic: (cardId: string, topic: Omit<Topic, 'id' | 'cardId'>) => Promise<void>
-  updateTopic: (topicId: string, topic: Partial<Topic>) => Promise<void>
-  deleteTopic: (cardId: string, topicId: string) => Promise<void>
+  addTopic: (cardId: string, topic: Omit<Topic, 'id' | 'cardId'>, sessionId?: string, userId?: string) => Promise<void>
+  updateTopic: (topicId: string, topic: Partial<Topic>, sessionId?: string, userId?: string) => Promise<void>
+  deleteTopic: (cardId: string, topicId: string, sessionId?: string, userId?: string) => Promise<void>
   addCard: (
     websiteId: string,
     card: Omit<ContentCard, 'id' | 'websiteId'>,
@@ -80,10 +80,10 @@ export const useContent = create<State & Actions>((set, get) => ({
     }
   },
 
-  async addTopic(cardId, topic) {
+  async addTopic(cardId, topic, sessionId, userId) {
     set({ isLoading: true, error: null })
     try {
-      await api.addTopic(cardId, topic)
+      await api.addTopic(cardId, topic, sessionId, userId)
       await get().loadTopics(cardId)
     } catch (e: any) {
       set({ isLoading: false, error: e?.message ?? String(e) })
@@ -92,10 +92,10 @@ export const useContent = create<State & Actions>((set, get) => ({
     set({ isLoading: false })
   },
 
-  async updateTopic(topicId, topic) {
+  async updateTopic(topicId, topic, sessionId, userId) {
     set({ isLoading: true, error: null })
     try {
-      await api.updateTopic(topicId, topic)
+      await api.updateTopic(topicId, topic, sessionId, userId)
       const cardId = get().selectedCardId
       if (cardId) await get().loadTopics(cardId)
     } catch (e: any) {
@@ -105,10 +105,10 @@ export const useContent = create<State & Actions>((set, get) => ({
     set({ isLoading: false })
   },
 
-  async deleteTopic(cardId, topicId) {
+  async deleteTopic(cardId, topicId, sessionId, userId) {
     set({ isLoading: true, error: null })
     try {
-      await api.deleteTopic(topicId)
+      await api.deleteTopic(topicId, sessionId, userId)
       await get().loadTopics(cardId)
     } catch (e: any) {
       set({ isLoading: false, error: e?.message ?? String(e) })
