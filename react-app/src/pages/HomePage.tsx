@@ -1,11 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FeatureButton from '../components/FeatureButton'
 import { useRecentArticles } from '../store/recentArticles'
+import { useSession } from '../context/SessionContext'
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const { loadRecentArticles, articles, isGenerating, generatingArticleTitle, generatingError } = useRecentArticles()
+  const { loadRecentArticles, articles, isGenerating, generatingArticleTitle, generatingError, generateArticle } = useRecentArticles()
+  const { sessionId, userId } = useSession()
+  const [title, setTitle] = useState('')
 
   useEffect(() => {
     loadRecentArticles()
@@ -65,6 +68,10 @@ export default function HomePage() {
 
       <div style={{ marginTop: 32 }}>
         <h2 style={{ color: 'white' }}>Last Articles</h2>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+          <input placeholder="Article title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <button disabled={!title || isGenerating} onClick={() => generateArticle(title, sessionId, userId)}>Generate</button>
+        </div>
         {isGenerating && (
           <div style={{ background: '#2563EB', padding: 16, borderRadius: 12 }}>
             <span style={{ color: 'white' }}>Generating article: "{generatingArticleTitle ?? ''}"</span>

@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { PreviewArticle } from '../types/article'
+import { sendDefaultData, fetchGeneratedArticle } from '../services/articleBuilder'
 
 type State = {
   articles: PreviewArticle[]
@@ -12,6 +13,7 @@ type Actions = {
   loadRecentArticles: () => Promise<void>
   startGeneratingArticle: (title: string) => void
   setError: (message: string | null) => void
+  generateArticle: (title: string, sessionId: string, userId: string) => Promise<void>
 }
 
 export const useRecentArticles = create<State & Actions>((set) => ({
@@ -68,6 +70,38 @@ export const useRecentArticles = create<State & Actions>((set) => ({
 
   setError(message) {
     set({ generatingError: message })
+  },
+
+  async generateArticle(title: string, sessionId: string, userId: string) {
+    set({ isGenerating: true, generatingArticleTitle: title, generatingError: null })
+    try {
+      // Enviar DTO por defecto como en Flutter
+      const defaultDto: any = {
+        H1: { N: true, I: false, U: false, text: title ?? '', aligment: 'center', size: 'H1' },
+        body: [],
+      }
+      await sendDefaultData(sessionId, userId, defaultDto)
+      const dto = await fetchGeneratedArticle(sessionId, userId)
+      const newArticle: PreviewArticle = {
+        id: String(Date.now()),
+        article: {
+          h1: {
+            N: !!dto.H1?.N,
+            I: !!dto.H1?.I,
+            U: !!dto.H1?.U,
+            text: dto.H1?.text ?? title ?? '',
+            aligment: dto.H1?.aligment ?? 'left',
+            size: dto.H1?.size ?? 'H1',
+          },
+          body: dto.body ?? [],
+          score: dto.score,
+          date: dto.date,
+        } as any,
+      }
+      set((s) => ({ articles: [newArticle, ...s.articles], isGenerating: false, generatingArticleTitle: null }))
+    } catch (e: any) {
+      set({ isGenerating: false, generatingError: e?.message ?? String(e) })
+    }
   },
 }))
 
