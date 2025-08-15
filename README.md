@@ -100,6 +100,18 @@ npm run preview
 - Websites/Content: CRUD básico conectado a endpoints reales con headers de sesión.
 - Toasts globales para feedback.
 
+### Mock backend y arranque conjunto
+
+- Mock backend en `mock-backend/` (Express) para probar APIs.
+- Scripts en la raíz para levantar mock y web:
+
+```
+# en la raíz del repo
+npm run dev   # levanta mock-backend (puerto 4000) y vite (5173)
+```
+
+Configura `react-app/.env.local` a `VITE_BASE_URL=http://localhost:4000` para usar el mock.
+
 ### Flutter web (existente)
 
 ```
