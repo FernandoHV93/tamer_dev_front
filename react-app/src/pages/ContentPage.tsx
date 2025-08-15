@@ -6,10 +6,12 @@ import { useMemo, useState as useLocalState } from 'react'
 
 export default function ContentPage() {
   const { websites, selectedWebsiteId, select, load } = useWebsites()
-  const { cards, selectCard, loadCards, inspected, inspectWebsite, isLoading } = useContent()
+  const { cards, selectCard, loadCards, inspected, inspectWebsite, isLoading, addCard, updateCard, deleteCard } = useContent()
   const [tab, setTab] = useState<'overview' | 'topics' | 'performance' | 'gaps'>('overview')
+  const [newCardTitle, setNewCardTitle] = useState('')
+  const [newCardUrl, setNewCardUrl] = useState('')
 
-  const { userId } = useSession()
+  const { userId, sessionId } = useSession()
   useEffect(() => {
     load(userId)
   }, [load, userId])
@@ -66,12 +68,28 @@ export default function ContentPage() {
                         Open
                       </button>
                       {c.title} — {c.status}
+                      <button style={{ marginLeft: 8 }} onClick={() => updateCard(c.id, { title: c.title + ' (updated)' }, sessionId, userId)} disabled={isLoading}>Quick Update</button>
+                      <button style={{ marginLeft: 8 }} onClick={() => deleteCard(c.id, sessionId, userId)} disabled={isLoading}>Delete</button>
                     </li>
                   ))}
                 </ul>
               ) : (
                 <div>Selecciona un website</div>
               )}
+              <div style={{ marginTop: 12 }}>
+                <input placeholder="New card title" value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)} />
+                <input placeholder="URL (opcional)" value={newCardUrl} onChange={(e) => setNewCardUrl(e.target.value)} style={{ marginLeft: 8 }} />
+                <button
+                  style={{ marginLeft: 8 }}
+                  disabled={!newCardTitle || !selectedWebsiteId || isLoading}
+                  onClick={async () => {
+                    await addCard(selectedWebsiteId!, { title: newCardTitle, url: newCardUrl || undefined, keyWordsScore: 0, status: 'no_done' }, sessionId, userId)
+                    setNewCardTitle(''); setNewCardUrl('')
+                  }}
+                >
+                  Add Card
+                </button>
+              </div>
             </div>
           )}
           {tab === 'performance' && (

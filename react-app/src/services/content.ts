@@ -13,11 +13,13 @@ export async function addContentCard(websiteId: string, card: Omit<ContentCard, 
   await http.post(`/api/websites/${websiteId}/content-cards`, card)
 }
 
-export async function updateContentCard(cardId: string, card: Partial<ContentCard>) {
+export async function updateContentCard(cardId: string, card: Partial<ContentCard>, sessionId?: string, userId?: string) {
+  if (sessionId && userId) setSessionHeaders(sessionId, userId)
   await http.put(`/api/content-cards/${cardId}`, card)
 }
 
-export async function deleteContentCard(cardId: string) {
+export async function deleteContentCard(cardId: string, sessionId?: string, userId?: string) {
+  if (sessionId && userId) setSessionHeaders(sessionId, userId)
   await http.delete(`/api/content-cards/${cardId}`)
 }
 

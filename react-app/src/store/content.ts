@@ -23,6 +23,19 @@ type Actions = {
   addTopic: (cardId: string, topic: Omit<Topic, 'id' | 'cardId'>) => Promise<void>
   updateTopic: (topicId: string, topic: Partial<Topic>) => Promise<void>
   deleteTopic: (cardId: string, topicId: string) => Promise<void>
+  addCard: (
+    websiteId: string,
+    card: Omit<ContentCard, 'id' | 'websiteId'>,
+    sessionId?: string,
+    userId?: string
+  ) => Promise<void>
+  updateCard: (
+    cardId: string,
+    card: Partial<ContentCard>,
+    sessionId?: string,
+    userId?: string
+  ) => Promise<void>
+  deleteCard: (cardId: string, sessionId?: string, userId?: string) => Promise<void>
 }
 
 export const useContent = create<State & Actions>((set, get) => ({
@@ -97,6 +110,44 @@ export const useContent = create<State & Actions>((set, get) => ({
     try {
       await api.deleteTopic(topicId)
       await get().loadTopics(cardId)
+    } catch (e: any) {
+      set({ isLoading: false, error: e?.message ?? String(e) })
+      return
+    }
+    set({ isLoading: false })
+  },
+
+  async addCard(websiteId, card, sessionId, userId) {
+    set({ isLoading: true, error: null })
+    try {
+      await api.addContentCard(websiteId, card, sessionId, userId)
+      await get().loadCards(websiteId)
+    } catch (e: any) {
+      set({ isLoading: false, error: e?.message ?? String(e) })
+      return
+    }
+    set({ isLoading: false })
+  },
+
+  async updateCard(cardId, card, sessionId, userId) {
+    set({ isLoading: true, error: null })
+    try {
+      await api.updateContentCard(cardId, card, sessionId, userId)
+      const websiteId = get().selectedWebsiteId
+      if (websiteId) await get().loadCards(websiteId)
+    } catch (e: any) {
+      set({ isLoading: false, error: e?.message ?? String(e) })
+      return
+    }
+    set({ isLoading: false })
+  },
+
+  async deleteCard(cardId, sessionId, userId) {
+    set({ isLoading: true, error: null })
+    try {
+      await api.deleteContentCard(cardId, sessionId, userId)
+      const websiteId = get().selectedWebsiteId
+      if (websiteId) await get().loadCards(websiteId)
     } catch (e: any) {
       set({ isLoading: false, error: e?.message ?? String(e) })
       return
