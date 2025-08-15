@@ -82,9 +82,12 @@ export default function HomePage() {
             <span style={{ color: 'white' }}>{generatingError}</span>
           </div>
         )}
-        <ul>
+        <ul className="card">
           {articles.map((a) => (
-            <li key={a.id} style={{ color: 'white', marginBottom: 8 }}>{a.article.h1.text}</li>
+            <li key={a.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
+              <span>{a.article.h1.text}</span>
+              <button className="btn" onClick={() => navigate(`/article_editor_page?id=${encodeURIComponent(a.id)}`)}>Open</button>
+            </li>
           ))}
         </ul>
       </div>

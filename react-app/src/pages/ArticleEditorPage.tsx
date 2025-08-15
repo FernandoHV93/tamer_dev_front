@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import ArticleEditor from '../components/editor/ArticleEditor'
 import { articleDtoToHtml } from '../lib/articleDtoToHtml'
 import { fetchGeneratedArticle, sendDefaultData } from '../services/articleBuilder'
 import { useSession } from '../context/SessionContext'
+import { useToast } from '../context/ToastContext'
+import { useSearchParams } from 'react-router-dom'
 
 export default function ArticleEditorPage() {
   // Placeholder de un ArticleDto mínimo
@@ -17,6 +19,16 @@ export default function ArticleEditorPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const { sessionId, userId } = useSession()
+  const { showToast } = useToast()
+  const [] = useSearchParams()
+
+  // Load draft if present
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem('editor_draft')
+      if (draft) setHtml(draft)
+    } catch {}
+  }, [])
 
   return (
     <div style={{ padding: 24, display: 'grid', gap: 12 }}>
@@ -80,6 +92,16 @@ export default function ArticleEditorPage() {
           }}
         >
           Download HTML
+        </button>
+        <button
+          onClick={() => { try { localStorage.setItem('editor_draft', html); showToast('Draft saved', 'success') } catch {} }}
+        >
+          Save Draft
+        </button>
+        <button
+          onClick={() => { try { localStorage.removeItem('editor_draft'); showToast('Draft cleared', 'success') } catch {} }}
+        >
+          Clear Draft
         </button>
       </div>
       <ArticleEditor html={html} onChange={setHtml} />
