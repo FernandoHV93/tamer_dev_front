@@ -6,4 +6,11 @@ export const http = axios.create({
   baseURL: BASE_URL,
 })
 
+export function setSessionHeaders(sessionId: string, userId: string) {
+  try {
+    http.defaults.headers.common['sessionID'] = sessionId
+    http.defaults.headers.common['userID'] = userId
+  } catch {}
+}
+
 

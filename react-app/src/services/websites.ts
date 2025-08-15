@@ -1,7 +1,8 @@
-import { http } from '../lib/http'
+import { http, setSessionHeaders } from '../lib/http'
 import type { WebsiteEntity } from '../types/website'
 
 export async function loadWebsites(userId: string): Promise<WebsiteEntity[]> {
+  // backend espera user_id en query
   const res = await http.get('/api/websites/load', { params: { user_id: userId } })
   const data = res.data
   const list = Array.isArray(data) ? data : data?.websites ?? []
@@ -17,6 +18,7 @@ export async function saveWebsite(payload: { sessionId: string; userId: string; 
     url: website.url,
     status: website.status.toLowerCase(),
   }
+  setSessionHeaders(sessionId, userId)
   const res = await http.post('/api/websites', body)
   const data = res.data
   return (data?.website ?? data) as WebsiteEntity

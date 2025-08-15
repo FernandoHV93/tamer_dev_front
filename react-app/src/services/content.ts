@@ -1,4 +1,4 @@
-import { http } from '../lib/http'
+import { http, setSessionHeaders } from '../lib/http'
 import type { ContentCard, Topic } from '../types/content'
 
 export async function loadContentCardsByWebsiteId(websiteId: string): Promise<ContentCard[]> {
@@ -8,7 +8,8 @@ export async function loadContentCardsByWebsiteId(websiteId: string): Promise<Co
   return list
 }
 
-export async function addContentCard(websiteId: string, card: Omit<ContentCard, 'id' | 'websiteId'>) {
+export async function addContentCard(websiteId: string, card: Omit<ContentCard, 'id' | 'websiteId'>, sessionId?: string, userId?: string) {
+  if (sessionId && userId) setSessionHeaders(sessionId, userId)
   await http.post(`/api/websites/${websiteId}/content-cards`, card)
 }
 
@@ -27,7 +28,8 @@ export async function loadTopicsByCardId(cardId: string): Promise<Topic[]> {
   return list
 }
 
-export async function addTopic(cardId: string, topic: Omit<Topic, 'id' | 'cardId'>) {
+export async function addTopic(cardId: string, topic: Omit<Topic, 'id' | 'cardId'>, sessionId?: string, userId?: string) {
+  if (sessionId && userId) setSessionHeaders(sessionId, userId)
   await http.post(`/api/content-cards/${cardId}/topics`, topic)
 }
 
