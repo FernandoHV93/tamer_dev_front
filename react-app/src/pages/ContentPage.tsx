@@ -25,12 +25,12 @@ export default function ContentPage() {
   }, [selectedWebsiteId, loadCards])
 
   return (
-    <div style={{ padding: 24 }}>
+    <div className="app-container">
       <h1>Content</h1>
       <div style={{ display: 'flex', gap: 24 }}>
         <div style={{ width: 320 }}>
           <h3>Websites</h3>
-          <ul>
+          <ul className="card">
             {websites.map((w) => (
               <li key={w.id}>
                 <button onClick={() => select(w.id)} style={{ marginRight: 8 }}>
@@ -53,17 +53,17 @@ export default function ContentPage() {
           </div>
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-            <button onClick={() => setTab('overview')} disabled={tab === 'overview'}>Overview</button>
-            <button onClick={() => setTab('topics')} disabled={tab === 'topics'}>Topics</button>
-            <button onClick={() => setTab('performance')} disabled={tab === 'performance'}>Performance</button>
-            <button onClick={() => setTab('gaps')} disabled={tab === 'gaps'}>Gaps</button>
+          <div className="row" style={{ marginBottom: 12 }}>
+            <button className="btn" onClick={() => setTab('overview')} disabled={tab === 'overview'}>Overview</button>
+            <button className="btn" onClick={() => setTab('topics')} disabled={tab === 'topics'}>Topics</button>
+            <button className="btn" onClick={() => setTab('performance')} disabled={tab === 'performance'}>Performance</button>
+            <button className="btn" onClick={() => setTab('gaps')} disabled={tab === 'gaps'}>Gaps</button>
           </div>
           {tab === 'overview' && (
             <div>
               <h3>Content Cards</h3>
               {selectedWebsiteId ? (
-                <ul>
+                <ul className="card">
                   {cards.map((c) => (
                     <li key={c.id}>
                       <button onClick={() => selectCard(c.id)} style={{ marginRight: 8 }}>
@@ -78,20 +78,14 @@ export default function ContentPage() {
               ) : (
                 <div>Selecciona un website</div>
               )}
-              <div style={{ marginTop: 12 }}>
-                <input placeholder="New card title" value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)} />
-                <input placeholder="URL (opcional)" value={newCardUrl} onChange={(e) => setNewCardUrl(e.target.value)} style={{ marginLeft: 8 }} />
-                <button
-                  style={{ marginLeft: 8 }}
-                  disabled={!newCardTitle || !selectedWebsiteId || isLoading}
-                  onClick={async () => {
-                    await addCard(selectedWebsiteId!, { title: newCardTitle, url: newCardUrl || undefined, keyWordsScore: 0, status: 'no_done' }, sessionId, userId)
-                    showToast('Card added', 'success')
-                    setNewCardTitle(''); setNewCardUrl('')
-                  }}
-                >
-                  Add Card
-                </button>
+              <div className="row" style={{ marginTop: 12 }}>
+                <input className="input" placeholder="New card title" value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)} />
+                <input className="input" placeholder="URL (opcional)" value={newCardUrl} onChange={(e) => setNewCardUrl(e.target.value)} />
+                <button className="btn btn-primary" disabled={!newCardTitle || !selectedWebsiteId || isLoading} onClick={async () => {
+                  await addCard(selectedWebsiteId!, { title: newCardTitle, url: newCardUrl || undefined, keyWordsScore: 0, status: 'no_done' }, sessionId, userId)
+                  showToast('Card added', 'success')
+                  setNewCardTitle(''); setNewCardUrl('')
+                }}>Add Card</button>
               </div>
             </div>
           )}

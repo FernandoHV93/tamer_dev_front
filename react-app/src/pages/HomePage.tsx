@@ -15,7 +15,7 @@ export default function HomePage() {
   }, [loadRecentArticles])
 
   return (
-    <div style={{ padding: 24 }}>
+    <div className="app-container">
       <FeatureButton
         iconPath="/assets/images/icons/search.svg"
         title="Content Management"
@@ -67,10 +67,10 @@ export default function HomePage() {
       />
 
       <div style={{ marginTop: 32 }}>
-        <h2 style={{ color: 'white' }}>Last Articles</h2>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-          <input placeholder="Article title" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <button disabled={!title || isGenerating} onClick={() => generateArticle(title, sessionId, userId)}>Generate</button>
+        <h2 className="section-title">Last Articles</h2>
+        <div className="row" style={{ marginBottom: 12 }}>
+          <input className="input" placeholder="Article title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <button className="btn btn-primary" disabled={!title || isGenerating} onClick={() => generateArticle(title, sessionId, userId)}>Generate</button>
         </div>
         {isGenerating && (
           <div style={{ background: '#2563EB', padding: 16, borderRadius: 12 }}>

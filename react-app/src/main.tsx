@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { setSessionHeaders } from './lib/http'
 import './index.css'
 import App from './App'
+import './styles/theme.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -20,14 +20,14 @@ export default function WebsitesPage() {
   const selected = useMemo(() => websites.find((w: WebsiteEntity) => w.id === selectedWebsiteId) ?? null, [websites, selectedWebsiteId])
 
   return (
-    <div style={{ padding: 24 }}>
+    <div className="app-container">
       <h1>Websites</h1>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <div style={{ display: 'flex', gap: 24 }}>
         <div style={{ flex: 1 }}>
           <h3>Listado</h3>
           {isLoading && <div>Cargando...</div>}
-          <ul>
+          <ul className="card">
             {websites.map((w: WebsiteEntity) => (
               <li key={w.id}>
                 <button onClick={() => select(w.id)} style={{ marginRight: 8 }}>
@@ -41,17 +41,17 @@ export default function WebsitesPage() {
           </ul>
         </div>
         <div style={{ width: 360 }}>
-          <h3>{editId ? 'Editar sitio' : 'Añadir sitio'}</h3>
-          <div style={{ display: 'grid', gap: 12 }}>
-            <input placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
-            <input placeholder="URL" value={url} onChange={(e) => setUrl(e.target.value)} />
-            <select value={status} onChange={(e) => setStatus(e.target.value as WebsiteStatus)}>
+          <h3 className="section-title">{editId ? 'Editar sitio' : 'Añadir sitio'}</h3>
+          <div className="col card">
+            <input className="input" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
+            <input className="input" placeholder="URL" value={url} onChange={(e) => setUrl(e.target.value)} />
+            <select className="select" value={status} onChange={(e) => setStatus(e.target.value as WebsiteStatus)}>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
             {editId ? (
               <>
-                <button
+                <button className="btn btn-success"
                   disabled={!name || !url || isLoading}
                   onClick={async () => {
                     await edit(editId!, { name, url, status })
@@ -61,10 +61,10 @@ export default function WebsitesPage() {
                 >
                   Actualizar
                 </button>
-                <button style={{ marginLeft: 8 }} onClick={() => { setEditId(null); setName(''); setUrl(''); setStatus('Active') }}>Cancelar</button>
+                <button className="btn" style={{ marginLeft: 8 }} onClick={() => { setEditId(null); setName(''); setUrl(''); setStatus('Active') }}>Cancelar</button>
               </>
             ) : (
-              <button
+              <button className="btn btn-primary"
                 disabled={!name || !url || isLoading}
                 onClick={async () => {
                   const website: Omit<WebsiteEntity, 'id'> = { name, url, status, lastChecked: new Date().toISOString() }

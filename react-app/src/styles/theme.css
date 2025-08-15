@@ -1,0 +1,54 @@
+:root {
+  --bg: #0f1115;
+  --panel: #1a1d24;
+  --panel-contrast: #111318;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --primary: #2563eb;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --border: #2a2f3a;
+}
+
+html, body, #root { height: 100%; }
+body { background: var(--bg); color: var(--text); }
+
+.app-container { padding: 24px; }
+
+.section-title { color: var(--text); margin: 0 0 12px; }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.row { display: flex; gap: 12px; align-items: center; }
+.col { display: grid; gap: 12px; }
+
+.btn {
+  border: 1px solid var(--border);
+  background: var(--panel-contrast);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--primary); border-color: var(--primary); }
+.btn-success { background: var(--success); border-color: var(--success); }
+.btn-danger { background: var(--danger); border-color: var(--danger); }
+
+.input, .select, .textarea {
+  background: var(--panel-contrast);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+.input { min-width: 220px; }
+.textarea { min-height: 80px; }
+
+
