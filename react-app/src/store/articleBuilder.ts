@@ -79,6 +79,11 @@ type State = {
 
 type Actions = {
   setGeneral: (partial: Partial<ArticleBuilderEntity['articleGeneratorGeneral']>) => void
+  setSettings: (partial: Partial<ArticleBuilderEntity['articleSettings']>) => void
+  setMediaHub: (partial: Partial<ArticleBuilderEntity['articleMediaHub']>) => void
+  setSEO: (keywords: string[]) => void
+  setStructure: (partial: Partial<ArticleBuilderEntity['articleStructure']>) => void
+  setDistribution: (partial: Partial<ArticleBuilderEntity['articleDistribution']>) => void
   saveForm: (sessionId: string, userId: string) => Promise<void>
   generate: (sessionId: string, userId: string) => Promise<void>
 }
@@ -94,6 +99,51 @@ export const useArticleBuilder = create<State & Actions>((set, get) => ({
       model: {
         ...get().model,
         articleGeneratorGeneral: { ...get().model.articleGeneratorGeneral, ...partial },
+      },
+    })
+  },
+
+  setSettings(partial) {
+    set({
+      model: {
+        ...get().model,
+        articleSettings: { ...get().model.articleSettings, ...partial },
+      },
+    })
+  },
+
+  setMediaHub(partial) {
+    set({
+      model: {
+        ...get().model,
+        articleMediaHub: { ...get().model.articleMediaHub, ...partial },
+      },
+    })
+  },
+
+  setSEO(keywords) {
+    set({
+      model: {
+        ...get().model,
+        articleSEO: { keywords },
+      },
+    })
+  },
+
+  setStructure(partial) {
+    set({
+      model: {
+        ...get().model,
+        articleStructure: { ...get().model.articleStructure, ...partial },
+      },
+    })
+  },
+
+  setDistribution(partial) {
+    set({
+      model: {
+        ...get().model,
+        articleDistribution: { ...get().model.articleDistribution, ...partial },
       },
     })
   },

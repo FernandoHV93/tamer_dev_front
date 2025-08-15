@@ -1,4 +1,9 @@
 import { useArticleBuilder } from '../store/articleBuilder'
+import SettingsSection from '../components/articleBuilder/SettingsSection'
+import MediaHubSection from '../components/articleBuilder/MediaHubSection'
+import SEOSection from '../components/articleBuilder/SEOSection'
+import StructureSection from '../components/articleBuilder/StructureSection'
+import DistributionSection from '../components/articleBuilder/DistributionSection'
 
 export default function ArticleBuilderPage() {
   const { model, setGeneral, saveForm, generate, isSaving, isGenerating, error } = useArticleBuilder()
@@ -49,6 +54,13 @@ export default function ArticleBuilderPage() {
         <button disabled={isGenerating} onClick={() => generate(sessionId, userId)}>
           {isGenerating ? 'Generating…' : 'Generate Article'}
         </button>
+      </div>
+      <div style={{ display: 'grid', gap: 24, marginTop: 16 }}>
+        <SettingsSection />
+        <MediaHubSection />
+        <SEOSection />
+        <StructureSection />
+        <DistributionSection />
       </div>
     </div>
   )
