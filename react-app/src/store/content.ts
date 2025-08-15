@@ -1,12 +1,16 @@
 import { create } from 'zustand'
 import type { ContentCard, Topic } from '../types/content'
+import type { InspectedWebsite } from '../types/performance'
+import type { WebsiteEntity } from '../types/website'
 import * as api from '../services/content'
+import * as perf from '../services/performance'
 
 type State = {
   cards: ContentCard[]
   topicsByCardId: Record<string, Topic[]>
   selectedWebsiteId?: string | null
   selectedCardId?: string | null
+  inspected?: InspectedWebsite | null
   isLoading: boolean
   error?: string | null
 }
@@ -15,6 +19,7 @@ type Actions = {
   loadCards: (websiteId: string) => Promise<void>
   selectCard: (cardId: string | null) => void
   loadTopics: (cardId: string) => Promise<void>
+  inspectWebsite: (website: WebsiteEntity) => Promise<void>
 }
 
 export const useContent = create<State & Actions>((set, get) => ({
@@ -44,6 +49,16 @@ export const useContent = create<State & Actions>((set, get) => ({
     try {
       const list = await api.loadTopicsByCardId(cardId)
       set({ topicsByCardId: { ...get().topicsByCardId, [cardId]: list }, isLoading: false })
+    } catch (e: any) {
+      set({ isLoading: false, error: e?.message ?? String(e) })
+    }
+  },
+
+  async inspectWebsite(website) {
+    set({ isLoading: true, error: null })
+    try {
+      const data = await perf.inspectWebsite(website)
+      set({ inspected: data, isLoading: false })
     } catch (e: any) {
       set({ isLoading: false, error: e?.message ?? String(e) })
     }
