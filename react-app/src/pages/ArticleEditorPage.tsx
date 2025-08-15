@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import ArticleEditor from '../components/editor/ArticleEditor'
 import { articleDtoToHtml } from '../lib/articleDtoToHtml'
 import { fetchGeneratedArticle, sendDefaultData } from '../services/articleBuilder'
+import { useSession } from '../context/SessionContext'
 
 export default function ArticleEditorPage() {
   // Placeholder de un ArticleDto mínimo
@@ -15,9 +16,7 @@ export default function ArticleEditorPage() {
   const [html, setHtml] = useState(articleDtoToHtml(dto))
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  const sessionId = 'Mayo8.com'
-  const userId = 'Mayo8.com'
+  const { sessionId, userId } = useSession()
 
   return (
     <div style={{ padding: 24, display: 'grid', gap: 12 }}>

@@ -1,4 +1,5 @@
 import { useArticleBuilder } from '../store/articleBuilder'
+import { useSession } from '../context/SessionContext'
 import SettingsSection from '../components/articleBuilder/SettingsSection'
 import MediaHubSection from '../components/articleBuilder/MediaHubSection'
 import SEOSection from '../components/articleBuilder/SEOSection'
@@ -7,9 +8,7 @@ import DistributionSection from '../components/articleBuilder/DistributionSectio
 
 export default function ArticleBuilderPage() {
   const { model, setGeneral, saveForm, generate, isSaving, isGenerating, error } = useArticleBuilder()
-
-  const sessionId = 'Mayo8.com'
-  const userId = 'Mayo8.com'
+  const { sessionId, userId } = useSession()
 
   return (
     <div style={{ padding: 24, display: 'grid', gap: 16 }}>

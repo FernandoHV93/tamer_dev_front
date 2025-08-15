@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useWebsites } from '../store/websites'
 import { useContent } from '../store/content'
+import { useSession } from '../context/SessionContext'
 import { useMemo, useState as useLocalState } from 'react'
 
 export default function ContentPage() {
@@ -8,10 +9,10 @@ export default function ContentPage() {
   const { cards, selectCard, loadCards, inspected, inspectWebsite, isLoading } = useContent()
   const [tab, setTab] = useState<'overview' | 'topics' | 'performance' | 'gaps'>('overview')
 
+  const { userId } = useSession()
   useEffect(() => {
-    const userId = 'Mayo8.com'
     load(userId)
-  }, [load])
+  }, [load, userId])
 
   useEffect(() => {
     if (selectedWebsiteId) {
