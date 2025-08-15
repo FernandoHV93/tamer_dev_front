@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import FeatureButton from '../components/FeatureButton'
 import { useRecentArticles } from '../store/recentArticles'
 import { useSession } from '../context/SessionContext'
+import ArticleCard from '../components/ArticleCard'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -82,14 +83,17 @@ export default function HomePage() {
             <span style={{ color: 'white' }}>{generatingError}</span>
           </div>
         )}
-        <ul className="card">
+        <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
           {articles.map((a) => (
-            <li key={a.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
-              <span>{a.article.h1.text}</span>
-              <button className="btn" onClick={() => navigate(`/article_editor_page?id=${encodeURIComponent(a.id)}`)}>Open</button>
-            </li>
+            <ArticleCard
+              key={a.id}
+              title={a.article.h1.text}
+              score={a.article.score}
+              date={(a.article as any).date}
+              onOpen={() => navigate(`/article_editor_page?id=${encodeURIComponent(a.id)}`)}
+            />
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   )
