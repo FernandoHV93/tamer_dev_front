@@ -74,8 +74,9 @@ export default function HomePage() {
           <button className="btn btn-primary" disabled={!title || isGenerating} onClick={() => generateArticle(title, sessionId, userId)}>Generate</button>
         </div>
         {isGenerating && (
-          <div style={{ background: '#2563EB', padding: 16, borderRadius: 12 }}>
-            <span style={{ color: 'white' }}>Generating article: "{generatingArticleTitle ?? ''}"</span>
+          <div className="card row" style={{ alignItems: 'center' }}>
+            <div className="spinner"></div>
+            <span>Generating article: "{generatingArticleTitle ?? ''}"</span>
           </div>
         )}
         {generatingError && (

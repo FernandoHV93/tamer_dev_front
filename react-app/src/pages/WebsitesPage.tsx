@@ -26,7 +26,7 @@ export default function WebsitesPage() {
       <div style={{ display: 'flex', gap: 24 }}>
         <div style={{ flex: 1 }}>
           <h3>Listado</h3>
-          {isLoading && <div>Cargando...</div>}
+          {isLoading && <div className="row" style={{ alignItems: 'center' }}><div className="spinner"></div><span>Cargando...</span></div>}
           <ul className="card">
             {websites.map((w: WebsiteEntity) => (
               <li key={w.id}>

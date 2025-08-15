@@ -74,4 +74,27 @@ body { background: var(--bg); color: var(--text); }
 }
 .feature-badge { font-size: 12px; background: var(--primary); padding: 2px 8px; border-radius: 8px; }
 
+/* Skeleton */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #1a1d24 25%, #222733 37%, #1a1d24 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+.skeleton.line { height: 12px; width: 100%; }
+.skeleton.card { height: 120px; }
+
+/* Spinner */
+.spinner {
+  width: 16px; height: 16px; border: 2px solid rgba(229,231,235,0.3);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 

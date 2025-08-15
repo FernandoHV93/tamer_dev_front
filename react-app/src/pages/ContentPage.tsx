@@ -78,6 +78,13 @@ export default function ContentPage() {
               ) : (
                 <div>Selecciona un website</div>
               )}
+              {isLoading && (
+                <div className="card" style={{ display: 'grid', gap: 8 }}>
+                  <div className="skeleton line"></div>
+                  <div className="skeleton line" style={{ width: '80%' }}></div>
+                  <div className="skeleton line" style={{ width: '60%' }}></div>
+                </div>
+              )}
               <div className="row" style={{ marginTop: 12 }}>
                 <input className="input" placeholder="New card title" value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)} />
                 <input className="input" placeholder="URL (opcional)" value={newCardUrl} onChange={(e) => setNewCardUrl(e.target.value)} />
