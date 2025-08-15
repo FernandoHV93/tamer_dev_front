@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { SessionProvider } from './context/SessionContext'
+import { ToastProvider } from './context/ToastContext'
 import { useEffect } from 'react'
 import { setSessionHeaders } from './lib/http'
 import './index.css'
@@ -10,11 +11,13 @@ import App from './App'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <SessionProvider>
-      <BrowserRouter>
-        <SessionHeadersGate>
-          <App />
-        </SessionHeadersGate>
-      </BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
+          <SessionHeadersGate>
+            <App />
+          </SessionHeadersGate>
+        </BrowserRouter>
+      </ToastProvider>
     </SessionProvider>
   </StrictMode>
 )

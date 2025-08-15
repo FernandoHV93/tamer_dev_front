@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useWebsites } from '../store/websites'
 import { useContent } from '../store/content'
 import { useSession } from '../context/SessionContext'
+import { useToast } from '../context/ToastContext'
 import { useMemo, useState as useLocalState } from 'react'
 
 export default function ContentPage() {
@@ -10,6 +11,7 @@ export default function ContentPage() {
   const [tab, setTab] = useState<'overview' | 'topics' | 'performance' | 'gaps'>('overview')
   const [newCardTitle, setNewCardTitle] = useState('')
   const [newCardUrl, setNewCardUrl] = useState('')
+  const { showToast } = useToast()
 
   const { userId, sessionId } = useSession()
   useEffect(() => {
@@ -68,8 +70,8 @@ export default function ContentPage() {
                         Open
                       </button>
                       {c.title} — {c.status}
-                      <button style={{ marginLeft: 8 }} onClick={() => updateCard(c.id, { title: c.title + ' (updated)' }, sessionId, userId)} disabled={isLoading}>Quick Update</button>
-                      <button style={{ marginLeft: 8 }} onClick={() => deleteCard(c.id, sessionId, userId)} disabled={isLoading}>Delete</button>
+                      <button style={{ marginLeft: 8 }} onClick={async () => { await updateCard(c.id, { title: c.title + ' (updated)' }, sessionId, userId); showToast('Card updated', 'success') }} disabled={isLoading}>Quick Update</button>
+                      <button style={{ marginLeft: 8 }} onClick={async () => { await deleteCard(c.id, sessionId, userId); showToast('Card deleted', 'success') }} disabled={isLoading}>Delete</button>
                     </li>
                   ))}
                 </ul>
@@ -84,6 +86,7 @@ export default function ContentPage() {
                   disabled={!newCardTitle || !selectedWebsiteId || isLoading}
                   onClick={async () => {
                     await addCard(selectedWebsiteId!, { title: newCardTitle, url: newCardUrl || undefined, keyWordsScore: 0, status: 'no_done' }, sessionId, userId)
+                    showToast('Card added', 'success')
                     setNewCardTitle(''); setNewCardUrl('')
                   }}
                 >
@@ -132,6 +135,7 @@ export default function ContentPage() {
 function TopicsPanel() {
   const { selectedCardId, topicsByCardId, loadTopics, addTopic, deleteTopic, updateTopic, isLoading } = useContent()
   const { sessionId, userId } = useSession()
+  const { showToast } = useToast()
   const topics = useMemo(() => (selectedCardId ? topicsByCardId[selectedCardId] ?? [] : []), [topicsByCardId, selectedCardId])
   const [keyWord, setKeyWord] = useLocalState('')
   const [status, setStatus] = useLocalState<'covered' | 'draft' | 'initiated'>('initiated')
@@ -158,6 +162,7 @@ function TopicsPanel() {
               date: new Date().toISOString(),
               status,
             } as any, sessionId, userId)
+            showToast('Topic added', 'success')
             setKeyWord('')
           }}
         >
@@ -168,8 +173,8 @@ function TopicsPanel() {
         {topics.map((t) => (
           <li key={t.id}>
             {t.keyWord} — {t.status}
-            <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={() => updateTopic(t.id, { status: 'covered' }, sessionId, userId)}>Mark Covered</button>
-            <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={() => deleteTopic(selectedCardId, t.id, sessionId, userId)}>Delete</button>
+            <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={async () => { await updateTopic(t.id, { status: 'covered' }, sessionId, userId); showToast('Topic updated', 'success') }}>Mark Covered</button>
+            <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={async () => { await deleteTopic(selectedCardId, t.id, sessionId, userId); showToast('Topic deleted', 'success') }}>Delete</button>
           </li>
         ))}
       </ul>

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useWebsites } from '../store/websites'
 import type { WebsiteEntity, WebsiteStatus } from '../types/website'
 import { useSession } from '../context/SessionContext'
+import { useToast } from '../context/ToastContext'
 
 export default function WebsitesPage() {
   const { websites, isLoading, error, load, add, select, selectedWebsiteId, edit, remove } = useWebsites() as any
@@ -10,6 +11,7 @@ export default function WebsitesPage() {
   const [status, setStatus] = useState<WebsiteStatus>('Active')
   const [editId, setEditId] = useState<string | null>(null)
   const { sessionId, userId } = useSession()
+  const { showToast } = useToast()
 
   useEffect(() => {
     load(userId)
@@ -33,7 +35,7 @@ export default function WebsitesPage() {
                 </button>
                 <strong>{w.name}</strong> — {w.url} — {w.status}
                 <button style={{ marginLeft: 8 }} onClick={() => { setEditId(w.id); setName(w.name); setUrl(w.url); setStatus(w.status) }}>Editar</button>
-                <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={() => remove(w.id)}>Eliminar</button>
+                <button style={{ marginLeft: 8 }} disabled={isLoading} onClick={async () => { await remove(w.id); showToast('Website deleted', 'success') }}>Eliminar</button>
               </li>
             ))}
           </ul>
@@ -53,6 +55,7 @@ export default function WebsitesPage() {
                   disabled={!name || !url || isLoading}
                   onClick={async () => {
                     await edit(editId!, { name, url, status })
+                    showToast('Website updated', 'success')
                     setEditId(null); setName(''); setUrl(''); setStatus('Active')
                   }}
                 >
@@ -66,6 +69,7 @@ export default function WebsitesPage() {
                 onClick={async () => {
                   const website: Omit<WebsiteEntity, 'id'> = { name, url, status, lastChecked: new Date().toISOString() }
                   await add(sessionId, userId, website)
+                  showToast('Website added', 'success')
                   setName('')
                   setUrl('')
                   setStatus('Active')

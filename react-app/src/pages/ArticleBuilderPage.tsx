@@ -5,10 +5,12 @@ import MediaHubSection from '../components/articleBuilder/MediaHubSection'
 import SEOSection from '../components/articleBuilder/SEOSection'
 import StructureSection from '../components/articleBuilder/StructureSection'
 import DistributionSection from '../components/articleBuilder/DistributionSection'
+import { useToast } from '../context/ToastContext'
 
 export default function ArticleBuilderPage() {
   const { model, setGeneral, saveForm, generate, isSaving, isGenerating, error } = useArticleBuilder()
   const { sessionId, userId } = useSession()
+  const { showToast } = useToast()
 
   return (
     <div style={{ padding: 24, display: 'grid', gap: 16 }}>
@@ -49,13 +51,19 @@ export default function ArticleBuilderPage() {
       <div style={{ display: 'flex', gap: 12 }}>
         <button
           disabled={isSaving || !model.articleGeneratorGeneral.language || !model.articleGeneratorGeneral.articleType || !model.articleGeneratorGeneral.articleMainKeyword || !model.articleGeneratorGeneral.articleTitle}
-          onClick={() => saveForm(sessionId, userId)}
+          onClick={async () => {
+            await saveForm(sessionId, userId)
+            showToast('Form saved successfully', 'success')
+          }}
         >
           {isSaving ? 'Saving…' : 'Save Form'}
         </button>
         <button
           disabled={isGenerating || !model.articleGeneratorGeneral.language || !model.articleGeneratorGeneral.articleType || !model.articleGeneratorGeneral.articleMainKeyword || !model.articleGeneratorGeneral.articleTitle}
-          onClick={() => generate(sessionId, userId)}
+          onClick={async () => {
+            await generate(sessionId, userId)
+            showToast('Generation started', 'info')
+          }}
         >
           {isGenerating ? 'Generating…' : 'Generate Article'}
         </button>
