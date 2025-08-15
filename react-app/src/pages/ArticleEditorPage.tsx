@@ -4,8 +4,9 @@ import { articleDtoToHtml } from '../lib/articleDtoToHtml'
 import { fetchGeneratedArticle, sendDefaultData } from '../services/articleBuilder'
 import { useSession } from '../context/SessionContext'
 import { useToast } from '../context/ToastContext'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import { extractTitleFromHtml } from '../lib/htmlUtils'
+import { useRecentArticles } from '../store/recentArticles'
 
 export default function ArticleEditorPage() {
   // Placeholder de un ArticleDto mínimo
@@ -22,6 +23,8 @@ export default function ArticleEditorPage() {
   const { sessionId, userId } = useSession()
   const { showToast } = useToast()
   const [] = useSearchParams()
+  const navigate = useNavigate()
+  const { addArticle } = useRecentArticles()
 
   // Load draft if present
   useEffect(() => {
@@ -104,6 +107,8 @@ export default function ArticleEditorPage() {
             try {
               await sendDefaultData(sessionId, userId, { H1: { N: true, I: false, U: false, text: title, aligment: 'center', size: 'H1' }, body: [] } as any)
               showToast('Article saved', 'success')
+              addArticle(title)
+              navigate('/home_page')
             } catch (e: any) {
               setError(e?.message ?? String(e))
             } finally {

@@ -14,6 +14,7 @@ type Actions = {
   startGeneratingArticle: (title: string) => void
   setError: (message: string | null) => void
   generateArticle: (title: string, sessionId: string, userId: string) => Promise<void>
+  addArticle: (title: string) => void
 }
 
 export const useRecentArticles = create<State & Actions>((set) => ({
@@ -102,6 +103,26 @@ export const useRecentArticles = create<State & Actions>((set) => ({
     } catch (e: any) {
       set({ isGenerating: false, generatingError: e?.message ?? String(e) })
     }
+  },
+
+  addArticle(title: string) {
+    const newArticle: PreviewArticle = {
+      id: String(Date.now()),
+      article: {
+        h1: {
+          N: true,
+          I: false,
+          U: false,
+          text: title,
+          aligment: 'center',
+          size: 'H1',
+        },
+        body: [],
+        score: 0,
+        date: new Date().toISOString(),
+      } as any,
+    }
+    set((s) => ({ articles: [newArticle, ...s.articles] }))
   },
 }))
 
