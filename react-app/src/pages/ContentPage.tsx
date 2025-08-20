@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useWebsites } from '../store/websites'
 import { useContent } from '../store/content'
 import { useSession } from '../context/SessionContext'
@@ -6,9 +7,10 @@ import { useToast } from '../context/ToastContext'
 import { useMemo, useState as useLocalState } from 'react'
 
 export default function ContentPage() {
+  const navigate = useNavigate()
   const { websites, selectedWebsiteId, select, load } = useWebsites()
   const { cards, selectCard, loadCards, inspected, inspectWebsite, isLoading, addCard, updateCard, deleteCard } = useContent()
-  const [tab, setTab] = useState<'overview' | 'topics' | 'performance' | 'gaps'>('overview')
+  const [tab, setTab] = useState<'cards' | 'topics' | 'performance' | 'gaps'>('cards')
   const [newCardTitle, setNewCardTitle] = useState('')
   const [newCardUrl, setNewCardUrl] = useState('')
   const { showToast } = useToast()
@@ -26,23 +28,34 @@ export default function ContentPage() {
 
   return (
     <div className="app-container">
-      <h1>Content</h1>
-      <div style={{ display: 'flex', gap: 24 }}>
-        <div style={{ width: 320 }}>
-          <h3>Websites</h3>
-          <ul className="card">
-            {websites.map((w) => (
-              <li key={w.id}>
-                <button onClick={() => select(w.id)} style={{ marginRight: 8 }}>
-                  Select
-                </button>
-                {w.name}
-              </li>
-            ))}
-          </ul>
-          <div style={{ marginTop: 16 }}>
+      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <h1 style={{ margin: 0 }}>Content</h1>
+        <div className="row" style={{ alignItems: 'center' }}>
+          <button className="btn btn-primary" onClick={() => showToast('Changes saved', 'success')}>Save Changes</button>
+          <div className="row" style={{ alignItems: 'center' }}>
+            <span style={{ color: 'var(--muted)' }}>Selected Website:</span>
+            <select className="select" value={selectedWebsiteId ?? ''} onChange={(e) => select(e.target.value)}>
+              <option value="" disabled>Select Website</option>
+              {websites.map((w) => (
+                <option key={w.id} value={w.id}>{w.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="card" style={{ padding: 6, marginBottom: 16 }}>
+        <div className="row" style={{ justifyContent: 'space-between' }}>
+          <div className="row">
+            <button className={`btn${tab === 'cards' ? ' btn-primary' : ''}`} onClick={() => setTab('cards')}>Content Cards</button>
+            <button className={`btn${tab === 'performance' ? ' btn-primary' : ''}`} onClick={() => setTab('performance')}>Performance</button>
+            <button className={`btn${tab === 'topics' ? ' btn-primary' : ''}`} onClick={() => setTab('topics')}>Topic Clusters</button>
+            <button className={`btn${tab === 'gaps' ? ' btn-primary' : ''}`} onClick={() => setTab('gaps')}>Content Gaps</button>
+          </div>
+          {selectedWebsiteId && (
             <button
-              disabled={!selectedWebsiteId || isLoading}
+              className="btn"
+              disabled={isLoading}
               onClick={() => {
                 const site = websites.find((x) => x.id === selectedWebsiteId)
                 if (site) inspectWebsite(site)
@@ -50,18 +63,22 @@ export default function ContentPage() {
             >
               {isLoading ? 'Inspecting…' : 'Inspect Website'}
             </button>
-          </div>
+          )}
         </div>
-        <div style={{ flex: 1 }}>
-          <div className="row" style={{ marginBottom: 12 }}>
-            <button className="btn" onClick={() => setTab('overview')} disabled={tab === 'overview'}>Overview</button>
-            <button className="btn" onClick={() => setTab('topics')} disabled={tab === 'topics'}>Topics</button>
-            <button className="btn" onClick={() => setTab('performance')} disabled={tab === 'performance'}>Performance</button>
-            <button className="btn" onClick={() => setTab('gaps')} disabled={tab === 'gaps'}>Gaps</button>
-          </div>
-          {tab === 'overview' && (
+      </div>
+
+      {websites.length === 0 ? (
+        <div className="card" style={{ display: 'grid', gap: 8, alignItems: 'center', justifyItems: 'center', padding: 40 }}>
+          <div style={{ width: 72, height: 72, borderRadius: 18, background: 'var(--panel-contrast)', display: 'grid', placeItems: 'center', border: '1px solid var(--border)' }}>🌐</div>
+          <div style={{ fontWeight: 700, fontSize: 18 }}>No websites yet</div>
+          <div style={{ color: 'var(--muted)' }}>Add your first website to get started</div>
+          <button className="btn btn-primary" onClick={() => navigate('/websites_page')}>Go to Websites</button>
+        </div>
+      ) : (
+        <div>
+          {tab === 'cards' && (
             <div>
-              <h3>Content Cards</h3>
+              <h3 style={{ marginTop: 0 }}>Content Cards</h3>
               {selectedWebsiteId ? (
                 <ul className="card">
                   {cards.map((c) => (
@@ -76,7 +93,7 @@ export default function ContentPage() {
                   ))}
                 </ul>
               ) : (
-                <div>Selecciona un website</div>
+                <div>Select a website</div>
               )}
               {isLoading && (
                 <div className="card" style={{ display: 'grid', gap: 8 }}>
@@ -87,7 +104,7 @@ export default function ContentPage() {
               )}
               <div className="row" style={{ marginTop: 12 }}>
                 <input className="input" placeholder="New card title" value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)} />
-                <input className="input" placeholder="URL (opcional)" value={newCardUrl} onChange={(e) => setNewCardUrl(e.target.value)} />
+                <input className="input" placeholder="URL (optional)" value={newCardUrl} onChange={(e) => setNewCardUrl(e.target.value)} />
                 <button className="btn btn-primary" disabled={!newCardTitle || !selectedWebsiteId || isLoading} onClick={async () => {
                   await addCard(selectedWebsiteId!, { title: newCardTitle, url: newCardUrl || undefined, keyWordsScore: 0, status: 'no_done' }, sessionId, userId)
                   showToast('Card added', 'success')
@@ -98,7 +115,7 @@ export default function ContentPage() {
           )}
           {tab === 'performance' && (
             <div>
-              <h3>Performance</h3>
+              <h3 style={{ marginTop: 0 }}>Performance</h3>
               {inspected ? (
                 <div style={{ display: 'grid', gap: 6 }}>
                   <div>Top 3 Keywords: {inspected.top3Keywords} (Δ {inspected.top3Delta})</div>
@@ -123,12 +140,12 @@ export default function ContentPage() {
           )}
           {tab === 'gaps' && (
             <div>
-              <h3>Gaps</h3>
-              <div>Pendiente de implementación</div>
+              <h3 style={{ marginTop: 0 }}>Gaps</h3>
+              <div>Pending implementation</div>
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   )
 }

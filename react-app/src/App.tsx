@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import './App.css'
 import HomePage from './pages/HomePage'
+import AllArticlesPage from './pages/AllArticlesPage'
 import RoadmapPage from './pages/RoadmapPage'
 import ArticleEditorPage from './pages/ArticleEditorPage'
 import ArticleBuilderPage from './pages/ArticleBuilderPage'
@@ -16,6 +16,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/home_page" element={<HomePage />} />
+        <Route path="/all_articles" element={<AllArticlesPage />} />
         <Route path="/roadmap_page" element={<RoadmapPage />} />
         <Route path="/article_editor_page" element={<ArticleEditorPage />} />
         <Route path="/article_builder" element={<ArticleBuilderPage />} />

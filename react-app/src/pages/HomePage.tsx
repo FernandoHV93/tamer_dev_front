@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FeatureButton from '../components/FeatureButton'
 import { useRecentArticles } from '../store/recentArticles'
-import { useSession } from '../context/SessionContext'
 import ArticleCard from '../components/ArticleCard'
+import { useToast } from '../context/ToastContext'
+import Modal from '../components/ui/modal'
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const { loadRecentArticles, articles, isGenerating, generatingArticleTitle, generatingError, generateArticle } = useRecentArticles()
-  const { sessionId, userId } = useSession()
-  const [title, setTitle] = useState('')
+  const { loadRecentArticles, articles, deleteArticle } = useRecentArticles()
+  const { showToast } = useToast()
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null)
 
   useEffect(() => {
     loadRecentArticles()
@@ -66,35 +67,41 @@ export default function HomePage() {
         badgeText="Configuration"
         onClick={() => navigate('/api_settings')}
       />
-
       <div style={{ marginTop: 32 }}>
-        <h2 className="section-title">Last Articles</h2>
-        <div className="row" style={{ marginBottom: 12 }}>
-          <input className="input" placeholder="Article title" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <button className="btn btn-primary" disabled={!title || isGenerating} onClick={() => generateArticle(title, sessionId, userId)}>Generate</button>
+        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <h2 className="section-title" style={{ margin: 0 }}>Last Articles</h2>
+          <button className="btn btn-primary" onClick={() => navigate('/all_articles')}>See all articles</button>
         </div>
-        {isGenerating && (
-          <div className="card row" style={{ alignItems: 'center' }}>
-            <div className="spinner"></div>
-            <span>Generating article: "{generatingArticleTitle ?? ''}"</span>
-          </div>
-        )}
-        {generatingError && (
-          <div style={{ background: 'red', padding: 16, borderRadius: 12 }}>
-            <span style={{ color: 'white' }}>{generatingError}</span>
-          </div>
-        )}
-        <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
+        {/* Input + Generate removed as requested */}
+        <div className="col">
           {articles.map((a) => (
             <ArticleCard
               key={a.id}
               title={a.article.h1.text}
               score={a.article.score}
               date={(a.article as any).date}
+              wordCount={(a.article as any).wordCount}
               onOpen={() => navigate(`/article_editor_page?id=${encodeURIComponent(a.id)}`)}
+              onEdit={() => navigate(`/article_editor_page?id=${encodeURIComponent(a.id)}`)}
+              onDelete={() => setPendingDeleteId(a.id)}
             />
           ))}
         </div>
+        <Modal
+          open={!!pendingDeleteId}
+          title="Delete article"
+          description={<span>Are you sure you want to delete this article? This action cannot be undone.</span>}
+          confirmText="Delete"
+          cancelText="Cancel"
+          onCancel={() => setPendingDeleteId(null)}
+          onConfirm={() => {
+            if (pendingDeleteId) {
+              deleteArticle(pendingDeleteId)
+              showToast('Article deleted', 'success')
+              setPendingDeleteId(null)
+            }
+          }}
+        />
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import * as api from '../services/articleBuilder'
 
 const defaultModel: ArticleBuilderEntity = {
   articleGeneratorGeneral: {
-    language: 'English',
+    language: 'English(US)',
     articleType: 'Blog',
     articleMainKeyword: '',
     articleTitle: '',

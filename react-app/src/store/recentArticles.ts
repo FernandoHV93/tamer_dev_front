@@ -15,6 +15,7 @@ type Actions = {
   setError: (message: string | null) => void
   generateArticle: (title: string, sessionId: string, userId: string) => Promise<void>
   addArticle: (title: string) => void
+  deleteArticle: (id: string) => void
 }
 
 export const useRecentArticles = create<State & Actions>((set) => ({
@@ -123,6 +124,10 @@ export const useRecentArticles = create<State & Actions>((set) => ({
       } as any,
     }
     set((s) => ({ articles: [newArticle, ...s.articles] }))
+  },
+
+  deleteArticle(id: string) {
+    set((s) => ({ articles: s.articles.filter((a) => a.id !== id) }))
   },
 }))
 

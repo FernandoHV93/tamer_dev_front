@@ -1,80 +1,9 @@
-import { useArticleBuilder } from '../store/articleBuilder'
-import { useSession } from '../context/SessionContext'
-import SettingsSection from '../components/articleBuilder/SettingsSection'
-import MediaHubSection from '../components/articleBuilder/MediaHubSection'
-import SEOSection from '../components/articleBuilder/SEOSection'
-import StructureSection from '../components/articleBuilder/StructureSection'
-import DistributionSection from '../components/articleBuilder/DistributionSection'
-import { useToast } from '../context/ToastContext'
+import React from 'react'
 
 export default function ArticleBuilderPage() {
-  const { model, setGeneral, saveForm, generate, isSaving, isGenerating, error } = useArticleBuilder()
-  const { sessionId, userId } = useSession()
-  const { showToast } = useToast()
-
   return (
-    <div style={{ padding: 24, display: 'grid', gap: 16 }}>
-      <h1>Article Builder</h1>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-
-      <div style={{ display: 'grid', gap: 12, maxWidth: 720 }}>
-        <label>
-          <div>Language</div>
-          <input
-            value={model.articleGeneratorGeneral.language}
-            onChange={(e) => setGeneral({ language: e.target.value })}
-          />
-        </label>
-        <label>
-          <div>Article Type</div>
-          <input
-            value={model.articleGeneratorGeneral.articleType}
-            onChange={(e) => setGeneral({ articleType: e.target.value })}
-          />
-        </label>
-        <label>
-          <div>Main Keyword</div>
-          <input
-            value={model.articleGeneratorGeneral.articleMainKeyword}
-            onChange={(e) => setGeneral({ articleMainKeyword: e.target.value })}
-          />
-        </label>
-        <label>
-          <div>Title</div>
-          <input
-            value={model.articleGeneratorGeneral.articleTitle}
-            onChange={(e) => setGeneral({ articleTitle: e.target.value })}
-          />
-        </label>
-      </div>
-
-      <div style={{ display: 'flex', gap: 12 }}>
-        <button
-          disabled={isSaving || !model.articleGeneratorGeneral.language || !model.articleGeneratorGeneral.articleType || !model.articleGeneratorGeneral.articleMainKeyword || !model.articleGeneratorGeneral.articleTitle}
-          onClick={async () => {
-            await saveForm(sessionId, userId)
-            showToast('Form saved successfully', 'success')
-          }}
-        >
-          {isSaving ? 'Saving…' : 'Save Form'}
-        </button>
-        <button
-          disabled={isGenerating || !model.articleGeneratorGeneral.language || !model.articleGeneratorGeneral.articleType || !model.articleGeneratorGeneral.articleMainKeyword || !model.articleGeneratorGeneral.articleTitle}
-          onClick={async () => {
-            await generate(sessionId, userId)
-            showToast('Generation started', 'info')
-          }}
-        >
-          {isGenerating ? 'Generating…' : 'Generate Article'}
-        </button>
-      </div>
-      <div style={{ display: 'grid', gap: 24, marginTop: 16 }}>
-        <SettingsSection />
-        <MediaHubSection />
-        <SEOSection />
-        <StructureSection />
-        <DistributionSection />
-      </div>
+    <div>
+      {/* Contenido vacío - listo para implementar */}
     </div>
   )
 }
