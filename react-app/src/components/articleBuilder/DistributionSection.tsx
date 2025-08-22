@@ -16,7 +16,7 @@ export default function DistributionSection() {
   const d = model.articleDistribution
   return (
     <div style={{ display: 'grid', gap: 16 }}>
-      <h3 style={{ margin: 0 }}>Connect to Web</h3>
+      <h3 style={{ margin: 0 }} className='mb-3 text-2xl font-bold'>Connect to Web</h3>
       <div className="row" style={{ gap: 16, flexWrap: 'wrap' }}>
         <div style={{ flex: 1, minWidth: 220 }}>
           <div>Source Links</div>
@@ -35,7 +35,7 @@ export default function DistributionSection() {
       </div>
 
       <div className="card" style={{ padding: 12 }}>
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="row mb-4" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <h4 style={{ margin: 0 }}>Internal Linking</h4>
           <Select><option>None</option></Select>
         </div>
@@ -43,7 +43,7 @@ export default function DistributionSection() {
       </div>
 
       <div className="card" style={{ padding: 12 }}>
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="row mb-4" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <h4 style={{ margin: 0 }}>External Linking</h4>
           <Select><option>None</option></Select>
         </div>

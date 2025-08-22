@@ -6,7 +6,8 @@ export default function MediaHubSection() {
   const { model, setMediaHub } = useArticleBuilder()
   const m = model.articleMediaHub
   return (
-    <div style={{ display: 'grid', gap: 16 }}>
+    <div style={{ display: 'grid', gap: 16 }} className='p-12  card'>
+      <h2 className='mb-6 text-2xl font-bold'>Media Hub</h2>
       <div className="row" style={{ gap: 16, flexWrap: 'wrap' }}>
         <div style={{ flex: 1, minWidth: 180 }}>
           <div>AI Images</div>
@@ -51,13 +52,14 @@ export default function MediaHubSection() {
           <textarea className="textarea" value={m.additionalInstructions} onChange={(e) => setMediaHub({ additionalInstructions: e.target.value })} />
           <div className="muted-text">Include the main keyword in the first image as Alt-text. Relevant keywords will be picked up and added to the rest of the images.</div>
         </div>
+        
+      </div>
+
+      <div className="row" style={{ gap: 16, flexWrap: 'wrap' }}>
         <div style={{ width: 260 }}>
           <div>Brand Name</div>
           <Input value={m.brandName} onChange={(e) => setMediaHub({ brandName: e.target.value })} placeholder="Enter your brand name" />
         </div>
-      </div>
-
-      <div className="row" style={{ gap: 16, flexWrap: 'wrap' }}>
         <div style={{ flex: 1, minWidth: 180 }}>
           <div>YouTube videos</div>
           <Select value={m.youtubeVideos ? 'Yes' : 'No'} onChange={(e) => setMediaHub({ youtubeVideos: e.target.value === 'Yes' })}>

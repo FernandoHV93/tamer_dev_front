@@ -7,12 +7,8 @@ export default function SettingsSection() {
   const { model, setSettings } = useArticleBuilder()
   const s = model.articleSettings
   return (
-    <div style={{
-      background: 'rgba(31, 41, 55, 0.5)',
-      border: '1px solid #374151',
-      borderRadius: '12px',
-      padding: '24px'
-    }}>
+    <div className='p-12 card'>
+      <h2 className='mb-6 text-2xl font-bold'>Article Settings</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
           <div style={{ flex: '1', minWidth: '200px' }}>
@@ -46,8 +42,7 @@ export default function SettingsSection() {
                 onChange={(e) => setSettings({ articleSize: e.target.value })}
                 style={{
                   width: '100%',
-                  padding: '12px 12px 12px 40px',
-                  backgroundColor: '#1f2937',
+                  padding: '6px 6px 6px 40px',
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   color: '#ffffff',
@@ -93,8 +88,8 @@ export default function SettingsSection() {
                 readOnly 
                 style={{
                   width: '100%',
-                  padding: '12px 12px 12px 40px',
-                  backgroundColor: '#1f2937',
+                  padding: '6px 6px 6px 40px',
+                
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   color: '#ffffff',
@@ -134,8 +129,8 @@ export default function SettingsSection() {
                 onChange={(e) => setSettings({ targetCountry: e.target.value })}
                 style={{
                   width: '100%',
-                  padding: '12px 12px 12px 40px',
-                  backgroundColor: '#1f2937',
+                  padding: '6px 6px 6px 40px',
+                
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   color: '#ffffff',
@@ -183,8 +178,8 @@ export default function SettingsSection() {
                 onChange={(e) => setSettings({ aiModel: e.target.value })}
                 style={{
                   width: '100%',
-                  padding: '12px 12px 12px 40px',
-                  backgroundColor: '#1f2937',
+                  padding: '6px 6px 6px 40px',
+                
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   color: '#ffffff',
@@ -228,8 +223,8 @@ export default function SettingsSection() {
                 onChange={(e) => setSettings({ humanizeText: e.target.value })}
                 style={{
                   width: '100%',
-                  padding: '12px 12px 12px 40px',
-                  backgroundColor: '#1f2937',
+                  padding: '6px 6px 6px 40px',
+                
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   color: '#ffffff',
@@ -274,8 +269,8 @@ export default function SettingsSection() {
                 onChange={(e) => setSettings({ aiWordsRemoval: e.target.value })}
                 style={{
                   width: '100%',
-                  padding: '12px 12px 12px 40px',
-                  backgroundColor: '#1f2937',
+                  padding: '6px 6px 6px 40px',
+                
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   color: '#ffffff',
@@ -323,8 +318,8 @@ export default function SettingsSection() {
                 onChange={(e) => setSettings({ pointOfView: e.target.value })}
                 style={{
                   width: '100%',
-                  padding: '12px 12px 12px 40px',
-                  backgroundColor: '#1f2937',
+                  padding: '6px 6px 6px 40px',
+                
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   color: '#ffffff',
@@ -369,8 +364,8 @@ export default function SettingsSection() {
                 onChange={(e) => setSettings({ toneOfVoice: e.target.value })}
                 style={{
                   width: '100%',
-                  padding: '12px 12px 12px 40px',
-                  backgroundColor: '#1f2937',
+                  padding: '6px 6px 6px 40px',
+                
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   color: '#ffffff',
@@ -404,7 +399,7 @@ export default function SettingsSection() {
               width: '100%',
               minHeight: 120,
               padding: '12px',
-              backgroundColor: '#1f2937',
+            
               border: '1px solid #374151',
               borderRadius: '8px',
               color: '#ffffff',
@@ -432,8 +427,8 @@ export default function SettingsSection() {
               onChange={(e) => setSettings({ brandVoice: { ...(s.brandVoice ?? { id: '' } as any), brandName: e.target.value } as any })} 
               style={{ 
                 width: '100%',
-                padding: '12px 80px 12px 12px',
-                backgroundColor: '#1f2937',
+                padding: '6px 80px 6px 12px',
+              
                 border: '1px solid #374151',
                 borderRadius: '8px',
                 color: '#ffffff',

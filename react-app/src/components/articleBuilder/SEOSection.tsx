@@ -7,20 +7,22 @@ export default function SEOSection() {
   const [value, setValue] = useState(model.articleSEO.keywords.join(', '))
   return (
     <div style={{ display: 'grid', gap: 12 }}>
+      <h2 className='mb-3 text-2xl font-bold'>SEO</h2>
       <div className="muted-text">Keywords will be used to generate relevant content. Add them manually or generate them automatically.</div>
-      <label>
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>Keywords to include in the text</span>
-          <button className="btn btn-primary">NLP keywords generation</button>
-        </div>
-        <Input
+      <div className='flex flex-col '>
+        <span>Keywords to include in the text</span>
+        <label className="flex gap-4 h-min" >
+          <Input
           placeholder="Write keywords and press Enter"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onBlur={() => setSEO(value.split(',').map((s) => s.trim()).filter(Boolean))}
         />
+          <button className="btn btn-primary w-1/3 ">NLP keywords generation</button>
+        </label>
+        
         <div className="muted-text" style={{ marginTop: 6 }}>Keywords will be used to generate relevant content. You can add them manually or generate them automatically.</div>
-      </label>
+      </div>
     </div>
   )
 }
