@@ -14,8 +14,8 @@ const links = [
 export default function Navbar() {
   const { pathname } = useLocation()
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
+    <header className="navbar flex justify-center">
+      <div className="navbar-inner w-full max-w-[1220px] flex justify-between">
         <div className="navbar-brand">Article Builder</div>
         <nav className="navbar-links">
           {links.map((l) => (

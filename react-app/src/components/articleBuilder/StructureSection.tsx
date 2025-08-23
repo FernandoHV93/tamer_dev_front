@@ -9,10 +9,10 @@ export default function StructureSection() {
   }
   const hookOptions = ['Intriguing Question', 'Statistical Impact', 'Anecdotal', 'Memorable Quote', 'Contrast/Paradox', 'Scene-Setting', 'Universal Problem', 'Surprising Revelation', 'Prediction/Future', 'Unique Definition']
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
+    <div style={{ display: 'grid', gap: 12 }} className='p-5 sm:p-0'>
       <h2 className='mb-3 text-2xl font-bold'>Structure</h2>
       <div>Introductory Hook Brief</div>
-      <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
+      <div className="flex flex-col gap-3 sm:flex-wrap sm:flex-row" >
         {hookOptions.map((opt) => (
           <button key={opt} className={`btn${st.typeOfHook === opt ? ' btn-primary' : ''}`} onClick={() => setStructure({ typeOfHook: opt })}>{opt}</button>
         ))}

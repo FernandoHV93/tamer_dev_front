@@ -23,23 +23,23 @@ function Example() {
 
 export default function ArticleBuilderPage() {
   return (
-    <section className="flex flex-col items-center w-full min-h-[100vh]">
-      <article className="w-[62%] mb-8 mt-8">
+    <section className="flex flex-col items-center w-full min-h-[100vh] ">
+      <article className="w-auto sm:w-[80%] lg:w-[62%] mb-8 mt-8 max-w-[1200px]">
         <ArticleGeneratorSection/>
       </article>
-      <article className="w-[62%] mb-8">
+      <article className="w-auto sm:w-[80%] lg:w-[62%] mb-8 max-w-[1200px]">
         <SettingsSection/>
       </article>
-      <article className="w-[62%] mb-8 ">
+      <article className="w-auto sm:w-[80%] lg:w-[62%] mb-8 max-w-[1200px]">
         <MediaHubSection/>
       </article>
-      <article className="w-[62%] mb-8 ">
+      <article className="w-auto sm:w-[80%] lg:w-[62%] mb-8 max-w-[1200px]">
         <SEOSection/>
       </article>
-      <article className="w-[62%] mb-8">
+      <article className="w-auto sm:w-[80%] lg:w-[62%] mb-8 max-w-[1200px]">
         <StructureSection/>
       </article>
-      <article className="w-[62%] mb-8 ">
+      <article className="w-auto sm:w-[80%] lg:w-[62%] mb-8 max-w-[1200px]">
         <DistributionSection/>
       </article>
     </section>

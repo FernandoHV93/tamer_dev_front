@@ -7,7 +7,7 @@ export default function SettingsSection() {
   const { model, setSettings } = useArticleBuilder()
   const s = model.articleSettings
   return (
-    <div className='p-12 card'>
+    <div className='sm:rounded-2xl card '>
       <h2 className='mb-6 text-2xl font-bold'>Article Settings</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>

@@ -8,27 +8,27 @@ export default function ArticleGeneratorSection() {
   const g = model.articleGeneratorGeneral
 
   return (
-    <div style={{ display: 'grid', gap: 8 }} className="p-12 card">
-        <div className='flex justify-between'>
-            <h2 className="text-2xl font-bold">Article Generator</h2>
+    <div style={{ display: 'grid', gap: 8 }} className="card sm:rounded-2xl w-[100vw] sm:w-full">
+        <div className='flex  flex-wrap gap-1 lg:flex-row justify-between lg:justify-between'>
+            <h2 className="text-2xl 2xl:text-3xl font-bold">Article Generator</h2>
             {/* Actions */}
              <div className="flex justify-end gap-4">
             <Button
-                className='btn-primary '
+                className='btn-primary 2xl:text-lg'
                 variant="default"
                 onClick={() => saveForm('session123', 'user123')}
             >
                 Save Data
             </Button>
             <Button
-            className='btn-primary'
+            className='btn-primary 2xl:text-lg'
             onClick={() => generate('session123', 'user123')}>
             Run
             </Button>
         </div>
         </div>
       
-      <div className="muted-text mb-3 text-base">Generate and publish article in 1 click</div>
+      <div className="muted-text mb-3 text-base 2xl:text-lg">Generate and publish article in 1 click</div>
 
       {/* Language */}
       <div className="row" style={{ gap: 16, flexWrap: 'wrap' }}>
@@ -37,6 +37,7 @@ export default function ArticleGeneratorSection() {
           <Select
             value={g.language}
             onChange={(e) => setGeneral({ language: e.target.value })}
+            className=''
           >
             <option>English(US)</option>
             <option>English(UK)</option>
