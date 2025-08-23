@@ -55,10 +55,10 @@ export default function MediaHubSection() {
         
       </div>
 
-      <div className="row" style={{ gap: 16, flexWrap: 'wrap' }}>
-        <div style={{flex:1, width: 260 }}>
+      <div className="row" >
+        <div style={{flex:1, minWidth: 180 }} >
           <div>Brand Name</div>
-          <Input value={m.brandName} onChange={(e) => setMediaHub({ brandName: e.target.value })} placeholder="Enter your brand name" />
+          <Input value={m.brandName}  onChange={(e) => setMediaHub({ brandName: e.target.value })} placeholder="Enter your brand name" />
         </div>
         <div style={{ flex: 1, minWidth: 180 }}>
           <div>YouTube videos</div>
