@@ -1,9 +1,3 @@
-import React from "react"
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "../components/ui/resizable"
 import StructureSection from "../components/articleBuilder/StructureSection"
 import SEOSection from "../components/articleBuilder/SEOSection"
 import MediaHubSection from "../components/articleBuilder/MediaHubSection"
@@ -11,15 +5,6 @@ import SettingsSection from "../components/articleBuilder/SettingsSection"
 import DistributionSection from "../components/articleBuilder/DistributionSection"
 import ArticleGeneratorSection from "../components/articleBuilder/GeneratorSection"
 
-function Example() {
-  return (
-    <ResizablePanelGroup direction="vertical">
-      <ResizablePanel>One</ResizablePanel>
-      <ResizableHandle />
-      <ResizablePanel>Two</ResizablePanel>
-    </ResizablePanelGroup>
-  )
-}
 
 export default function ArticleBuilderPage() {
   return (

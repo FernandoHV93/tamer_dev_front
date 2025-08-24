@@ -1,3 +1,4 @@
+// ToastContext.tsx
 import { createContext, useContext, useMemo, useState, useCallback } from 'react'
 import type { ReactNode } from 'react'
 
@@ -11,6 +12,15 @@ type ToastCtx = {
 }
 
 const Ctx = createContext<ToastCtx | null>(null)
+
+// 👇 variable global para exponer showToast
+let globalShowToast: ToastCtx["showToast"] | null = null
+export function setToastHandler(handler: ToastCtx["showToast"]) {
+  globalShowToast = handler
+}
+export function toast(message: string, type: ToastType = "info", ttlMs?: number) {
+  globalShowToast?.(message, type, ttlMs)
+}
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([])
@@ -27,6 +37,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<ToastCtx>(() => ({ toasts, showToast, removeToast }), [toasts, showToast, removeToast])
 
+  // 👇 registrar showToast global
+  setToastHandler(showToast)
+
   return (
     <Ctx.Provider value={value}>
       {children}
@@ -40,6 +53,7 @@ export function useToast() {
   if (!ctx) throw new Error('useToast must be used within ToastProvider')
   return ctx
 }
+
 
 function ToastContainer({ toasts, onClose }: { toasts: Toast[]; onClose: (id: string) => void }) {
   return (

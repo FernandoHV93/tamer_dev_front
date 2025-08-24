@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useArticleBuilder } from '../../store/articleBuilder'
 import { Input } from '../ui/input'
+import { Button } from '../ui/button'
 
 export default function SEOSection() {
   const { model, setSEO } = useArticleBuilder()
@@ -18,7 +19,8 @@ export default function SEOSection() {
           onChange={(e) => setValue(e.target.value)}
           onBlur={() => setSEO(value.split(',').map((s) => s.trim()).filter(Boolean))}
         />
-          <button className="btn btn-primary w-full lg:w-1/3 ">NLP keywords generation</button>
+          <Button className='btn-primary 2xl:text-lg'
+                variant="default">NLP keywords generation</Button>
         </label>
         
         <div className="muted-text" style={{ marginTop: 6 }}>Keywords will be used to generate relevant content. You can add them manually or generate them automatically.</div>

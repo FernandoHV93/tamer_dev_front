@@ -1,19 +1,38 @@
 import { http } from '../lib/http'
 import type { ArticleBuilderEntity, ArticleDto } from '../types/articleBuilder'
+import { toast } from '../context/ToastContext'  // 👈 importamos el helper
 
 export async function saveForm(sessionId: string, userId: string, model: ArticleBuilderEntity): Promise<void> {
-  const payload = { userID: userId, sessionID: sessionId, ...toBackendPayload(model) }
-  await http.post('/article_generator', payload)
+  try {
+    const payload = { userID: userId, sessionID: sessionId, ...toBackendPayload(model) }
+    await http.post('/article_generator', payload)
+    toast("Artículo guardado correctamente ✅", "success")
+  } catch (err: any) {
+    toast(`Error al guardar artículo: ${err}`, "error")
+    throw err
+  }
 }
 
 export async function sendDefaultData(sessionId: string, userId: string, dto: ArticleDto): Promise<void> {
-  const payload = { userID: userId, sessionID: sessionId, ...dto }
-  await http.post('/component_article_format', payload)
+  try {
+    const payload = { userID: userId, sessionID: sessionId, ...dto }
+    await http.post('/component_article_format', payload)
+    toast("Datos predeterminados enviados ✅", "success")
+  } catch (err: any) {
+    toast(`Error al enviar artículo: ${err}`, "error")
+    throw err
+  }
 }
 
 export async function fetchGeneratedArticle(sessionId: string, userId: string): Promise<ArticleDto> {
-  const res = await http.post('/run_generator', { sessionID: sessionId, userID: userId })
-  return res.data as ArticleDto
+  try {
+    const res = await http.post('/run_generator', { sessionID: sessionId, userID: userId })
+    toast("Artículo generado correctamente 🎉", "success")
+    return res.data as ArticleDto
+  } catch (err: any) {
+    toast(`Error al generar artículo: ${err}`, "error")
+    throw err
+  }
 }
 
 function toBackendPayload(model: ArticleBuilderEntity) {

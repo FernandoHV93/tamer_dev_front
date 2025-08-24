@@ -7,10 +7,30 @@ import { Select,
   SelectTrigger,
   SelectValue, } from '../ui/select'
 import { Button } from '../ui/button'
+import { useToast } from '../../context/ToastContext'
 
 export default function ArticleGeneratorSection() {
   const { model, setGeneral, saveForm, generate } = useArticleBuilder()
   const g = model.articleGeneratorGeneral
+  const { showToast } = useToast()
+
+  const handleSave = async () => {
+    try {
+      await saveForm("Mayo8.com", "Mayo8.com")
+      showToast("Article saved in proccess", "info")
+    } catch {
+      showToast("Error al guardar el artículo ❌", "error")
+    }
+  }
+  const handleGenerate = async () => {
+    try {
+      await generate("Mayo8.com", "Mayo8.com")
+      showToast("Article generated in proccess", "info")
+    } catch {
+      showToast("Error al guardar el artículo ❌", "error")
+    }
+  }
+
 
   return (
     <div style={{ display: 'grid', gap: 8 }} className="card sm:rounded-2xl w-[100vw] sm:w-full">
@@ -21,13 +41,13 @@ export default function ArticleGeneratorSection() {
             <Button
                 className='btn-primary 2xl:text-lg'
                 variant="default"
-                onClick={() => saveForm('session123', 'user123')}
+                onClick={handleSave}
             >
                 Save Data
             </Button>
             <Button
             className='btn-primary 2xl:text-lg'
-            onClick={() => generate('session123', 'user123')}>
+            onClick={handleGenerate}>
             Run
             </Button>
         </div>
