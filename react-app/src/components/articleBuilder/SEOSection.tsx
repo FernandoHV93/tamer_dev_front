@@ -12,14 +12,14 @@ export default function SEOSection() {
       <div className="muted-text">Keywords will be used to generate relevant content. Add them manually or generate them automatically.</div>
       <div className='flex flex-col '>
         <span>Keywords to include in the text</span>
-        <label className="flex flex-wrap lg:flex-nowrap gap-4 h-min" >
+        <label className="flex flex-col lg:flex-row sm:flex-wrap lg:flex-nowrap gap-4 h-min" >
           <Input
           placeholder="Write keywords and press Enter"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          onBlur={() => setSEO(value.split(',').map((s) => s.trim()).filter(Boolean))}
+          onBlur={() => setSEO(value.split(',').map((s) => s.trim()).filter(Boolean))} 
         />
-          <Button className='btn-primary 2xl:text-lg'
+          <Button className='btn-primary 2xl:text-lg '
                 variant="default">NLP keywords generation</Button>
         </label>
         
