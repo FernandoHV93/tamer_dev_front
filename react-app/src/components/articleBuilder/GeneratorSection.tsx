@@ -1,6 +1,11 @@
 import { useArticleBuilder } from '../../store/articleBuilder'
 import { Input } from '../ui/input'
-import { Select } from '../ui/select'
+import { Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue, } from '../ui/select'
 import { Button } from '../ui/button'
 
 export default function ArticleGeneratorSection() {
@@ -36,13 +41,20 @@ export default function ArticleGeneratorSection() {
           <div>Language</div>
           <Select
             value={g.language}
-            onChange={(e) => setGeneral({ language: e.target.value })}
-            className=''
+            onValueChange={(val) => setGeneral({ language: val })}
+            
           >
-            <option>English(US)</option>
-            <option>English(UK)</option>
-            <option>Spanish</option>
-            <option>French</option>
+             <SelectTrigger className="w-full bg-[var(--bg)]">
+              <SelectValue placeholder="Select a Lenguage" />
+            </SelectTrigger>
+            <SelectContent className='w-full bg-[var(--bg)] border-[var(--border)]'>
+              <SelectGroup>
+              <SelectItem className='hover:bg-[var(--panel)]' value="English(US)">English(US)</SelectItem>
+              <SelectItem className='hover:bg-[var(--panel)]' value="English(UK)">English(UK)</SelectItem>
+              <SelectItem className='hover:bg-[var(--panel)]' value="Spanish">Spanish</SelectItem>
+              <SelectItem className='hover:bg-[var(--panel)]' value="French">French</SelectItem>
+              </SelectGroup>
+            </SelectContent>
           </Select>
         </div>
 
@@ -51,13 +63,17 @@ export default function ArticleGeneratorSection() {
           <div>Article Type</div>
           <Select
             value={g.articleType}
-            onChange={(e) => setGeneral({ articleType: e.target.value })}
+            onValueChange={(val) => setGeneral({ articleType: val })}
           >
-            <option>None</option>
-            <option>Blog</option>
-            <option>News</option>
-            <option>Guide</option>
-            <option>Review</option>
+            <SelectTrigger className="w-full bg-amber-50">
+              <SelectValue placeholder="Lenguage" />
+            </SelectTrigger>
+            <SelectContent className='w-full bg-[var(--bg)] border-[var(--border)]'>
+              <SelectItem className='hover:bg-[var(--panel)]' value="None">None</SelectItem>
+              <SelectItem className='hover:bg-[var(--panel)]' value="Blog">Blog</SelectItem>
+              <SelectItem className='hover:bg-[var(--panel)]' value="Guide">Guide</SelectItem>
+              <SelectItem className='hover:bg-[var(--panel)]' value="Review">Review</SelectItem>
+            </SelectContent>
           </Select>
         </div>
       </div>

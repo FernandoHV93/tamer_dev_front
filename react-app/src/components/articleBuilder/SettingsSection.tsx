@@ -1,6 +1,10 @@
 import { useArticleBuilder } from '../../store/articleBuilder'
 import { Input } from '../ui/input'
-import { Select } from '../ui/select'
+import { Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue, } from '../ui/select'
 import { Button } from '../ui/button'
 
 export default function SettingsSection() {
@@ -39,22 +43,20 @@ export default function SettingsSection() {
               />
               <Select 
                 value={s.articleSize} 
-                onChange={(e) => setSettings({ articleSize: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '6px 6px 6px 40px',
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#ffffff',
-                  fontSize: '14px'
-                }}
+                onValueChange={(val) => setSettings({ articleSize: val })}
               >
-                <option>X-Small</option>
-                <option>Small</option>
-                <option>Medium</option>
-                <option>Large</option>
-                <option>XL</option>
+                <SelectTrigger className="w-full pl-10 border border-gray-700 rounded-lg text-sm text-white">
+                  <SelectValue placeholder="Select article size" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="X-Small">X-Small</SelectItem>
+                  <SelectItem value="Small">Small</SelectItem>
+                  <SelectItem value="Medium">Medium</SelectItem>
+                  <SelectItem value="Large">Large</SelectItem>
+                  <SelectItem value="XL">XL</SelectItem>
+                </SelectContent>
               </Select>
+
             </div>
           </div>
           <div style={{ flex: '1', minWidth: '200px' }}>
@@ -126,21 +128,17 @@ export default function SettingsSection() {
               />
               <Select 
                 value={s.targetCountry} 
-                onChange={(e) => setSettings({ targetCountry: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '6px 6px 6px 40px',
-                
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#ffffff',
-                  fontSize: '14px'
-                }}
+                onValueChange={(e) => setSettings({ targetCountry: e })}
               >
-                <option>USA</option>
-                <option>Spain</option>
-                <option>France</option>
-                <option>Germany</option>
+                <SelectTrigger className="w-full pl-10 border border-gray-700 rounded-lg text-sm text-white">
+                  <SelectValue placeholder="Select target country" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="USA">USA</SelectItem>
+                  <SelectItem value="Spain">Spain</SelectItem>
+                  <SelectItem value="France">France</SelectItem>
+                  <SelectItem value="Germany">Germany</SelectItem>
+                </SelectContent>
               </Select>
             </div>
           </div>
@@ -173,23 +171,21 @@ export default function SettingsSection() {
                   pointerEvents: 'none'
                 }}
               />
-              <Select 
-                value={s.aiModel} 
-                onChange={(e) => setSettings({ aiModel: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '6px 6px 6px 40px',
-                
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#ffffff',
-                  fontSize: '14px'
-                }}
+              <Select
+                value={s.aiModel}
+                onValueChange={(val) => setSettings({ aiModel: val })}
               >
-                <option>gpt-4o</option>
-                <option>GPT-4</option>
-                <option>Claude-3.5</option>
+                <SelectTrigger  className="w-full pl-10 border border-gray-700 rounded-lg text-sm text-white"
+                >
+                  <SelectValue placeholder="Select AI model" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gpt-4o">gpt-4o</SelectItem>
+                  <SelectItem value="GPT-4">GPT-4</SelectItem>
+                  <SelectItem value="Claude-3.5">Claude-3.5</SelectItem>
+                </SelectContent>
               </Select>
+
             </div>
           </div>
           <div style={{ flex: '1', minWidth: '200px' }}>
@@ -218,24 +214,21 @@ export default function SettingsSection() {
                   pointerEvents: 'none'
                 }}
               />
-              <Select 
-                value={s.humanizeText} 
-                onChange={(e) => setSettings({ humanizeText: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '6px 6px 6px 40px',
-                
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#ffffff',
-                  fontSize: '14px'
-                }}
+              <Select
+                value={s.humanizeText}
+                onValueChange={(val) => setSettings({ humanizeText: val })}
               >
-                <option>None</option>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
+                <SelectTrigger  className="w-full pl-10 border border-gray-700 rounded-lg text-sm text-white">
+                  <SelectValue placeholder="Select level" />
+                </SelectTrigger >
+                <SelectContent>
+                  <SelectItem value="None">None</SelectItem>
+                  <SelectItem value="Low">Low</SelectItem>
+                  <SelectItem value="Medium">Medium</SelectItem>
+                  <SelectItem value="High">High</SelectItem>
+                </SelectContent>
               </Select>
+
             </div>
           </div>
           <div style={{ flex: '1', minWidth: '200px' }}>
@@ -264,24 +257,21 @@ export default function SettingsSection() {
                   pointerEvents: 'none'
                 }}
               />
-              <Select 
-                value={s.aiWordsRemoval} 
-                onChange={(e) => setSettings({ aiWordsRemoval: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '6px 6px 6px 40px',
-                
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#ffffff',
-                  fontSize: '14px'
-                }}
+              <Select
+                value={s.aiWordsRemoval}
+                onValueChange={(val) => setSettings({ aiWordsRemoval: val })}
               >
-                <option>No AI Words Removal</option>
-                <option>Light</option>
-                <option>Moderate</option>
-                <option>Aggressive</option>
+                <SelectTrigger className="w-full pl-10 border border-gray-700 rounded-lg text-sm text-white">
+                  <SelectValue placeholder="AI Words Removal" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="No AI Words Removal">No AI Words Removal</SelectItem>
+                  <SelectItem value="Light">Light</SelectItem>
+                  <SelectItem value="Moderate">Moderate</SelectItem>
+                  <SelectItem value="Aggressive">Aggressive</SelectItem>
+                </SelectContent>
               </Select>
+
             </div>
           </div>
         </div>
@@ -313,24 +303,21 @@ export default function SettingsSection() {
                   pointerEvents: 'none'
                 }}
               />
-              <Select 
-                value={s.pointOfView} 
-                onChange={(e) => setSettings({ pointOfView: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '6px 6px 6px 40px',
-                
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#ffffff',
-                  fontSize: '14px'
-                }}
+              <Select
+                value={s.pointOfView}
+                onValueChange={(val) => setSettings({ pointOfView: val })}
               >
-                <option>First Person Singular</option>
-                <option>First Person Plural</option>
-                <option>Second Person</option>
-                <option>Third Person</option>
+                <SelectTrigger className="w-full pl-10 border border-gray-700 rounded-lg text-sm text-white">
+                  <SelectValue placeholder="Point of View" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="First Person Singular">First Person Singular</SelectItem>
+                  <SelectItem value="First Person Plural">First Person Plural</SelectItem>
+                  <SelectItem value="Second Person">Second Person</SelectItem>
+                  <SelectItem value="Third Person">Third Person</SelectItem>
+                </SelectContent>
               </Select>
+
             </div>
           </div>
           <div style={{ flex: '1', minWidth: '200px' }}>
@@ -359,24 +346,21 @@ export default function SettingsSection() {
                   pointerEvents: 'none'
                 }}
               />
-              <Select 
-                value={s.toneOfVoice} 
-                onChange={(e) => setSettings({ toneOfVoice: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '6px 6px 6px 40px',
-                
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#ffffff',
-                  fontSize: '14px'
-                }}
+              <Select
+                value={s.toneOfVoice}
+                onValueChange={(val) => setSettings({ toneOfVoice: val })}
               >
-                <option>Normal</option>
-                <option>Friendly</option>
-                <option>Professional</option>
-                <option>Playful</option>
+                <SelectTrigger className="w-full pl-10 border border-gray-700 rounded-lg text-sm text-white">
+                  <SelectValue placeholder="Tone of Voice" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Normal">Normal</SelectItem>
+                  <SelectItem value="Friendly">Friendly</SelectItem>
+                  <SelectItem value="Professional">Professional</SelectItem>
+                  <SelectItem value="Playful">Playful</SelectItem>
+                </SelectContent>
               </Select>
+
             </div>
           </div>
         </div>

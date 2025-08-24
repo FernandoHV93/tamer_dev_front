@@ -1,5 +1,9 @@
 import { useArticleBuilder } from '../../store/articleBuilder'
-import { Select } from '../ui/select'
+import { Select, 
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue, } from '../ui/select'
 import { Input } from '../ui/input'
 
 const socialMediaOptions = [
@@ -20,16 +24,27 @@ export default function DistributionSection() {
       <div className="row p-5 sm:p-0" style={{ gap: 16, flexWrap: 'wrap' }}>
         <div style={{ flex: 1, minWidth: 220 }}>
           <div>Source Links</div>
-          <Select value={d.sourceLinks ? 'Yes' : 'No'} onChange={(e) => setDistribution({ sourceLinks: e.target.value === 'Yes' })}>
-            <option>No</option>
-            <option>Yes</option>
+          <Select value={d.sourceLinks ? 'Yes' : 'No'} onValueChange={(e) => setDistribution({ sourceLinks: e === 'Yes' })}>
+            <SelectTrigger className="w-full ">
+                  <SelectValue placeholder="Select Links" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
           </Select>
         </div>
         <div style={{ flex: 1, minWidth: 220 }}>
           <div>Citations</div>
-          <Select value={d.citations ? 'Yes' : 'No'} onChange={(e) => setDistribution({ citations: e.target.value === 'Yes' })}>
-            <option>No</option>
-            <option>Yes</option>
+          <Select value={d.citations ? 'Yes' : 'No'} onValueChange={(e) => setDistribution({ citations: e === 'Yes' })}>
+            
+            <SelectTrigger className="w-full ">
+                  <SelectValue placeholder="Select Citation" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
           </Select>
         </div>
       </div>
