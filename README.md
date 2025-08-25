@@ -1,120 +1,129 @@
-# IA Web Front
+# Article Builder Frontend
 
-Proyecto Flutter para la edición, generación y gestión de artículos con arquitectura limpia (Clean Architecture).
+Una aplicación web moderna para la generación y gestión de artículos con análisis de contenido, brand voice y optimización SEO.
 
-## Estructura del Proyecto
+## 🚀 Tecnologías
 
-```
-lib/
-  core/                # Utilidades, providers, rutas y constantes globales
-  features/
-    article_editor/    # Editor de artículos (Quill, SEO, Toolbar, Render)
-    article_builder/   # Generador de artículos (formularios, lógica de IA)
-    brand_voice/       # Gestión y análisis de voz de marca
-    content/           # Visualización y gestión de contenido
-    home/              # Pantalla principal y recientes
-    roadmap/           # Roadmap de funcionalidades y feedback
-    websites/          # Gestión de sitios web
-    api_settings/      # Configuración de APIs externas
-  main.dart            # Entry point y setup de providers
-```
+- **React 18** - Framework de UI
+- **TypeScript** - Tipado estático
+- **Vite** - Build tool y dev server
+- **Tailwind CSS** - Framework de estilos
+- **Axios** - Cliente HTTP
+- **React Router** - Navegación
+- **Context API** - Estado global
 
-## Features principales
+## 📋 Funcionalidades
 
-- **Editor de artículos**: Edición rica con Quill, bloques de código, citas, tablas, imágenes y SEO.
-- **Generador de artículos**: Formularios inteligentes para IA, selección de tono, longitud, estructura, etc.
-- **Brand Voice**: Análisis profundo y wizard para definir la voz de marca.
-- **Content**: Visualización, tarjetas y gestión de artículos generados.
-- **Home**: Acceso rápido a artículos recientes y navegación principal.
-- **Roadmap**: Feedback y sugerencias de usuarios.
-- **Websites**: Gestión de sitios y performance.
-- **API Settings**: Configuración de proveedores externos de IA.
+### ✅ APIs Implementadas
 
-## Arquitectura
+- **API Settings** - Gestión de proveedores de IA
+- **Websites** - CRUD completo de sitios web
+- **Content Cards** - Gestión de tarjetas de contenido
+- **Topics** - Gestión de temas y keywords
+- **Brand Voice** - Análisis y generación de voz de marca
+- **Article Builder** - Generación de artículos con IA
+- **Roadmap** - Planificación de contenido
+- **Analysis** - Análisis de keywords y SEO
 
-- **Clean Architecture**: Separación en `data/`, `domain/`, `presentation/` en cada feature.
-- **Providers**: Uso de `Provider` para gestión de estado y dependencias.
-- **Modularidad**: Cada feature es independiente y escalable.
+### 🔧 Características Técnicas
 
-## Cómo correr el proyecto
+- Manejo robusto de errores
+- Headers de sesión consistentes
+- Tipos TypeScript completos
+- Estructura de datos consistente
+- URLs y endpoints correctos
 
-1. Instala dependencias:
-   ```bash
-   flutter pub get
-   ```
-2. Corre la app:
-   ```bash
-   flutter run -d chrome # o el dispositivo que prefieras
-   ```
+## 🛠️ Instalación
 
----
-
-## React migration (rama `traslado-a-react`)
-
-Se ha creado una versión React (Vite + React + TypeScript) en `react-app/` dentro de esta rama.
-
-### Requisitos
-
-- Node 18+ (probado con Node 22.17) y npm
-
-### Variables de entorno
-
-Crear `react-app/.env.local` (si no existe) con:
-
-```
-VITE_BASE_URL=https://backend.tamercode.com
+1. **Clonar el repositorio**
+```bash
+git clone <repository-url>
+cd article-builder-front
 ```
 
-La app usa headers `sessionID` y `userID` (se gestionan desde un contexto de sesión) y `VITE_BASE_URL` para el backend.
-
-### Ejecutar en desarrollo
-
+2. **Instalar dependencias**
+```bash
+npm install
 ```
-cd react-app
-npm i
+
+3. **Configurar variables de entorno**
+```bash
+cp ENV_EXAMPLE.txt .env
+# Editar .env con la URL del backend
+```
+
+4. **Ejecutar en desarrollo**
+```bash
 npm run dev
 ```
 
-Abrir `http://localhost:5173`.
-
-### Build y preview
-
-```
-cd react-app
+5. **Construir para producción**
+```bash
 npm run build
-npm run preview
 ```
 
-### Estructura clave React
-
-- `src/pages/*`: páginas principales (`Home`, `Content`, `Websites`, `ArticleBuilder`, `ArticleEditor`, etc.)
-- `src/store/*`: Zustand stores (artículos, content, websites, builder, etc.)
-- `src/services/*`: servicios HTTP (axios) contra el backend
-- `src/context/*`: `SessionProvider` (gestiona `sessionId/userId`) y `ToastProvider` (toasts)
-- `src/styles/theme.css`: tema oscuro y utilitarios de UI
-
-### Notas
-
-- Home: generar artículo (default DTO) y abrirlo en el editor. Tarjetas responsivas.
-- Editor: Quill inicializado manualmente; Copy/Download HTML; borrador en localStorage; “Save Article” simula guardado y vuelve a Home.
-- Websites/Content: CRUD básico conectado a endpoints reales con headers de sesión.
-- Toasts globales para feedback.
-
-### Mock backend y arranque conjunto
-
-- Mock backend en `mock-backend/` (Express) para probar APIs.
-- Scripts en la raíz para levantar mock y web:
+## 📁 Estructura del Proyecto
 
 ```
-# en la raíz del repo
-npm run dev   # levanta mock-backend (puerto 4000) y vite (5173)
+src/
+├── components/          # Componentes reutilizables
+│   ├── articleBuilder/  # Componentes del constructor de artículos
+│   ├── editor/         # Componentes del editor
+│   ├── ui/             # Componentes de UI básicos
+│   └── ...
+├── context/            # Contextos de React
+│   ├── SessionContext.tsx
+│   └── ToastContext.tsx
+├── lib/                # Utilidades y configuración
+│   ├── http.ts         # Cliente HTTP configurado
+│   └── ...
+├── pages/              # Páginas de la aplicación
+├── services/           # Servicios de API
+│   ├── apiSettings.ts
+│   ├── articleBuilder.ts
+│   ├── brandVoice.ts
+│   ├── content.ts
+│   ├── websites.ts
+│   └── ...
+├── store/              # Estado global (Zustand)
+├── styles/             # Estilos globales
+└── types/              # Tipos TypeScript
+    └── api.ts          # Tipos de API centralizados
 ```
 
-Configura `react-app/.env.local` a `VITE_BASE_URL=http://localhost:4000` para usar el mock.
+## 🔌 APIs y Endpoints
 
-### Flutter web (existente)
+Todas las APIs están documentadas en `API_IMPLEMENTATION.md` con:
+- Endpoints completos
+- Parámetros requeridos
+- Ejemplos de uso
+- Manejo de errores
 
+## 🚀 Scripts Disponibles
+
+- `npm run dev` - Servidor de desarrollo
+- `npm run build` - Construcción para producción
+- `npm run preview` - Vista previa de producción
+- `npm run lint` - Linting del código
+
+## 📝 Variables de Entorno
+
+```env
+VITE_BASE_URL=https://backend.tamercode.com
 ```
-./.flutter-sdk/bin/flutter build web --release
-python3 -m http.server 8080 -d build/web
-```
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
+
+## 🆘 Soporte
+
+Para soporte técnico o preguntas, contacta al equipo de desarrollo.
