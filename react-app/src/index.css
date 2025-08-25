@@ -1,6 +1,6 @@
-@import "tailwindcss";
-
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @font-face {
   font-family: 'Roboto';
@@ -16,9 +16,6 @@
   font-style: normal;
   font-display: swap;
 }
-
-
-@tailwind utilities;
 
 :root {
   font-family: Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif;
