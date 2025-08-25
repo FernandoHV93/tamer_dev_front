@@ -1,0 +1,12 @@
+{
+  "name": "article-builder-front",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Root scripts to run mock backend and React app",
+  "scripts": {
+    "mock": "npm --prefix mock-backend start",
+    "web": "npm --prefix react-app run dev",
+    "dev": "npm run mock & npm run web"
+  }
+}
+
