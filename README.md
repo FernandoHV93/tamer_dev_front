@@ -91,9 +91,18 @@ src/
     └── api.ts          # Tipos de API centralizados
 ```
 
+## 📚 Documentación
+
+Toda la documentación del proyecto se encuentra en la carpeta [`docs/`](./docs/):
+
+- **[Documentación Técnica](./docs/TECHNICAL_DOCUMENTATION.md)** - Arquitectura, configuración y guía de desarrollo
+- **[Documentación de Componentes](./docs/COMPONENTS_DOCUMENTATION.md)** - Guía completa de todos los componentes
+- **[Documentación de APIs](./docs/API_DOCUMENTATION.md)** - Documentación detallada de todas las APIs
+- **[Implementación de APIs](./docs/API_IMPLEMENTATION.md)** - Resumen de APIs implementadas
+
 ## 🔌 APIs y Endpoints
 
-Todas las APIs están documentadas en `API_IMPLEMENTATION.md` con:
+Todas las APIs están documentadas en [`docs/API_DOCUMENTATION.md`](./docs/API_DOCUMENTATION.md) con:
 - Endpoints completos
 - Parámetros requeridos
 - Ejemplos de uso

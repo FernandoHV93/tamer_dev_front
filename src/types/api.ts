@@ -1,5 +1,5 @@
 // API Response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: T
   error?: string
   message?: string
@@ -80,5 +80,5 @@ export interface ApiProviderStatus {
 export interface ApiError {
   message: string
   code?: string
-  details?: any
+  details?: unknown
 }

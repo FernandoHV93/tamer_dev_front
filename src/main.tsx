@@ -29,7 +29,9 @@ function SessionHeadersGate({ children }: { children: React.ReactNode }) {
     try {
       const s = stored ? JSON.parse(stored) : { sessionId: 'Mayo8.com', userId: 'Mayo8.com' }
       setSessionHeaders(s.sessionId, s.userId)
-    } catch {}
+    } catch (error) {
+      console.error('Error setting session headers:', error)
+    }
   }, [stored])
-  return children as any
+  return children as React.ReactNode
 }

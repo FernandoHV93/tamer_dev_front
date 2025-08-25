@@ -22,7 +22,9 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       localStorage.setItem('session', JSON.stringify(session))
-    } catch {}
+    } catch (error) {
+      console.error('Error saving session to localStorage:', error)
+    }
   }, [session])
 
   const value = useMemo<SessionCtx>(() => ({
