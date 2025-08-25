@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Flutter/Dart files (residual)
+.dart_tool/
+.flutter-plugins-dependencies
+build/
+*.lock
+pubspec.lock
+pubspec.yaml
+
+# React app residual
+react-app/
