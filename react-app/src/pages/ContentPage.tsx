@@ -30,15 +30,22 @@ export default function ContentPage() {
     <div className="app-container">
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <h1 style={{ margin: 0 }}>Content</h1>
-        <div className="row" style={{ alignItems: 'center' }}>
+        <div className="row" style={{ alignItems: 'center', gap: 16 }}>
           <button className="btn btn-primary" onClick={() => showToast('Changes saved', 'success')}>Save Changes</button>
-          <div className="row" style={{ alignItems: 'center' }}>
+          <div className="row" style={{ alignItems: 'center', gap: 8 }}>
             <span style={{ color: 'var(--muted)' }}>Selected Website:</span>
-            <select className="select" value={selectedWebsiteId ?? ''} onChange={(e) => select(e.target.value)}>
+            <select className="select" value={selectedWebsiteId ?? ''} onChange={(e) => {
+              if (e.target.value === 'add-new') {
+                navigate('/websites_page')
+              } else {
+                select(e.target.value)
+              }
+            }}>
               <option value="" disabled>Select Website</option>
               {websites.map((w) => (
                 <option key={w.id} value={w.id}>{w.name}</option>
               ))}
+              <option value="add-new">+ Add New Website</option>
             </select>
           </div>
         </div>
