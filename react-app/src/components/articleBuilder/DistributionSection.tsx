@@ -1,5 +1,9 @@
 import { useArticleBuilder } from '../../store/articleBuilder'
-import { Select } from '../ui/select'
+import { Select, 
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue, } from '../ui/select'
 import { Input } from '../ui/input'
 
 const socialMediaOptions = [
@@ -16,41 +20,52 @@ export default function DistributionSection() {
   const d = model.articleDistribution
   return (
     <div style={{ display: 'grid', gap: 16 }}>
-      <h3 style={{ margin: 0 }}>Connect to Web</h3>
-      <div className="row" style={{ gap: 16, flexWrap: 'wrap' }}>
+      <h3 style={{ margin: 0 }} className='mb-3 text-2xl font-bold p-5 sm:p-0'>Connect to Web</h3>
+      <div className="row p-5 sm:p-0" style={{ gap: 16, flexWrap: 'wrap' }}>
         <div style={{ flex: 1, minWidth: 220 }}>
           <div>Source Links</div>
-          <Select value={d.sourceLinks ? 'Yes' : 'No'} onChange={(e) => setDistribution({ sourceLinks: e.target.value === 'Yes' })}>
-            <option>No</option>
-            <option>Yes</option>
+          <Select value={d.sourceLinks ? 'Yes' : 'No'} onValueChange={(e) => setDistribution({ sourceLinks: e === 'Yes' })}>
+            <SelectTrigger className="w-full ">
+                  <SelectValue placeholder="Select Links" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
           </Select>
         </div>
         <div style={{ flex: 1, minWidth: 220 }}>
           <div>Citations</div>
-          <Select value={d.citations ? 'Yes' : 'No'} onChange={(e) => setDistribution({ citations: e.target.value === 'Yes' })}>
-            <option>No</option>
-            <option>Yes</option>
+          <Select value={d.citations ? 'Yes' : 'No'} onValueChange={(e) => setDistribution({ citations: e === 'Yes' })}>
+            
+            <SelectTrigger className="w-full ">
+                  <SelectValue placeholder="Select Citation" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
           </Select>
         </div>
       </div>
 
-      <div className="card" style={{ padding: 12 }}>
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="card sm:rounded-2xl" >
+        <div className="row mb-4" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <h4 style={{ margin: 0 }}>Internal Linking</h4>
           <Select><option>None</option></Select>
         </div>
         <Input placeholder="Select a WordPress Site" readOnly />
       </div>
 
-      <div className="card" style={{ padding: 12 }}>
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="card sm:rounded-2xl" >
+        <div className="row mb-4" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <h4 style={{ margin: 0 }}>External Linking</h4>
           <Select><option>None</option></Select>
         </div>
         <Input placeholder="Select or Add Link" readOnly />
       </div>
 
-      <div className="card" style={{ padding: 16 }}>
+      <div className="card sm:rounded-2xl" >
         <h4 style={{ margin: '0 0 16px 0', fontSize: 16, fontWeight: 600, color: '#ffffff' }}>Syndication</h4>
         <div className="row" style={{ flexWrap: 'wrap', gap: 16, marginTop: 8 }}>
           {socialMediaOptions.map((option) => (
