@@ -1,56 +1,83 @@
-import { useEffect, useState } from 'react'
-import { useSession } from '../context/SessionContext'
-import { useToast } from '../context/ToastContext'
-import * as api from '../services/brandVoice'
+import { useEffect, useState } from "react";
+import { useSession } from "../context/SessionContext";
+import { useToast } from "../context/ToastContext";
+
+// Components
+import PageHeader from "../components/brandVoice/PageHeader";
+import ChooseMethod from "../components/brandVoice/ChooseMethod";
+import MethodRenderer from "../components/brandVoice/MethodRenderer";
+import SavedBrandVoices from "../components/brandVoice/SavedBrandVoice";
+import BrandVoicePreview from "../components/brandVoice/BrandVoicePreview";
+
+// Hooks
+import useBrands, { type BrandVoiceData } from "../hooks/useBrands";
 
 export default function BrandVoicePage() {
-  const { sessionId, userId } = useSession()
-  const { showToast } = useToast()
-  const [brands, setBrands] = useState<api.Brand[]>([])
-  const [name, setName] = useState('')
-  const [loading, setLoading] = useState(false)
+  const { sessionId, userId } = useSession();
+  const { showToast } = useToast();
 
-  async function load() {
-    setLoading(true)
-    try {
-      const list = await api.listBrands(sessionId, userId)
-      setBrands(list)
-    } catch (e: any) {
-      showToast(e?.message ?? String(e), 'error')
-    } finally {
-      setLoading(false)
+  const [method, setMethod] = useState<"deep" | "analysis" | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const { brands, loading, load, addBrand, deleteBrand } = useBrands(sessionId, userId, showToast);
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const handleAddBrand = async (brandData: BrandVoiceData) => {
+    const success = await addBrand(brandData);
+    if (success) {
+      setShowCreateForm(false);
     }
-  }
+  };
 
-  useEffect(() => { load() }, [])
+  const handleDeleteBrand = async (id: string) => {
+    await deleteBrand(id);
+  };
+
+  const handleEditBrand = (brand: any) => {
+    // Implementar la lógica de edición según tu API
+    showToast("Edit functionality to be implemented", "info");
+  };
+
+  const handleCreateNew = () => {
+    setShowCreateForm(true);
+  };
 
   return (
-    <div className="app-container">
-      <h1>Brand Voice</h1>
-      <div className="row" style={{ margin: '12px 0' }}>
-        <input className="input" placeholder="Brand name" value={name} onChange={(e) => setName(e.target.value)} />
-        <button className="btn btn-primary" disabled={!name || loading} onClick={async () => {
-          try {
-            await api.addBrand(sessionId, userId, { brandName: name })
-            setName('')
-            showToast('Brand added', 'success')
-            load()
-          } catch (e: any) {
-            showToast(e?.message ?? String(e), 'error')
-          }
-        }}>Add</button>
-        <button className="btn" onClick={load} disabled={loading}>{loading ? '...' : 'Refresh'}</button>
+    <div className="min-h-screen bg-[#0f1116] text-white sm:p-8 flex flex-col items-center">
+      <PageHeader title="Brand Voice" />
+
+      <ChooseMethod method={method} setMethod={setMethod} />
+
+      <div className="w-[100vw] sm:w-[80%] lg:w-[62%] mb-8 max-w-[1200px]">
+        <MethodRenderer 
+          method={method} 
+          sessionId={sessionId} 
+          userId={userId} 
+          showToast={showToast} 
+        />
       </div>
-      <ul className="card">
-        {brands.map((b) => (
-          <li key={b.id}>
-            {b.brandName}
-            <button className="btn" style={{ marginLeft: 8 }} onClick={async () => { await api.deleteBrand(sessionId, userId, b.id); showToast('Brand deleted', 'success'); load() }}>Delete</button>
-          </li>
-        ))}
-      </ul>
+
+      <div className="w-[100vw] sm:w-[80%] lg:w-[62%] mb-8 max-w-[1200px]">
+        <SavedBrandVoices
+          brands={brands}
+          onEdit={handleEditBrand}
+          onDelete={handleDeleteBrand}
+          onCreateNew={handleCreateNew}
+          isLoading={loading}
+        />
+      </div>
+
+      {showCreateForm && (
+        <div className="w-[100vw] sm:w-[80%] lg:w-[62%] mb-8 max-w-[1200px]">
+          <BrandVoicePreview
+            onAddBrand={handleAddBrand}
+            isLoading={loading}
+          />
+        </div>
+      )}
     </div>
-  )
+  );
 }
-
-
