@@ -1,4 +1,11 @@
 import { type WizardField, type WizardData } from '../../types/deepWizard';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 
 interface WizardStepProps {
   fields: WizardField[];
@@ -14,27 +21,40 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
       case 'select':
         return (
           <div key={field.key} className="mb-6">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-gray-200">
               {field.label}
               {field.required && <span className="text-red-400 ml-1">*</span>}
             </label>
-            <select
+            <Select
               value={value}
-              onChange={(e) => onChange(field.key, e.target.value)}
-              className="w-full p-3 rounded-lg bg-[#111317] border border-gray-700 focus:border-blue-500 focus:outline-none"
+              onValueChange={(selectedValue) => onChange(field.key, selectedValue)}
             >
-              <option value="">{field.placeholder || 'Select an option'}</option>
-              {field.options?.map(option => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full p-3 rounded-lg bg-[#111317] border border-gray-700 focus:border-blue-500 focus:outline-none text-white">
+                <SelectValue placeholder={field.placeholder || 'Select an option'} />
+              </SelectTrigger>
+              <SelectContent 
+                className="bg-[#1a1d26] border border-gray-700 text-white"
+                position="popper"
+                sideOffset={5}
+              >
+                {field.options?.map((option) => (
+                  <SelectItem
+                    key={option}
+                    value={option}
+                    className="cursor-pointer focus:bg-[#2d313c] px-3 py-2"
+                  >
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         );
 
       case 'radio':
         return (
           <div key={field.key} className="mb-6">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-gray-200">
               {field.label}
               {field.required && <span className="text-red-400 ml-1">*</span>}
             </label>
@@ -49,7 +69,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
                     onChange={(e) => onChange(field.key, e.target.value)}
                     className="text-blue-500 focus:ring-blue-500"
                   />
-                  <span>{option}</span>
+                  <span className="text-gray-200">{option}</span>
                 </label>
               ))}
             </div>
@@ -59,7 +79,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
       case 'checkbox':
         return (
           <div key={field.key} className="mb-6">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-gray-200">
               {field.label}
               {field.required && <span className="text-red-400 ml-1">*</span>}
             </label>
@@ -78,7 +98,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
                     }}
                     className="text-blue-500 focus:ring-blue-500"
                   />
-                  <span>{option}</span>
+                  <span className="text-gray-200">{option}</span>
                 </label>
               ))}
             </div>
@@ -89,7 +109,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
       case 'textarea':
         return (
           <div key={field.key} className="mb-6">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-gray-200">
               {field.label}
               {field.required && <span className="text-red-400 ml-1">*</span>}
             </label>
@@ -99,7 +119,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
                 onChange={(e) => onChange(field.key, e.target.value)}
                 placeholder={field.placeholder}
                 rows={4}
-                className="w-full p-3 rounded-lg bg-[#111317] border border-gray-700 focus:border-blue-500 focus:outline-none"
+                className="w-full p-3 rounded-lg bg-[#111317] border border-gray-700 focus:border-blue-500 focus:outline-none text-white resize-none"
               />
             ) : (
               <input
@@ -107,7 +127,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
                 value={value}
                 onChange={(e) => onChange(field.key, e.target.value)}
                 placeholder={field.placeholder}
-                className="w-full p-3 rounded-lg bg-[#111317] border border-gray-700 focus:border-blue-500 focus:outline-none"
+                className="w-full p-3 rounded-lg bg-[#111317] border border-gray-700 focus:border-blue-500 focus:outline-none text-white"
               />
             )}
           </div>
