@@ -23,53 +23,45 @@ export default function DeepWizard({ sessionId, userId, showToast }: DeepWizardP
   const [currentSection, setCurrentSection] = useState('audience');
   const [previousSection, setPreviousSection] = useState('audience');
   const [showSectionTransition, setShowSectionTransition] = useState(false);
-  const [achievement, setAchievement] = useState<{icon: string; title: string; message: string} | null>(null);
+  const [achievement, setAchievement] = useState<{icon: React.ComponentType<any>; title: string; message: string} | null>(null);
   const [visitedSections, setVisitedSections] = useState(new Set(['audience']));
-
- useEffect(() => {
-  if (achievement) {
-    const timer = setTimeout(() => setAchievement(null), 3000)
-    return () => clearTimeout(timer)
-  }
-}, [achievement])
-
 
   const currentStepData = wizardSteps[currentStep];
   const progressPercentage = Math.round((currentStep + 1) / wizardSteps.length * 100);
 
   // Detectar cambios de sección
   useEffect(() => {
-  const newSection = currentStepData.section;
-  if (newSection !== currentSection) {
-    setPreviousSection(currentSection);
-    setCurrentSection(newSection);
-    setShowSectionTransition(true);
+    const newSection = currentStepData.section;
+    if (newSection !== currentSection) {
+      setPreviousSection(currentSection);
+      setCurrentSection(newSection);
+      setShowSectionTransition(true);
+      
+      if (!visitedSections.has(newSection)) {
+        setVisitedSections(prev => new Set([...prev, newSection]));
+        showSectionAchievement(newSection);
+      }
 
-    if (!visitedSections.has(newSection)) {
-      setVisitedSections(prev => new Set([...prev, newSection]));
-      showSectionAchievement(newSection);
+      const timer = setTimeout(() => {
+        setShowSectionTransition(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
     }
-
-    const timer = setTimeout(() => {
-      setShowSectionTransition(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }
-}, [currentStep, currentStepData.section, currentSection, visitedSections]);
-
+  }, [currentStep, currentStepData.section, currentSection, visitedSections]);
 
   const showSectionAchievement = (sectionId: string) => {
-  const section = wizardSections.find(s => s.id === sectionId)
-  if (section) {
-    setAchievement({
-      icon: section.icon,
-      title: `Section Complete!`,
-      message: `You've mastered ${section.name}`
-    })
-  }
-}
-
+    const section = wizardSections.find(s => s.id === sectionId);
+    if (section) {
+      setAchievement({
+        icon: section.icon,
+        title: `Section Complete!`,
+        message: `You've mastered ${section.name}`
+      });
+      
+      setTimeout(() => setAchievement(null), 3000);
+    }
+  };
 
   const handleNext = useCallback(async () => {
     const currentFields = currentStepData.fields;
@@ -122,24 +114,19 @@ export default function DeepWizard({ sessionId, userId, showToast }: DeepWizardP
   }
 
   return (
-    <div className="min-h-screen rounded-2xl bg-gradient-to-br from-gray-900 to-gray-950 p-4 relative">
-      <AnimatePresence>
-  {showSectionTransition && (
-    <SectionTransition
-      currentSection={currentSection}
-      previousSection={previousSection}
-      isVisible={showSectionTransition}
-      onClose={() => setShowSectionTransition(false)}
-    />
-  )}
-</AnimatePresence>
+    <div className="sm:rounded-2xl bg-gradient-to-br from-gray-900 to-gray-950 p-4 relative h-[80dvh] flex flex-col">
+      <SectionTransition
+        currentSection={currentSection}
+        previousSection={previousSection}
+        isVisible={showSectionTransition}
+        onClose={() => setShowSectionTransition(false)}
+      />
 
-
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="max-w-4xlrelative z-10 flex-1 flex flex-col">
         <motion.header 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6"
         >
           <ProgressNavigation 
             currentStep={currentStep}
@@ -149,50 +136,52 @@ export default function DeepWizard({ sessionId, userId, showToast }: DeepWizardP
           />
         </motion.header>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-6 mb-6"
-          >
-            <SectionIndicator section={currentStepData.section} />
-            
-            <div className="mb-6">
-              <motion.h2 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.1 }}
-                className="text-2xl font-bold text-white mb-2"
-              >
-                {currentStepData.title}
-              </motion.h2>
+        <div className="flex-1 overflow-y-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="backdrop-blur-sm rounded-2xl mb-6"
+            >
+              {/* <SectionIndicator section={currentStepData.section} /> */}
               
-              <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="text-gray-300 mb-6"
-              >
-                {currentStepData.description}
-              </motion.p>
+              <div className="mb-2">
+                {/* <motion.h2 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="text-2xl font-bold text-white mb-2"
+                >
+                  {currentStepData.title}
+                </motion.h2> */}
+                
+                <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-gray-300 mb-6"
+                >
+                  {currentStepData.description}
+                </motion.p>
 
-              <WizardStep
-                fields={currentStepData.fields}
-                formData={formData}
-                onChange={(key, value) => setFormData(prev => ({ ...prev, [key]: value }))}
-              />
-            </div>
-          </motion.div>
-        </AnimatePresence>
+                <WizardStep
+                  fields={currentStepData.fields}
+                  formData={formData}
+                  onChange={(key, value) => setFormData(prev => ({ ...prev, [key]: value }))}
+                />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="flex justify-between items-center"
+          className="flex justify-between items-center  mt-auto"
         >
           <button
             onClick={handlePrevious}
@@ -213,16 +202,14 @@ export default function DeepWizard({ sessionId, userId, showToast }: DeepWizardP
       </div>
 
       <AnimatePresence>
-  {achievement && (
-    <AchievementToast 
-      icon={achievement.icon}
-      title={achievement.title}
-      message={achievement.message}
-      onClose={() => setAchievement(null)}
-    />
-  )}
-</AnimatePresence>
-
+        {achievement && (
+          <AchievementToast 
+            icon={achievement.icon}
+            title={achievement.title}
+            message={achievement.message}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

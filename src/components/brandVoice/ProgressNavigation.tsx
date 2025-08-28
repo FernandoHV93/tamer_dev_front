@@ -9,7 +9,7 @@ interface ProgressNavigationProps {
 
 export default function ProgressNavigation({ currentStep, totalSteps, progress, onStepClick }: ProgressNavigationProps) {
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
+    <div className="backdrop-blur-sm rounded-2xl">
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -29,17 +29,20 @@ export default function ProgressNavigation({ currentStep, totalSteps, progress, 
       </div>
 
       <div className="grid grid-cols-6 gap-2">
-        {wizardSections.map((section, index) => (
-          <div
-            key={section.id}
-            className={`p-2 rounded-lg text-center transition-all ${
-              currentStep >= index * 4 ? 'bg-blue-500/20 border border-blue-500/50' : 'bg-gray-700/50'
-            }`}
-          >
-            <div className="text-lg mb-1">{section.icon}</div>
-            <div className="text-xs text-gray-300">{section.name}</div>
-          </div>
-        ))}
+        {wizardSections.map((section, index) => {
+          const IconComponent = section.icon;
+          return (
+            <div
+              key={section.id}
+              className={`p-2 rounded-lg text-center transition-all ${
+                currentStep >= index * 4 ? 'bg-blue-500/20 border border-blue-500/50' : 'bg-gray-700/50'
+              }`}
+            >
+              <IconComponent className="w-5 h-5 mx-auto mb-1 text-gray-300" />
+              <div className="text-xs text-gray-300 hidden lg:block">{section.name.split(' ')[0]}</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

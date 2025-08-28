@@ -6,6 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
+import { ScaleSelector } from '../ui/scaleSelector';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { Input } from '../ui/input';
 
 interface WizardStepProps {
   fields: WizardField[];
@@ -19,62 +22,77 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
 
     switch (field.type) {
       case 'select':
-        return (
-          <div key={field.key} className="mb-6">
-            <label className="block text-sm font-medium mb-2 text-gray-200">
-              {field.label}
-              {field.required && <span className="text-red-400 ml-1">*</span>}
-            </label>
-            <Select
-              value={value}
-              onValueChange={(selectedValue) => onChange(field.key, selectedValue)}
+  return (
+    <div key={field.key} className="mb-6">
+      <label className="text-xl font-semibold text-white mb-4 block">
+        {field.label}
+        {field.required && <span className="text-red-400 ml-1">*</span>}
+      </label>
+      
+      <Select
+        value={value || ''}
+        onValueChange={(selectedValue) => onChange(field.key, selectedValue)}
+      >
+        <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white hover:bg-gray-750">
+          <SelectValue placeholder={`Select ${field.label.toLowerCase()}`} />
+        </SelectTrigger>
+        
+        <SelectContent className="bg-gray-800 border-gray-700 text-white">
+          {field.options?.map((option, index) => (
+            <SelectItem 
+              key={index} 
+              value={option}
+              className="hover:bg-gray-700 focus:bg-gray-700"
             >
-              <SelectTrigger className="w-full p-3 rounded-lg bg-[#111317] border border-gray-700 focus:border-blue-500 focus:outline-none text-white">
-                <SelectValue placeholder={field.placeholder || 'Select an option'} />
-              </SelectTrigger>
-              <SelectContent 
-                className="bg-[#1a1d26] border border-gray-700 text-white"
-                position="popper"
-                sideOffset={5}
-              >
-                {field.options?.map((option) => (
-                  <SelectItem
-                    key={option}
-                    value={option}
-                    className="cursor-pointer focus:bg-[#2d313c] px-3 py-2"
-                  >
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
+              {option}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+      case 'scale':
+  return (
+    <ScaleSelector
+      key={field.key}
+      label={field.label}
+      options={field.options || []}
+      value={field.options?.indexOf(value) ?? 0}
+      onChange={(index) => onChange(field.key, field.options?.[index])}
+    />
+  );
 
       case 'radio':
-        return (
-          <div key={field.key} className="mb-6">
-            <label className="block text-sm font-medium mb-2 text-gray-200">
-              {field.label}
-              {field.required && <span className="text-red-400 ml-1">*</span>}
+  return (
+    <div key={field.key} className="mb-6 ">
+      <label className="text-xl font-semibold text-white mb-4 block">
+        {field.label}
+        {field.required && <span className="text-red-400 ml-1">*</span>}
+      </label>
+      
+      <RadioGroup
+        value={value || ''}
+        onValueChange={(selectedValue) => onChange(field.key, selectedValue)}
+        className="flex  justify-between gap-4"
+      >
+        {field.options?.map(option => (
+          <div key={option} className="flex items-center space-x-2">
+            <RadioGroupItem 
+              value={option} 
+              id={`${field.key}-${option}`}
+              className="text-blue-500"
+            />
+            <label 
+              htmlFor={`${field.key}-${option}`}
+              className="text-gray-200 cursor-pointer text-sm font-medium"
+            >
+              {option}
             </label>
-            <div className="space-y-2">
-              {field.options?.map(option => (
-                <label key={option} className="flex items-center space-x-2">
-                  <input
-                    type="radio"
-                    name={field.key}
-                    value={option}
-                    checked={value === option}
-                    onChange={(e) => onChange(field.key, e.target.value)}
-                    className="text-blue-500 focus:ring-blue-500"
-                  />
-                  <span className="text-gray-200">{option}</span>
-                </label>
-              ))}
-            </div>
           </div>
-        );
+        ))}
+      </RadioGroup>
+    </div>
+  );
 
       case 'checkbox':
         return (
@@ -118,11 +136,11 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
                 value={value}
                 onChange={(e) => onChange(field.key, e.target.value)}
                 placeholder={field.placeholder}
-                rows={4}
+                rows={2}
                 className="w-full p-3 rounded-lg bg-[#111317] border border-gray-700 focus:border-blue-500 focus:outline-none text-white resize-none"
               />
             ) : (
-              <input
+              <Input
                 type="text"
                 value={value}
                 onChange={(e) => onChange(field.key, e.target.value)}
