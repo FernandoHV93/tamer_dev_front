@@ -35,7 +35,7 @@ export default function SavedBrandVoices({
 
   if (isLoading) {
     return (
-      <div className="bg-[#1a1d26] sm:rounded-xl border border-gray-700 p-6  mx-auto">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-950 sm:rounded-xl border border-gray-700 p-6  mx-auto">
         <h1 className="text-2xl font-bold mb-6">Saved Brand Voices</h1>
         <div className="flex justify-center items-center h-40">
           <div className="animate-pulse text-gray-400">Loading brand voices...</div>
@@ -45,7 +45,7 @@ export default function SavedBrandVoices({
   }
 
   return (
-    <div className="bg-[#1a1d26] sm:rounded-xl border border-gray-700 p-6  mx-auto">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-950 sm:rounded-xl border border-gray-700 p-6  mx-auto">
       <h1 className="text-2xl font-bold mb-6">Saved Brand Voices</h1>
 
       {brands.length > 0 ? (

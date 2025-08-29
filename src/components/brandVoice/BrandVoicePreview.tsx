@@ -55,7 +55,7 @@ export default function BrandVoicePreview({ onAddBrand, isLoading = false }: Bra
   const isFormValid = brandName.trim() !== '' && toneOfVoice.trim() !== '';
 
   return (
-    <div className="bg-[#1a1d26] sm:rounded-xl border border-gray-700 p-6 w-full">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-950 sm:rounded-xl border border-gray-700 p-6 w-full">
       <h1 className="text-2xl font-bold mb-6 text-start">Brand Voice Preview</h1>
       
       <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 gap-6 mb-6">

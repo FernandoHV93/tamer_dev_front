@@ -53,7 +53,7 @@ export default function ContentAnalysis({ sessionId, userId, showToast }) {
   // Main view with two options
   if (viewMode === "main") {
     return (
-      <div className="bg-[#1a1d26] p-6 sm:rounded-xl border border-gray-700 w-full">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-950 p-6 sm:rounded-xl border border-gray-700 w-full">
         <h2 className="text-lg font-semibold mb-6 text-start">Content Analysis</h2>
         <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 gap-6">
           {/* Upload Document Card */}
@@ -91,7 +91,7 @@ export default function ContentAnalysis({ sessionId, userId, showToast }) {
   // Upload document view
   if (viewMode === "upload") {
     return (
-      <div className="bg-[#1a1d26] p-8 sm:rounded-xl border border-gray-700 w-[100vw] sm:w-full">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-950 p-8 sm:rounded-xl border border-gray-700 w-[100vw] sm:w-full">
         <h2 className="text-lg font-semibold mb-6 text-start">Content Analysis</h2>
         
         <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center">
@@ -135,7 +135,7 @@ export default function ContentAnalysis({ sessionId, userId, showToast }) {
   // Paste text view
   if (viewMode === "paste") {
     return (
-      <div className="bg-[#1a1d26] p-8 sm:rounded-xl border border-gray-700 w-[100vw] sm:w-full">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-950 p-8 sm:rounded-xl border border-gray-700 w-[100vw] sm:w-full">
         <h2 className="text-lg font-semibold mb-6 text-start">Content Analysis</h2>
         
         <div className="mb-4">

@@ -7,7 +7,7 @@ interface CompletionCelebrationProps {
 
 export default function CompletionCelebration({ onRestart, totalSteps }: CompletionCelebrationProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center p-4">
+    <div className=" bg-gradient-to-br rounded-2xl from-blue-900 to-purple-900 flex items-center justify-center p-4 h-[90dvh]">
       <div className="text-center text-white">
         <Award className="w-16 h-16 mx-auto mb-6" />
         <h1 className="text-4xl font-bold mb-4">Congratulations!</h1>

@@ -114,7 +114,7 @@ export default function DeepWizard({ sessionId, userId, showToast }: DeepWizardP
   }
 
   return (
-    <div className="sm:rounded-2xl bg-gradient-to-br from-gray-900 to-gray-950 p-4 relative h-[80dvh] flex flex-col">
+    <div className="sm:rounded-2xl bg-gradient-to-br from-gray-900 to-gray-950 border-gray-700 border p-4 relative  flex flex-col">
       <SectionTransition
         currentSection={currentSection}
         previousSection={previousSection}
@@ -122,7 +122,7 @@ export default function DeepWizard({ sessionId, userId, showToast }: DeepWizardP
         onClose={() => setShowSectionTransition(false)}
       />
 
-      <div className="max-w-4xlrelative z-10 flex-1 flex flex-col">
+      <div className="max-w-4xl relative z-10 flex-1 flex flex-col">
         <motion.header 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -148,7 +148,7 @@ export default function DeepWizard({ sessionId, userId, showToast }: DeepWizardP
             >
               {/* <SectionIndicator section={currentStepData.section} /> */}
               
-              <div className="mb-2">
+              <div className="mb-2 ">
                 {/* <motion.h2 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}

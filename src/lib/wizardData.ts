@@ -32,14 +32,22 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Select an option',
         required: false,
         tooltip: 'Understanding gender demographics helps personalize messaging'
+      },
+      {
+        type: 'select',
+        key: 'generation',
+        label: 'Which generation does your ideal customer belong to?',
+        options: ['Gen Z', 'Millennials', 'Gen X', 'Baby Boomers'],
+        required: false,
+        tooltip: 'Different generations have different communication preferences'
       }
     ],
     milestone: true
   },
   {
     id: 23,
-    title: "General Audience Data",
-    description: "Let's understand who your audience is",
+    title: "Audience Education & Occupation",
+    description: "Complete understanding of your audience demographics",
     progress: 2,
     section: "audience",
     theme: {
@@ -50,36 +58,13 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'select',
-        key: 'generation',
-        label: 'Which generation does your ideal customer belong to?',
-        options: ['Gen Z', 'Millennials', 'Gen X', 'Baby Boomers'],
-        required: false,
-        tooltip: 'Different generations have different communication preferences'
-      },
-      {
-        type: 'select',
         key: 'educationLevel',
         label: 'What is the educational level of your audience?',
         options: ['High School', 'Some College', 'Bachelor\'s Degree', 'Master\'s Degree', 'Doctorate', 'Other'],
         placeholder: 'Select an option',
         required: false,
         tooltip: 'Education level can influence communication style and vocabulary'
-      }
-    ],
-    milestone: true
-  },
-  {
-    id: 24,
-    title: "General Audience Data",
-    description: "Let's understand who your audience is",
-    progress: 1,
-    section: "audience",
-    theme: {
-      primary: "blue",
-      secondary: "blue",
-      gradient: "from-blue-500 to-blue-600"
-    },
-    fields: [
+      },
       {
         type: 'text',
         key: 'primaryOccupation',
@@ -101,14 +86,14 @@ const wizardSteps: WizardStepType[] = [
   },
   {
     id: 2,
-    title: "Problems and Desires",
-    description: "Understand the challenges and aspirations of your audience",
+    title: "Audience Desires & Motivations",
+    description: "Understand what drives your audience",
     progress: 5,
     section: "audience",
     theme: {
-      primary: 'blue',
-      secondary: 'blue',
-      gradient: 'from-blue-500 to-blue-600'
+      primary: "blue",
+      secondary: "blue",
+      gradient: "from-blue-500 to-blue-600"
     },
     fields: [
       {
@@ -126,13 +111,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Understanding buying triggers helps craft persuasive messaging'
+      },
+      {
+        type: 'textarea',
+        key: 'brandExpectations',
+        label: 'What expectations does your audience have of the brands they choose?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'Understand the standards your audience holds for brands they support'
       }
     ]
   },
   {
     id: 8,
-    title: "Audience Expectations",
-    description: "Understand what your audience expects",
+    title: "Audience Behavior Patterns",
+    description: "Analyze audience behavior and content consumption",
     progress: 36,
     section: "audience",
     theme: {
@@ -143,36 +136,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'brandExpectations',
-        label: 'What expectations does your audience have of the brands they choose?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'Understand the standards your audience holds for brands they support'
-      },
-      {
-        type: 'textarea',
         key: 'behavioralPatterns',
         label: 'What are your audience\'s behavioral patterns?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Identify daily routines, habits, and online behaviors'
-      }
-    ]
-  },
-
-  // ==================== SECCIÓN 2: BEHAVIOR PATTERNS ====================
-  {
-    id: 6,
-    title: "Content Consumption",
-    description: "Understand content preferences",
-    progress: 27,
-    section: "behavior",
-    theme: {
-      primary: "green",
-      secondary: "green",
-      gradient: "from-green-500 to-green-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'contentTypes',
@@ -191,10 +160,12 @@ const wizardSteps: WizardStepType[] = [
       }
     ]
   },
+
+  // ==================== SECCIÓN 2: BEHAVIOR PATTERNS ====================
   {
     id: 15,
-    title: "Desired User Behavior",
-    description: "Define how you want users to interact with your brand",
+    title: "Desired Brand Perception",
+    description: "Define how you want users to perceive your brand",
     progress: 68,
     section: "behavior",
     theme: {
@@ -218,21 +189,7 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Identify characteristics that create approachability and warmth'
-      }
-    ]
-  },
-  {
-    id: 28,
-    title: "Valued Brand Characteristics",
-    description: "Understand what users value in brand behavior",
-    progress: 70,
-    section: "behavior",
-    theme: {
-      primary: "green",
-      secondary: "green",
-      gradient: "from-green-500 to-green-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'valuedCharacteristics',
@@ -240,14 +197,6 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Understand what behavioral traits resonate with your audience'
-      },
-      {
-        type: 'textarea',
-        key: 'mainFears',
-        label: 'What are the main fears of your audience?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'Addressing fears can build trust and connection'
       }
     ]
   },
@@ -255,7 +204,7 @@ const wizardSteps: WizardStepType[] = [
   // ==================== SECCIÓN 3: PROBLEMS & FRUSTRATIONS ====================
   {
     id: 5,
-    title: "Fears, Frustrations, and Obstacles",
+    title: "Audience Challenges & Fears",
     description: "Understand the challenges your audience faces",
     progress: 23,
     section: "problems",
@@ -265,6 +214,14 @@ const wizardSteps: WizardStepType[] = [
       gradient: "from-purple-500 to-purple-600"
     },
     fields: [
+      {
+        type: 'textarea',
+        key: 'mainFears',
+        label: 'What are the main fears of your audience?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'Addressing fears can build trust and connection'
+      },
       {
         type: 'textarea',
         key: 'commonFrustrations',
@@ -288,7 +245,7 @@ const wizardSteps: WizardStepType[] = [
   {
     id: 9,
     title: "Competitor Analysis",
-    description: "Analyze your competition",
+    description: "Analyze your competition and their communication",
     progress: 41,
     section: "brand",
     theme: {
@@ -313,13 +270,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Select an option',
         required: false,
         tooltip: 'Understand the competitive landscape of brand voices'
+      },
+      {
+        type: 'select',
+        key: 'competitorPersonality',
+        label: 'What type of personality do your competitors project?',
+        options: ['Reliable', 'Innovative', 'Fun', 'Serious', 'Luxurious', 'Affordable'],
+        required: false,
+        tooltip: 'Identify personality traits your competitors emphasize'
       }
     ]
   },
   {
     id: 32,
-    title: "Competitor Personality Analysis",
-    description: "Analyze competitor brand personality",
+    title: "Brand Differentiation Strategy",
+    description: "Define what makes your brand unique",
     progress: 43,
     section: "brand",
     theme: {
@@ -329,35 +294,13 @@ const wizardSteps: WizardStepType[] = [
     },
     fields: [
       {
-        type: 'select',
-        key: 'competitorPersonality',
-        label: 'What type of personality do your competitors project?',
-        options: ['Reliable', 'Innovative', 'Fun', 'Serious', 'Luxurious', 'Affordable'],
-        required: false,
-        tooltip: 'Identify personality traits your competitors emphasize'
-      },
-      {
         type: 'textarea',
         key: 'brandDifferentiation',
         label: 'What makes your brand different from others?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Articulate your unique value proposition and differentiation'
-      }
-    ]
-  },
-  {
-    id: 34,
-    title: "Desired Brand Perception",
-    description: "Define how you want to be perceived",
-    progress: 45,
-    section: "brand",
-    theme: {
-      primary: "orange",
-      secondary: "orange",
-      gradient: "from-orange-500 to-orange-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'desiredPerception',
@@ -379,8 +322,8 @@ const wizardSteps: WizardStepType[] = [
   },
   {
     id: 10,
-    title: "Brand Identity",
-    description: "Define your brand's core elements",
+    title: "Brand Core Elements",
+    description: "Define your brand's vision, mission and values",
     progress: 47,
     section: "brand",
     theme: {
@@ -404,13 +347,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'The daily purpose and reason for your brand\'s existence'
+      },
+      {
+        type: 'textarea',
+        key: 'coreValues',
+        label: 'What are your brand\'s core values?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'The fundamental beliefs that guide your brand\'s behavior'
       }
     ]
   },
   {
     id: 37,
-    title: "Core Values",
-    description: "Define your brand's fundamental beliefs",
+    title: "Values Alignment & Social Impact",
+    description: "Align values with audience and define social purpose",
     progress: 49,
     section: "brand",
     theme: {
@@ -421,34 +372,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'coreValues',
-        label: 'What are your brand\'s core values?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'The fundamental beliefs that guide your brand\'s behavior'
-      },
-      {
-        type: 'textarea',
         key: 'valuesAlignment',
         label: 'How do these values align with your audience\'s values?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Ensure your values resonate with your target audience'
-      }
-    ]
-  },
-  {
-    id: 39,
-    title: "Social Problem Solving",
-    description: "Define your brand's social impact",
-    progress: 51,
-    section: "brand",
-    theme: {
-      primary: "orange",
-      secondary: "orange",
-      gradient: "from-orange-500 to-orange-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'socialProblem',
@@ -469,8 +398,8 @@ const wizardSteps: WizardStepType[] = [
   },
   {
     id: 11,
-    title: "Brand Personality",
-    description: "Define your brand's character traits",
+    title: "Brand Personality Traits",
+    description: "Define your brand's character and style",
     progress: 53,
     section: "brand",
     theme: {
@@ -496,13 +425,22 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Select an option',
         required: false,
         tooltip: 'How your brand approaches innovation and tradition'
+      },
+      {
+        type: 'select',
+        key: 'stylePersonality',
+        label: 'Is it classic or modern?',
+        options: ['Classic', 'Modern', 'Timeless'],
+        placeholder: 'Select an option',
+        required: false,
+        tooltip: 'The aesthetic and stylistic approach of your brand'
       }
     ]
   },
   {
     id: 41,
-    title: "Brand Style",
-    description: "Define your brand's aesthetic",
+    title: "Brand Social & Innovation Personality",
+    description: "Define how your brand engages and innovates",
     progress: 54,
     section: "brand",
     theme: {
@@ -513,36 +451,13 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'select',
-        key: 'stylePersonality',
-        label: 'Is it classic or modern?',
-        options: ['Classic', 'Modern', 'Timeless'],
-        placeholder: 'Select an option',
-        required: false,
-        tooltip: 'The aesthetic and stylistic approach of your brand'
-      },
-      {
-        type: 'select',
         key: 'socialPersonality',
         label: 'Is it introverted or extroverted?',
         options: ['Introverted', 'Extroverted', 'Ambivert'],
         placeholder: 'Select an option',
         required: false,
         tooltip: 'How your brand engages with others and the world'
-      }
-    ]
-  },
-  {
-    id: 42,
-    title: "Brand Innovation",
-    description: "Define your approach to change",
-    progress: 55,
-    section: "brand",
-    theme: {
-      primary: "orange",
-      secondary: "orange",
-      gradient: "from-orange-500 to-orange-600"
-    },
-    fields: [
+      },
       {
         type: 'select',
         key: 'innovationPersonality',
@@ -565,8 +480,8 @@ const wizardSteps: WizardStepType[] = [
   },
   {
     id: 43,
-    title: "Brand Convention",
-    description: "Define your relationship with norms",
+    title: "Brand Convention & Accessibility",
+    description: "Define your relationship with norms and accessibility",
     progress: 56,
     section: "brand",
     theme: {
@@ -592,13 +507,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Select an option',
         required: false,
         tooltip: 'The accessibility and inclusivity of your brand'
+      },
+      {
+        type: 'textarea',
+        key: 'brandAsPerson',
+        label: 'If your brand were a person, how would you describe it?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'Personify your brand to make it more relatable and human'
       }
     ]
   },
   {
     id: 44,
-    title: "Brand Personification",
-    description: "Personify your brand",
+    title: "Brand Personification & Archetypes",
+    description: "Personify your brand and define archetypal identity",
     progress: 57,
     section: "brand",
     theme: {
@@ -609,34 +532,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'brandAsPerson',
-        label: 'If your brand were a person, how would you describe it?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'Personify your brand to make it more relatable and human'
-      },
-      {
-        type: 'textarea',
         key: 'brandAsFamousPerson',
         label: 'If your brand were a famous person, who would it be?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Use celebrity archetypes to define brand personality'
-      }
-    ]
-  },
-  {
-    id: 12,
-    title: "Fundamental Values",
-    description: "Define your core brand values",
-    progress: 59,
-    section: "brand",
-    theme: {
-      primary: "orange",
-      secondary: "orange",
-      gradient: "from-orange-500 to-orange-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'valuesMeaning',
@@ -656,10 +557,10 @@ const wizardSteps: WizardStepType[] = [
     ]
   },
   {
-    id: 47,
-    title: "Values Communication",
-    description: "Translate values into communication",
-    progress: 61,
+    id: 12,
+    title: "Values Communication & Archetype",
+    description: "Translate values into communication and choose archetype",
+    progress: 59,
     section: "brand",
     theme: {
       primary: "orange",
@@ -687,13 +588,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Select an option',
         required: false,
         tooltip: 'Choose an archetype that aligns with your brand\'s core purpose'
+      },
+      {
+        type: 'textarea',
+        key: 'archetypeMotivation',
+        label: 'What is the main motivation of the chosen archetype, and how does it align with your brand?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'Connect archetype motivations to your brand\'s driving forces'
       }
     ]
   },
   {
     id: 48,
-    title: "Archetype Motivation",
-    description: "Connect archetype to brand purpose",
+    title: "Archetype Connection & Emotions",
+    description: "Leverage archetypes for emotional connection",
     progress: 63,
     section: "brand",
     theme: {
@@ -704,34 +613,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'archetypeMotivation',
-        label: 'What is the main motivation of the chosen archetype, and how does it align with your brand?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'Connect archetype motivations to your brand\'s driving forces'
-      },
-      {
-        type: 'textarea',
         key: 'archetypeConnection',
         label: 'How can you use this archetype to connect emotionally with your audience?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Leverage archetypal patterns to create emotional resonance'
-      }
-    ]
-  },
-  {
-    id: 50,
-    title: "Desired Emotions",
-    description: "Define emotional responses",
-    progress: 65,
-    section: "brand",
-    theme: {
-      primary: "orange",
-      secondary: "orange",
-      gradient: "from-orange-500 to-orange-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'desiredEmotions',
@@ -752,8 +639,8 @@ const wizardSteps: WizardStepType[] = [
   },
   {
     id: 14,
-    title: "Brand Dimensions",
-    description: "Define your brand's key characteristics",
+    title: "Brand Dimensions & Characteristics",
+    description: "Define your brand's key characteristics and perception",
     progress: 67,
     section: "brand",
     theme: {
@@ -777,13 +664,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'The emotional qualities and temperament of your brand'
+      },
+      {
+        type: 'textarea',
+        key: 'competenceConveyance',
+        label: 'How do you want to convey competence?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'How your brand demonstrates expertise and capability'
       }
     ]
   },
   {
     id: 53,
-    title: "Competence Conveyance",
-    description: "Demonstrate expertise",
+    title: "Brand Sophistication & Strength",
+    description: "Define refinement level and strength projection",
     progress: 69,
     section: "brand",
     theme: {
@@ -794,34 +689,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'competenceConveyance',
-        label: 'How do you want to convey competence?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'How your brand demonstrates expertise and capability'
-      },
-      {
-        type: 'textarea',
         key: 'sophisticationLevel',
         label: 'What level of sophistication do you want to reflect?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'The refinement and elegance of your brand presentation'
-      }
-    ]
-  },
-  {
-    id: 55,
-    title: "Brand Strength Perception",
-    description: "Define strength projection",
-    progress: 71,
-    section: "brand",
-    theme: {
-      primary: "orange",
-      secondary: "orange",
-      gradient: "from-orange-500 to-orange-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'robustPerception',
@@ -845,8 +718,8 @@ const wizardSteps: WizardStepType[] = [
   // ==================== SECCIÓN 5: VOICE & TONE ====================
   {
     id: 56,
-    title: "Problem Description Language",
-    description: "Use audience language for problems",
+    title: "Audience Language & Problem Solving",
+    description: "Use audience language for problems and solutions",
     progress: 73,
     section: "voice",
     theme: {
@@ -870,13 +743,22 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Articulate your value proposition using audience-centric language'
+      },
+      {
+        type: 'select',
+        key: 'formalityLevel',
+        label: 'How formal or informal should your brand tone be?',
+        options: ['Very Formal', 'Formal', 'Neutral', 'Informal', 'Very Informal'],
+        placeholder: 'Select an option',
+        required: false,
+        tooltip: 'Set the level of formality for your brand communications'
       }
     ]
   },
   {
     id: 16,
-    title: "Tone and Style",
-    description: "Define your brand's voice characteristics",
+    title: "Tone Definition & Vocabulary",
+    description: "Define your brand's voice characteristics and language",
     progress: 75,
     section: "voice",
     theme: {
@@ -887,36 +769,13 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'select',
-        key: 'formalityLevel',
-        label: 'How formal or informal should your brand tone be?',
-        options: ['Very Formal', 'Formal', 'Neutral', 'Informal', 'Very Informal'],
-        placeholder: 'Select an option',
-        required: false,
-        tooltip: 'Set the level of formality for your brand communications'
-      },
-      {
-        type: 'select',
         key: 'seriousnessLevel',
         label: 'How serious or playful should your brand be?',
         options: ['Very Serious', 'Serious', 'Balanced', 'Playful', 'Very Playful'],
         placeholder: 'Select an option',
         required: false,
         tooltip: 'Define the emotional weight and playfulness of your tone'
-      }
-    ]
-  },
-  {
-    id: 59,
-    title: "Brand Vocabulary",
-    description: "Curate distinctive language",
-    progress: 77,
-    section: "voice",
-    theme: {
-      primary: "red",
-      secondary: "red",
-      gradient: "from-red-500 to-red-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'brandVocabulary',
@@ -937,8 +796,8 @@ const wizardSteps: WizardStepType[] = [
   },
   {
     id: 61,
-    title: "Platform-Specific Tone",
-    description: "Adapt tone for different channels",
+    title: "Platform Adaptation & Brand Expressions",
+    description: "Define tone across platforms and brand language",
     progress: 79,
     section: "voice",
     theme: {
@@ -962,13 +821,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Define signature phrases and terminology that embody your brand'
+      },
+      {
+        type: 'textarea',
+        key: 'avoidedExpressions',
+        label: 'What words or expressions should be avoided?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'Identify language that contradicts your brand values'
       }
     ]
   },
   {
     id: 62,
-    title: "Avoided Expressions",
-    description: "Identify contradictory language",
+    title: "Feedback Handling & Communication Style",
+    description: "Establish protocols for feedback and appreciation",
     progress: 81,
     section: "voice",
     theme: {
@@ -979,34 +846,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'avoidedExpressions',
-        label: 'What words or expressions should be avoided?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'Identify language that contradicts your brand values'
-      },
-      {
-        type: 'textarea',
         key: 'criticismResponse',
         label: 'How does your brand respond to criticism or unhappy customers?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Establish a consistent approach to handling feedback and complaints'
-      }
-    ]
-  },
-  {
-    id: 64,
-    title: "Gratitude Expression",
-    description: "Define appreciation style",
-    progress: 83,
-    section: "voice",
-    theme: {
-      primary: "red",
-      secondary: "red",
-      gradient: "from-red-500 to-red-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'gratitudeExpression',
@@ -1027,8 +872,8 @@ const wizardSteps: WizardStepType[] = [
   },
   {
     id: 19,
-    title: "Brand Storytelling",
-    description: "Craft your brand's narrative",
+    title: "Brand Storytelling & Narrative",
+    description: "Craft your brand's narrative and storytelling elements",
     progress: 85,
     section: "voice",
     theme: {
@@ -1052,13 +897,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Identify recurring themes and storytelling elements'
+      },
+      {
+        type: 'textarea',
+        key: 'storytellingHumanization',
+        label: 'How can you use storytelling to make your brand more human and relatable?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'Use storytelling techniques to create emotional connections'
       }
     ]
   },
   {
     id: 67,
-    title: "Storytelling Humanization",
-    description: "Create emotional connections",
+    title: "Voice Consistency & Guidelines",
+    description: "Ensure consistent brand voice across all channels",
     progress: 87,
     section: "voice",
     theme: {
@@ -1069,36 +922,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'storytellingHumanization',
-        label: 'How can you use storytelling to make your brand more human and relatable?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'Use storytelling techniques to create emotional connections'
-      },
-      {
-        type: 'textarea',
         key: 'consistencyEnsurance',
         label: 'How do you ensure the consistency of your brand voice when multiple team members create content?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Establish processes for maintaining voice consistency across teams'
-      }
-    ]
-  },
-
-  // ==================== SECCIÓN 6: IMPLEMENTATION ====================
-  {
-    id: 68,
-    title: "Consistency Guidelines",
-    description: "Create clear processes",
-    progress: 89,
-    section: "implementation",
-    theme: {
-      primary: "indigo",
-      secondary: "indigo",
-      gradient: "from-indigo-500 to-indigo-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'consistencyGuidelines',
@@ -1117,10 +946,12 @@ const wizardSteps: WizardStepType[] = [
       }
     ]
   },
+
+  // ==================== SECCIÓN 6: IMPLEMENTATION ====================
   {
     id: 20,
-    title: "Voice Evaluation",
-    description: "Measure and improve your brand voice",
+    title: "Voice Evaluation & Evolution",
+    description: "Measure and improve your brand voice over time",
     progress: 91,
     section: "implementation",
     theme: {
@@ -1144,13 +975,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Create systems for gathering audience feedback on brand communications'
+      },
+      {
+        type: 'textarea',
+        key: 'voiceEvolution',
+        label: 'How should your brand voice evolve over time?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'Plan for voice evolution while maintaining core identity'
       }
     ]
   },
   {
     id: 71,
-    title: "Voice Evolution",
-    description: "Plan for future changes",
+    title: "Cultural Adaptation & Platform Implementation",
+    description: "Ensure relevance and adapt to different platforms",
     progress: 93,
     section: "implementation",
     theme: {
@@ -1161,34 +1000,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'voiceEvolution',
-        label: 'How should your brand voice evolve over time?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'Plan for voice evolution while maintaining core identity'
-      },
-      {
-        type: 'textarea',
         key: 'culturalAdjustments',
         label: 'What adjustments should be made based on cultural or social changes affecting your audience?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Ensure your voice remains relevant amidst cultural shifts'
-      }
-    ]
-  },
-  {
-    id: 21,
-    title: "Implementation",
-    description: "Put your brand voice into practice",
-    progress: 95,
-    section: "implementation",
-    theme: {
-      primary: "indigo",
-      secondary: "indigo",
-      gradient: "from-indigo-500 to-indigo-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'platformSpecificTone',
@@ -1208,10 +1025,10 @@ const wizardSteps: WizardStepType[] = [
     ]
   },
   {
-    id: 74,
-    title: "Content Creator Guidance",
-    description: "Provide clear examples",
-    progress: 97,
+    id: 21,
+    title: "Content Guidance & Customer Journey",
+    description: "Provide clear examples and adapt to customer journey",
+    progress: 95,
     section: "implementation",
     theme: {
       primary: "indigo",
@@ -1234,13 +1051,21 @@ const wizardSteps: WizardStepType[] = [
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Adapt your voice for different customer touchpoints and journey stages'
+      },
+      {
+        type: 'textarea',
+        key: 'brandAsObject',
+        label: 'If your brand were an object, what would it be and why?',
+        placeholder: 'Type your answer here...',
+        required: false,
+        tooltip: 'Use metaphorical thinking to define brand essence and characteristics'
       }
     ]
   },
   {
     id: 22,
-    title: "Brand Perception",
-    description: "Visualize your brand's impact",
+    title: "Brand Essence & Final Perception",
+    description: "Define your brand's core essence and lasting impression",
     progress: 99,
     section: "implementation",
     theme: {
@@ -1251,34 +1076,12 @@ const wizardSteps: WizardStepType[] = [
     fields: [
       {
         type: 'textarea',
-        key: 'brandAsObject',
-        label: 'If your brand were an object, what would it be and why?',
-        placeholder: 'Type your answer here...',
-        required: false,
-        tooltip: 'Use metaphorical thinking to define brand essence and characteristics'
-      },
-      {
-        type: 'textarea',
         key: 'internalSlogan',
         label: 'If your brand had an internal slogan or mantra, what would it be?',
         placeholder: 'Type your answer here...',
         required: false,
         tooltip: 'Create a guiding phrase that encapsulates your brand spirit'
-      }
-    ]
-  },
-  {
-    id: 77,
-    title: "Post-Interaction Feeling",
-    description: "Define emotional experience",
-    progress: 101,
-    section: "implementation",
-    theme: {
-      primary: "indigo",
-      secondary: "indigo",
-      gradient: "from-indigo-500 to-indigo-600"
-    },
-    fields: [
+      },
       {
         type: 'textarea',
         key: 'postInteractionFeeling',

@@ -1,4 +1,5 @@
 import { wizardSections } from '../../types/deepWizard';
+import { wizardSteps } from '../../lib/wizardData';
 
 interface ProgressNavigationProps {
   currentStep: number;
@@ -8,6 +9,13 @@ interface ProgressNavigationProps {
 }
 
 export default function ProgressNavigation({ currentStep, totalSteps, progress, onStepClick }: ProgressNavigationProps) {
+  // Calcular los límites de cada sección dinámicamente
+  const sectionBoundaries = wizardSections.map(section => {
+    const firstStepIndex = wizardSteps.findIndex(step => step.section === section.id);
+    const lastStepIndex = wizardSteps.findLastIndex(step => step.section === section.id);
+    return { firstStepIndex, lastStepIndex };
+  });
+
   return (
     <div className="backdrop-blur-sm rounded-2xl">
       <div className="mb-4">
@@ -31,15 +39,41 @@ export default function ProgressNavigation({ currentStep, totalSteps, progress, 
       <div className="grid grid-cols-6 gap-2">
         {wizardSections.map((section, index) => {
           const IconComponent = section.icon;
+          const { firstStepIndex, lastStepIndex } = sectionBoundaries[index];
+          
+          // Determinar el estado de la sección
+          let sectionState = 'incomplete';
+          if (currentStep > lastStepIndex) {
+            sectionState = 'completed';
+          } else if (currentStep >= firstStepIndex) {
+            sectionState = 'current';
+          }
+
           return (
             <div
               key={section.id}
               className={`p-2 rounded-lg text-center transition-all ${
-                currentStep >= index * 4 ? 'bg-blue-500/20 border border-blue-500/50' : 'bg-gray-700/50'
+                sectionState === 'completed' 
+                  ? 'bg-blue-500/20 border border-blue-500/50' 
+                  : sectionState === 'current'
+                  ? 'bg-purple-500/20 border border-purple-500/50'
+                  : 'bg-gray-700/50'
               }`}
+              /* onClick={() => onStepClick(firstStepIndex)} */
+              title={section.name}
             >
-              <IconComponent className="w-5 h-5 mx-auto mb-1 text-gray-300" />
-              <div className="text-xs text-gray-300 hidden lg:block">{section.name.split(' ')[0]}</div>
+              <IconComponent className={`w-5 h-5 mx-auto mb-1 ${
+                sectionState === 'completed' ? 'text-blue-400' : 
+                sectionState === 'current' ? 'text-purple-400' : 
+                'text-gray-500'
+              }`} />
+              <div className={`text-xs hidden xl:block ${
+                sectionState === 'completed' ? 'text-blue-400' : 
+                sectionState === 'current' ? 'text-purple-400' : 
+                'text-gray-500'
+              }`}>
+                {section.name.split(' ')[0]}
+              </div>
             </div>
           );
         })}

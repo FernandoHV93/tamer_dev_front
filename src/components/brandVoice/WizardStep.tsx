@@ -97,7 +97,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
       case 'checkbox':
         return (
           <div key={field.key} className="mb-6">
-            <label className="block text-sm font-medium mb-2 text-gray-200">
+            <label className="block text-xl font-medium mb-2 text-gray-200">
               {field.label}
               {field.required && <span className="text-red-400 ml-1">*</span>}
             </label>
@@ -127,7 +127,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
       case 'textarea':
         return (
           <div key={field.key} className="mb-6">
-            <label className="block text-sm font-medium mb-2 text-gray-200">
+            <label className="block text-xl font-medium mb-2 text-gray-200">
               {field.label}
               {field.required && <span className="text-red-400 ml-1">*</span>}
             </label>
@@ -157,7 +157,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
   };
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col justify-between h-full">
       {fields.map(renderField)}
     </div>
   );

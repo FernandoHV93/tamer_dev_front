@@ -25,7 +25,7 @@ const MethodCard = ({ title, description, badge, isSelected, onClick, borderColo
     <div className="flex flex-col md:flex-row md:justify-between md:items-center">
       <h3 className="text-lg font-bold">{title}</h3>
       {badge && (
-        <span className="bg-green-500 text-xs text-black px-2 py-1 rounded-full ">
+        <span className="bg-gradient-to-r from-blue-400 to-purple-400 text-xs text-black px-2 py-1 rounded-full ">
           {badge}
         </span>
       )}
@@ -41,7 +41,7 @@ export default function ChooseMethod({ method, setMethod }: ChooseMethodProps) {
       description: "A comprehensive and challenging process designed for those who truly want to make a difference with their content.",
       badge: "Most Valuable Way",
       type: "deep" as const,
-      borderColor: "border-green-400"
+      borderColor: "border-purple-400"
     },
     {
       title: "Content Analysis",
@@ -52,7 +52,7 @@ export default function ChooseMethod({ method, setMethod }: ChooseMethodProps) {
   ];
 
   return (
-    <div className="bg-[#1a1d26] p-6 sm:rounded-xl border mb-8 border-gray-700 w-auto sm:w-[80%] lg:w-[62%] max-w-[1200px]">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-950 p-6 sm:rounded-xl border mb-8 border-gray-700 w-auto sm:w-[80%] lg:w-[62%] max-w-[1200px]">
       <h2 className="text-lg font-semibold mb-4">Choose Your Method</h2>
       <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 gap-6">
         {methods.map((methodItem) => (
