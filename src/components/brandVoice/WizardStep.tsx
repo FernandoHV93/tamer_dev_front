@@ -73,7 +73,7 @@ export default function WizardStep({ fields, formData, onChange }: WizardStepPro
       <RadioGroup
         value={value || ''}
         onValueChange={(selectedValue) => onChange(field.key, selectedValue)}
-        className="flex  justify-between gap-4"
+        className="flex flex-col sm:flex-row sm:flex-wrap justify-between gap-4"
       >
         {field.options?.map(option => (
           <div key={option} className="flex items-center space-x-2">
