@@ -1,22 +1,45 @@
-# Documentación de Componentes - Article Builder Frontend
+# 🧩 Documentación de Componentes - Article Builder Front
 
-## 📋 Índice
+## 📋 Índice de Componentes
 
-1. [Componentes de UI Base](#componentes-de-ui-base)
-2. [Componentes de Article Builder](#componentes-de-article-builder)
-3. [Componentes de Editor](#componentes-de-editor)
-4. [Componentes de Navegación](#componentes-de-navegación)
-5. [Componentes de Utilidad](#componentes-de-utilidad)
+### 🎨 **Componentes UI Base**
+- [Button](#button)
+- [Card](#card)
+- [Input](#input)
+- [Badge](#badge)
+- [Modal](#modal)
+- [Select](#select)
+
+### 🚀 **Componentes de Brand Voice**
+- [DeepWizard](#deepwizard)
+- [ContentAnalysis](#contentanalysis)
+- [BrandVoicePreview](#brandvoicepreview)
+- [ChooseMethod](#choosemethod)
+- [WizardStep](#wizardstep)
+
+### 📝 **Componentes de Article Builder**
+- [GeneratorSection](#generatorsection)
+- [SettingsSection](#settingssection)
+- [StructureSection](#structuresection)
+- [SEOSection](#seosection)
+- [MediaHubSection](#mediahubsection)
+
+### 🔧 **Componentes de Utilidad**
+- [FeatureButton](#featurebutton)
+- [ArticleCard](#articlecard)
+- [Navbar](#navbar)
+- [Toast](#toast)
 
 ---
 
-## 🧩 Componentes de UI Base
+## 🎨 Componentes UI Base
 
-### Button (`src/components/ui/button.tsx`)
+### Button
+**Archivo:** `src/components/ui/button.tsx`
 
-**Descripción:** Componente de botón reutilizable con múltiples variantes y tamaños.
+Componente de botón reutilizable con múltiples variantes y tamaños.
 
-**Props:**
+#### Props
 ```typescript
 interface ButtonProps {
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'
@@ -28,40 +51,93 @@ interface ButtonProps {
 }
 ```
 
-**Uso:**
+#### Variantes Disponibles
+- **default**: Botón principal azul
+- **destructive**: Botón rojo para acciones destructivas
+- **outline**: Botón con borde
+- **secondary**: Botón secundario gris
+- **ghost**: Botón transparente
+- **link**: Botón que parece un enlace
+
+#### Ejemplo de Uso
 ```tsx
-import { Button } from '../ui/button'
+import { Button } from '../components/ui/button'
 
-<Button variant="primary" onClick={handleClick}>
-  Guardar
-</Button>
-
-<Button variant="destructive" size="sm">
-  Eliminar
-</Button>
+export default function Example() {
+  return (
+    <div className="space-y-4">
+      <Button onClick={() => console.log('Clicked!')}>
+        Botón Principal
+      </Button>
+      
+      <Button variant="outline" size="sm">
+        Botón Pequeño
+      </Button>
+      
+      <Button variant="destructive" disabled>
+        Eliminar
+      </Button>
+    </div>
+  )
+}
 ```
-
-**Variantes:**
-- `default` - Botón principal (azul)
-- `destructive` - Botón de peligro (rojo)
-- `outline` - Botón con borde
-- `secondary` - Botón secundario (gris)
-- `ghost` - Botón transparente
-- `link` - Botón como enlace
-
-**Tamaños:**
-- `default` - Tamaño normal
-- `sm` - Pequeño
-- `lg` - Grande
-- `icon` - Para iconos
 
 ---
 
-### Input (`src/components/ui/input.tsx`)
+### Card
+**Archivo:** `src/components/ui/card.tsx`
 
-**Descripción:** Componente de entrada de texto con estilos consistentes.
+Componente de tarjeta para agrupar contenido relacionado.
 
-**Props:**
+#### Props
+```typescript
+interface CardProps {
+  children: React.ReactNode
+  className?: string
+}
+
+interface CardHeaderProps {
+  children: React.ReactNode
+  className?: string
+}
+
+interface CardTitleProps {
+  children: React.ReactNode
+  className?: string
+}
+
+interface CardContentProps {
+  children: React.ReactNode
+  className?: string
+}
+```
+
+#### Ejemplo de Uso
+```tsx
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card'
+
+export default function Example() {
+  return (
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Título de la Tarjeta</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>Contenido de la tarjeta...</p>
+      </CardContent>
+    </Card>
+  )
+}
+```
+
+---
+
+### Input
+**Archivo:** `src/components/ui/input.tsx`
+
+Campo de entrada de texto con estilos consistentes.
+
+#### Props
 ```typescript
 interface InputProps {
   type?: string
@@ -70,546 +146,383 @@ interface InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   disabled?: boolean
   className?: string
-  required?: boolean
 }
 ```
 
-**Uso:**
+#### Ejemplo de Uso
 ```tsx
-import { Input } from '../ui/input'
+import { Input } from '../components/ui/input'
 
-<Input 
-  type="text"
-  placeholder="Ingresa tu nombre"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-/>
+export default function Example() {
+  const [value, setValue] = useState('')
+  
+  return (
+    <Input
+      type="text"
+      placeholder="Escribe algo..."
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      className="w-full"
+    />
+  )
+}
 ```
 
 ---
 
-### Modal (`src/components/ui/modal.tsx`)
+### Badge
+**Archivo:** `src/components/ui/badge.tsx`
 
-**Descripción:** Componente modal reutilizable para diálogos y overlays.
+Etiqueta pequeña para mostrar estados o categorías.
 
-**Props:**
-```typescript
-interface ModalProps {
-  isOpen: boolean
-  onClose: () => void
-  title?: string
-  children: React.ReactNode
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-}
-```
-
-**Uso:**
-```tsx
-import { Modal } from '../ui/modal'
-
-<Modal isOpen={showModal} onClose={() => setShowModal(false)} title="Confirmar">
-  <p>¿Estás seguro de que quieres eliminar este elemento?</p>
-  <div className="flex gap-2">
-    <Button onClick={handleConfirm}>Confirmar</Button>
-    <Button variant="outline" onClick={() => setShowModal(false)}>Cancelar</Button>
-  </div>
-</Modal>
-```
-
----
-
-### Select (`src/components/ui/select.tsx`)
-
-**Descripción:** Componente de selección con opciones desplegables.
-
-**Props:**
-```typescript
-interface SelectProps {
-  value?: string
-  onValueChange?: (value: string) => void
-  children: React.ReactNode
-  placeholder?: string
-  disabled?: boolean
-}
-```
-
-**Uso:**
-```tsx
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'
-
-<Select value={selectedValue} onValueChange={setSelectedValue}>
-  <SelectTrigger>
-    <SelectValue placeholder="Selecciona una opción" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="option1">Opción 1</SelectItem>
-    <SelectItem value="option2">Opción 2</SelectItem>
-  </SelectContent>
-</Select>
-```
-
----
-
-### Card (`src/components/ui/card.tsx`)
-
-**Descripción:** Componente de tarjeta para contener contenido.
-
-**Props:**
-```typescript
-interface CardProps {
-  children: React.ReactNode
-  className?: string
-  onClick?: () => void
-}
-```
-
-**Uso:**
-```tsx
-import { Card, CardHeader, CardContent, CardFooter } from '../ui/card'
-
-<Card>
-  <CardHeader>
-    <h3>Título de la tarjeta</h3>
-  </CardHeader>
-  <CardContent>
-    <p>Contenido de la tarjeta</p>
-  </CardContent>
-  <CardFooter>
-    <Button>Acción</Button>
-  </CardFooter>
-</Card>
-```
-
----
-
-### Badge (`src/components/ui/badge.tsx`)
-
-**Descripción:** Componente de etiqueta para mostrar estados o categorías.
-
-**Props:**
+#### Props
 ```typescript
 interface BadgeProps {
   children: React.ReactNode
-  variant?: 'default' | 'secondary' | 'destructive' | 'outline'
   className?: string
 }
 ```
 
-**Uso:**
+#### Ejemplo de Uso
 ```tsx
-import { Badge } from '../ui/badge'
+import { Badge } from '../components/ui/badge'
 
-<Badge variant="default">Nuevo</Badge>
-<Badge variant="destructive">Error</Badge>
-<Badge variant="outline">Borrador</Badge>
-```
-
----
-
-### Resizable (`src/components/ui/resizable.tsx`)
-
-**Descripción:** Componente para paneles redimensionables.
-
-**Props:**
-```typescript
-interface ResizableProps {
-  children: React.ReactNode
-  defaultSize?: number
-  minSize?: number
-  maxSize?: number
-  direction?: 'horizontal' | 'vertical'
+export default function Example() {
+  return (
+    <div className="space-x-2">
+      <Badge>Nuevo</Badge>
+      <Badge className="bg-green-600">Activo</Badge>
+      <Badge className="bg-red-600">Error</Badge>
+    </div>
+  )
 }
 ```
 
-**Uso:**
-```tsx
-import { ResizablePanel, ResizableHandle, ResizableGroup } from '../ui/resizable'
-
-<ResizableGroup direction="horizontal">
-  <ResizablePanel defaultSize={50}>
-    <div>Panel izquierdo</div>
-  </ResizablePanel>
-  <ResizableHandle />
-  <ResizablePanel defaultSize={50}>
-    <div>Panel derecho</div>
-  </ResizablePanel>
-</ResizableGroup>
-```
-
 ---
 
-## 🏗️ Componentes de Article Builder
+## 🚀 Componentes de Brand Voice
 
-### GeneratorSection (`src/components/articleBuilder/GeneratorSection.tsx`)
+### DeepWizard
+**Archivo:** `src/components/brandVoice/DeepWizard.tsx`
 
-**Descripción:** Sección principal del generador de artículos con configuración general.
+Asistente principal para la configuración de voz de marca.
 
-**Funcionalidades:**
-- Selección de tipo de artículo
-- Configuración de idioma
-- Parámetros generales de generación
-
-**Estado:**
+#### Props
 ```typescript
-interface GeneratorState {
-  articleType: string
-  language: string
-  tone: string
-  length: 'short' | 'medium' | 'long'
+interface DeepWizardProps {
+  sessionId: string
+  userId: string
+  showToast: (message: string, type: string) => void
 }
 ```
 
-**Uso:**
+#### Funcionalidades
+- **Navegación por pasos**: Progreso visual del asistente
+- **Validación de datos**: Verificación de campos requeridos
+- **Persistencia de estado**: Guardado automático del progreso
+- **Transiciones animadas**: Cambios suaves entre pasos
+
+#### Ejemplo de Uso
 ```tsx
-<GeneratorSection 
-  onConfigChange={handleConfigChange}
-  initialConfig={defaultConfig}
-/>
-```
+import DeepWizard from '../components/brandVoice/DeepWizard'
 
----
-
-### SettingsSection (`src/components/articleBuilder/SettingsSection.tsx`)
-
-**Descripción:** Configuración avanzada de parámetros del artículo.
-
-**Funcionalidades:**
-- Configuración de calidad
-- Parámetros de longitud
-- Ajustes de creatividad
-- Configuración de estructura
-
-**Props:**
-```typescript
-interface SettingsSectionProps {
-  settings: ArticleSettings
-  onSettingsChange: (settings: ArticleSettings) => void
+export default function BrandVoicePage() {
+  const { sessionId, userId } = useSession()
+  const { showToast } = useToast()
+  
+  return (
+    <DeepWizard
+      sessionId={sessionId}
+      userId={userId}
+      showToast={showToast}
+    />
+  )
 }
 ```
 
-**Uso:**
-```tsx
-<SettingsSection 
-  settings={articleSettings}
-  onSettingsChange={setArticleSettings}
-/>
-```
-
 ---
 
-### StructureSection (`src/components/articleBuilder/StructureSection.tsx`)
+### ContentAnalysis
+**Archivo:** `src/components/brandVoice/ContentAnalysis.tsx`
 
-**Descripción:** Configuración de la estructura del artículo.
+Componente para analizar contenido existente y extraer patrones de voz de marca.
 
-**Funcionalidades:**
-- Definición de secciones
-- Configuración de headings
-- Estructura de contenido
-- Organización de ideas
-
-**Props:**
+#### Props
 ```typescript
-interface StructureSectionProps {
-  structure: ArticleStructure
-  onStructureChange: (structure: ArticleStructure) => void
+interface ContentAnalysisProps {
+  sessionId: string
+  userId: string
+  showToast: (message: string, type: string) => void
 }
 ```
 
-**Uso:**
+#### Funcionalidades
+- **Análisis de texto**: Procesamiento de contenido pegado
+- **Análisis de archivos**: Soporte para PDF, DOC, TXT
+- **Extracción de patrones**: Identificación de tono y estilo
+- **Recomendaciones**: Sugerencias basadas en el análisis
+
+#### Ejemplo de Uso
 ```tsx
-<StructureSection 
-  structure={articleStructure}
-  onStructureChange={setArticleStructure}
-/>
-```
+import ContentAnalysis from '../components/brandVoice/ContentAnalysis'
 
----
-
-### SEOSection (`src/components/articleBuilder/SEOSection.tsx`)
-
-**Descripción:** Configuración SEO del artículo.
-
-**Funcionalidades:**
-- Keywords principales
-- Metadatos
-- Optimización SEO
-- Análisis de keywords
-
-**Props:**
-```typescript
-interface SEOSectionProps {
-  seoConfig: ArticleSEO
-  onSEOChange: (seo: ArticleSEO) => void
+export default function AnalysisPage() {
+  return (
+    <ContentAnalysis
+      sessionId={sessionId}
+      userId={userId}
+      showToast={showToast}
+    />
+  )
 }
 ```
 
-**Uso:**
-```tsx
-<SEOSection 
-  seoConfig={articleSEO}
-  onSEOChange={setArticleSEO}
-/>
-```
-
 ---
 
-### MediaHubSection (`src/components/articleBuilder/MediaHubSection.tsx`)
+### BrandVoicePreview
+**Archivo:** `src/components/brandVoice/BrandVoicePreview.tsx`
 
-**Descripción:** Configuración de medios para el artículo.
+Vista previa de la voz de marca configurada.
 
-**Funcionalidades:**
-- Configuración de imágenes
-- Configuración de videos
-- Medios embebidos
-- Optimización de medios
-
-**Props:**
+#### Props
 ```typescript
-interface MediaHubSectionProps {
-  mediaConfig: ArticleMediaHub
-  onMediaChange: (media: ArticleMediaHub) => void
+interface BrandVoicePreviewProps {
+  onAddBrand: (brandData: BrandVoiceData) => Promise<boolean>
+  isLoading: boolean
 }
 ```
 
-**Uso:**
-```tsx
-<MediaHubSection 
-  mediaConfig={articleMedia}
-  onMediaChange={setArticleMedia}
-/>
-```
+#### Funcionalidades
+- **Vista previa en tiempo real**: Actualización automática de cambios
+- **Formulario de configuración**: Campos para personalizar la voz
+- **Validación de datos**: Verificación antes de guardar
+- **Integración con API**: Guardado en el backend
 
 ---
 
-### DistributionSection (`src/components/articleBuilder/DistributionSection.tsx`)
+### ChooseMethod
+**Archivo:** `src/components/brandVoice/ChooseMethod.tsx`
 
-**Descripción:** Configuración de distribución del artículo.
+Selector de método para configurar la voz de marca.
 
-**Funcionalidades:**
-- Enlaces de fuentes
-- Enlaces de citación
-- Enlaces internos
-- Enlaces externos
-- Sindicación de contenido
-
-**Props:**
+#### Props
 ```typescript
-interface DistributionSectionProps {
-  distribution: ArticleDistribution
-  onDistributionChange: (distribution: ArticleDistribution) => void
+interface ChooseMethodProps {
+  method: 'deep' | 'analysis' | null
+  setMethod: (method: 'deep' | 'analysis' | null) => void
 }
 ```
 
-**Uso:**
-```tsx
-<DistributionSection 
-  distribution={articleDistribution}
-  onDistributionChange={setArticleDistribution}
-/>
-```
+#### Métodos Disponibles
+- **Deep**: Proceso completo paso a paso
+- **Analysis**: Análisis de contenido existente
 
 ---
 
-## ✏️ Componentes de Editor
+### WizardStep
+**Archivo:** `src/components/brandVoice/WizardStep.tsx`
 
-### ArticleEditor (`src/components/editor/ArticleEditor.tsx`)
+Paso individual del asistente de voz de marca.
 
-**Descripción:** Editor principal de artículos con herramientas de formato.
-
-**Funcionalidades:**
-- Editor de texto rico
-- Herramientas de formato
-- Vista previa en tiempo real
-- Guardado automático
-- Exportación de contenido
-
-**Props:**
+#### Props
 ```typescript
-interface ArticleEditorProps {
-  content: string
-  onContentChange: (content: string) => void
-  onSave?: () => void
-  onPublish?: () => void
-  readOnly?: boolean
+interface WizardStepProps {
+  step: WizardStep
+  data: WizardData
+  onDataChange: (data: Partial<WizardData>) => void
+  onNext: () => void
+  onPrevious: () => void
+  isFirst: boolean
+  isLast: boolean
 }
 ```
 
-**Uso:**
-```tsx
-<ArticleEditor 
-  content={articleContent}
-  onContentChange={setArticleContent}
-  onSave={handleSave}
-  onPublish={handlePublish}
-/>
-```
-
-**Herramientas disponibles:**
-- **Formato de texto:** Negrita, cursiva, subrayado, tachado
-- **Encabezados:** H1, H2, H3, H4, H5, H6
-- **Alineación:** Izquierda, centro, derecha, justificado
-- **Listas:** Numeradas y con viñetas
-- **Enlaces:** Inserción y edición de enlaces
-- **Imágenes:** Inserción de imágenes
-- **Tablas:** Creación y edición de tablas
-- **Código:** Bloques de código inline y de bloque
-
 ---
 
-## 🧭 Componentes de Navegación
+## 📝 Componentes de Article Builder
 
-### Navbar (`src/components/Navbar.tsx`)
+### GeneratorSection
+**Archivo:** `src/components/articleBuilder/GeneratorSection.tsx`
 
-**Descripción:** Barra de navegación principal de la aplicación.
+Sección para configurar parámetros generales del generador de artículos.
 
-**Funcionalidades:**
-- Navegación entre páginas
-- Menú de usuario
-- Notificaciones
-- Búsqueda global
+#### Funcionalidades
+- **Tipo de artículo**: Selección de categoría
+- **Idioma**: Configuración de idioma de salida
+- **Longitud**: Definición de extensión del artículo
+- **Tono**: Selección del tono de escritura
 
-**Props:**
-```typescript
-interface NavbarProps {
-  currentPage?: string
-  onPageChange?: (page: string) => void
-  user?: User
-  notifications?: Notification[]
+#### Ejemplo de Uso
+```tsx
+import GeneratorSection from '../components/articleBuilder/GeneratorSection'
+
+export default function ArticleBuilderPage() {
+  const [generalConfig, setGeneralConfig] = useState({
+    articleType: 'blog',
+    language: 'es',
+    length: 'medium',
+    tone: 'professional'
+  })
+  
+  return (
+    <GeneratorSection
+      config={generalConfig}
+      onChange={setGeneralConfig}
+    />
+  )
 }
 ```
 
-**Uso:**
-```tsx
-<Navbar 
-  currentPage={currentPage}
-  onPageChange={setCurrentPage}
-  user={currentUser}
-  notifications={userNotifications}
-/>
-```
+---
 
-**Elementos del navbar:**
-- Logo de la aplicación
-- Menú de navegación principal
-- Barra de búsqueda
-- Notificaciones
-- Perfil de usuario
-- Menú desplegable de configuración
+### SettingsSection
+**Archivo:** `src/components/articleBuilder/SettingsSection.tsx`
+
+Configuración avanzada de parámetros del artículo.
+
+#### Funcionalidades
+- **Calidad**: Nivel de detalle y complejidad
+- **Creatividad**: Balance entre originalidad y precisión
+- **Keywords**: Palabras clave a incluir
+- **Exclusiones**: Términos a evitar
 
 ---
 
-### FeatureButton (`src/components/FeatureButton.tsx`)
+### StructureSection
+**Archivo:** `src/components/articleBuilder/StructureSection.tsx`
 
-**Descripción:** Botón de acceso rápido a funcionalidades principales.
+Definición de la estructura del artículo.
 
-**Props:**
+#### Funcionalidades
+- **Secciones**: Definición de headings principales
+- **Subsecciones**: Organización jerárquica
+- **Orden**: Secuencia de las secciones
+- **Longitud por sección**: Distribución del contenido
+
+---
+
+### SEOSection
+**Archivo:** `src/components/articleBuilder/SEOSection.tsx`
+
+Configuración SEO del artículo.
+
+#### Funcionalidades
+- **Meta título**: Título optimizado para SEO
+- **Meta descripción**: Descripción atractiva
+- **Keywords**: Palabras clave principales
+- **Schema markup**: Estructura de datos
+
+---
+
+### MediaHubSection
+**Archivo:** `src/components/articleBuilder/MediaHubSection.tsx`
+
+Gestión de medios para el artículo.
+
+#### Funcionalidades
+- **Imágenes**: Selección y configuración
+- **Videos**: Integración de contenido multimedia
+- **Infografías**: Creación de elementos visuales
+- **Optimización**: Compresión y formatos
+
+---
+
+## 🔧 Componentes de Utilidad
+
+### FeatureButton
+**Archivo:** `src/components/FeatureButton.tsx`
+
+Botón de característica con icono y descripción.
+
+#### Props
 ```typescript
 interface FeatureButtonProps {
+  icon: React.ReactNode
   title: string
   description: string
-  icon: React.ReactNode
   onClick: () => void
-  variant?: 'default' | 'primary' | 'secondary'
-  disabled?: boolean
+  variant?: 'default' | 'outline'
 }
 ```
 
-**Uso:**
+#### Ejemplo de Uso
 ```tsx
-<FeatureButton 
-  title="Article Builder"
-  description="Genera artículos con IA"
-  icon={<ArticleIcon />}
-  onClick={() => navigate('/article-builder')}
-  variant="primary"
-/>
+import { FeatureButton } from '../components/FeatureButton'
+import { BookOpen, FileText, Settings } from 'lucide-react'
+
+export default function HomePage() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <FeatureButton
+        icon={<BookOpen className="w-8 h-8" />}
+        title="Generar Artículo"
+        description="Crea contenido único con IA"
+        onClick={() => navigate('/article-builder')}
+      />
+      
+      <FeatureButton
+        icon={<FileText className="w-8 h-8" />}
+        title="Editor"
+        description="Edita y formatea tu contenido"
+        onClick={() => navigate('/editor')}
+      />
+      
+      <FeatureButton
+        icon={<Settings className="w-8 h-8" />}
+        title="Configuración"
+        description="Gestiona tus preferencias"
+        onClick={() => navigate('/settings')}
+      />
+    </div>
+  )
+}
 ```
 
 ---
 
-### ArticleCard (`src/components/ArticleCard.tsx`)
+### ArticleCard
+**Archivo:** `src/components/ArticleCard.tsx`
 
-**Descripción:** Tarjeta para mostrar información de artículos.
+Tarjeta para mostrar información de un artículo.
 
-**Props:**
+#### Props
 ```typescript
 interface ArticleCardProps {
   article: Article
   onEdit?: (article: Article) => void
-  onDelete?: (article: Article) => void
+  onDelete?: (id: string) => void
   onView?: (article: Article) => void
-  showActions?: boolean
 }
 ```
 
-**Uso:**
-```tsx
-<ArticleCard 
-  article={article}
-  onEdit={handleEdit}
-  onDelete={handleDelete}
-  onView={handleView}
-  showActions={true}
-/>
-```
-
-**Información mostrada:**
-- Título del artículo
-- Fecha de creación
-- Estado del artículo
-- Estadísticas básicas
-- Acciones rápidas
+#### Funcionalidades
+- **Vista previa**: Extracto del contenido
+- **Metadatos**: Fecha, autor, estado
+- **Acciones**: Editar, eliminar, ver
+- **Estados**: Borrador, publicado, archivado
 
 ---
 
-## 🛠️ Componentes de Utilidad
+### Navbar
+**Archivo:** `src/components/Navbar.tsx`
 
-### LoadingSpinner (`src/components/ui/LoadingSpinner.tsx`)
+Barra de navegación principal de la aplicación.
 
-**Descripción:** Componente de carga con animación.
-
-**Props:**
-```typescript
-interface LoadingSpinnerProps {
-  size?: 'sm' | 'md' | 'lg'
-  color?: string
-  text?: string
-}
-```
-
-**Uso:**
-```tsx
-<LoadingSpinner size="md" text="Cargando..." />
-```
+#### Funcionalidades
+- **Logo**: Branding de la aplicación
+- **Navegación**: Enlaces a páginas principales
+- **Usuario**: Información de sesión
+- **Notificaciones**: Sistema de alertas
+- **Búsqueda**: Búsqueda global
 
 ---
 
-### ErrorBoundary (`src/components/ui/ErrorBoundary.tsx`)
+### Toast
+**Archivo:** `src/components/ui/toast.tsx`
 
-**Descripción:** Componente para capturar errores de React.
+Sistema de notificaciones toast.
 
-**Props:**
-```typescript
-interface ErrorBoundaryProps {
-  children: React.ReactNode
-  fallback?: React.ComponentType<{ error: Error }>
-}
-```
-
-**Uso:**
-```tsx
-<ErrorBoundary fallback={ErrorFallback}>
-  <ComponentThatMightError />
-</ErrorBoundary>
-```
-
----
-
-### Toast (`src/components/ui/Toast.tsx`)
-
-**Descripción:** Componente para mostrar notificaciones temporales.
-
-**Props:**
+#### Props
 ```typescript
 interface ToastProps {
   message: string
@@ -619,287 +532,158 @@ interface ToastProps {
 }
 ```
 
-**Uso:**
-```tsx
-<Toast 
-  message="Artículo guardado exitosamente"
-  type="success"
-  duration={3000}
-/>
-```
+#### Tipos de Toast
+- **success**: Verde para operaciones exitosas
+- **error**: Rojo para errores
+- **warning**: Amarillo para advertencias
+- **info**: Azul para información
 
 ---
 
-## 📋 Guía de Uso de Componentes
+## 🎯 Guía de Uso de Componentes
 
-### Convenciones de Nomenclatura
+### 📋 Mejores Prácticas
 
-1. **Componentes:** PascalCase
-   ```tsx
-   // ✅ Correcto
-   <ArticleBuilder />
-   <UserProfile />
-   
-   // ❌ Incorrecto
-   <articleBuilder />
-   <user-profile />
-   ```
-
-2. **Props:** camelCase
-   ```tsx
-   // ✅ Correcto
-   <Button onClick={handleClick} isDisabled={true} />
-   
-   // ❌ Incorrecto
-   <Button on_click={handleClick} is_disabled={true} />
-   ```
-
-3. **Eventos:** camelCase con prefijo "on"
-   ```tsx
-   // ✅ Correcto
-   <Button onClick={handleClick} onChange={handleChange} />
-   
-   // ❌ Incorrecto
-   <Button click={handleClick} change={handleChange} />
-   ```
-
-### Estructura de Componentes
-
+#### 1. **Composición de Componentes**
 ```tsx
-// 1. Imports
-import React from 'react'
-import { useStore } from '../store/store'
+// ✅ Bueno: Componente compuesto
+<Card>
+  <CardHeader>
+    <CardTitle>Título</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Contenido</p>
+  </CardContent>
+</Card>
 
-// 2. Types
-interface ComponentProps {
-  title: string
-  onAction: () => void
-  optional?: boolean
+// ❌ Malo: Componente monolítico
+<div className="card">
+  <div className="card-header">
+    <h3 className="card-title">Título</h3>
+  </div>
+  <div className="card-content">
+    <p>Contenido</p>
+  </div>
+</div>
+```
+
+#### 2. **Props Destructuring**
+```tsx
+// ✅ Bueno: Destructuring en parámetros
+export default function Component({ title, children, className }: ComponentProps) {
+  return <div className={className}>{children}</div>
 }
 
-// 3. Component
-export default function Component({ title, onAction, optional = false }: ComponentProps) {
-  // 4. Hooks
-  const [state, setState] = useState()
-  const store = useStore()
-  
-  // 5. Handlers
-  const handleClick = () => {
-    onAction()
-  }
-  
-  // 6. Effects
-  useEffect(() => {
-    // Side effects
-  }, [])
-  
-  // 7. Render
+// ❌ Malo: Acceso directo a props
+export default function Component(props: ComponentProps) {
+  return <div className={props.className}>{props.children}</div>
+}
+```
+
+#### 3. **Manejo de Estados**
+```tsx
+// ✅ Bueno: Estado local cuando es necesario
+const [isOpen, setIsOpen] = useState(false)
+
+// ✅ Bueno: Estado global para datos compartidos
+const { user } = useSession()
+
+// ❌ Malo: Estado global para todo
+const { isOpen, setIsOpen } = useGlobalStore()
+```
+
+### 🔧 Personalización de Componentes
+
+#### 1. **Extensión de Props**
+```tsx
+interface ExtendedButtonProps extends ButtonProps {
+  loading?: boolean
+  icon?: React.ReactNode
+}
+
+export function ExtendedButton({ loading, icon, children, ...props }: ExtendedButtonProps) {
   return (
-    <div className="component">
-      <h1>{title}</h1>
-      <button onClick={handleClick}>Action</button>
-    </div>
+    <Button {...props} disabled={loading}>
+      {loading && <Spinner className="w-4 h-4 mr-2" />}
+      {icon && <span className="mr-2">{icon}</span>}
+      {children}
+    </Button>
   )
 }
 ```
 
-### Manejo de Estados
-
+#### 2. **Composición de Variantes**
 ```tsx
-// Estados locales
-const [isLoading, setIsLoading] = useState(false)
-const [error, setError] = useState<string | null>(null)
-const [data, setData] = useState<DataType | null>(null)
-
-// Estados globales (Zustand)
-const { user, setUser } = useUserStore()
-const { articles, addArticle } = useArticleStore()
-
-// Estados de formulario
-const [formData, setFormData] = useState({
-  title: '',
-  content: '',
-  category: ''
-})
-```
-
-### Manejo de Eventos
-
-```tsx
-// Eventos básicos
-const handleClick = () => {
-  console.log('Clicked!')
-}
-
-const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setValue(e.target.value)
-}
-
-// Eventos con parámetros
-const handleItemClick = (itemId: string) => {
-  console.log('Item clicked:', itemId)
-}
-
-// Eventos asíncronos
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault()
-  setIsLoading(true)
-  
-  try {
-    await submitData(formData)
-    showToast('Success!', 'success')
-  } catch (error) {
-    showToast('Error!', 'error')
-  } finally {
-    setIsLoading(false)
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
   }
-}
+)
 ```
 
-### Estilos y CSS
-
-```tsx
-// Tailwind CSS (recomendado)
-<div className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
-  <h2 className="text-xl font-semibold text-gray-800">Título</h2>
-  <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-    Acción
-  </button>
-</div>
-
-// CSS Modules (alternativa)
-import styles from './Component.module.css'
-
-<div className={styles.container}>
-  <h2 className={styles.title}>Título</h2>
-  <button className={styles.button}>Acción</button>
-</div>
-
-// Styled Components (alternativa)
-import styled from 'styled-components'
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-`
-```
-
-### Testing de Componentes
-
-```tsx
-// Ejemplo de test con React Testing Library
-import { render, screen, fireEvent } from '@testing-library/react'
-import Component from './Component'
-
-describe('Component', () => {
-  it('renders correctly', () => {
-    render(<Component title="Test" onAction={jest.fn()} />)
-    expect(screen.getByText('Test')).toBeInTheDocument()
-  })
-  
-  it('calls onAction when button is clicked', () => {
-    const mockAction = jest.fn()
-    render(<Component title="Test" onAction={mockAction} />)
-    
-    fireEvent.click(screen.getByRole('button'))
-    expect(mockAction).toHaveBeenCalledTimes(1)
-  })
-})
-```
-
----
-
-## 🔧 Troubleshooting de Componentes
-
-### Problemas Comunes
+### 🚨 Troubleshooting de Componentes
 
 #### 1. **Componente no se renderiza**
 ```tsx
-// Verificar imports
-import React from 'react' // Necesario para JSX
+// ✅ Verificar imports
+import { Button } from '../components/ui/button'
 
-// Verificar export
-export default function Component() {
-  return <div>Content</div>
+// ✅ Verificar props requeridas
+<Button>Texto del botón</Button>
+
+// ✅ Verificar contexto de React
+const Component = () => {
+  return <Button>Texto</Button>
 }
 ```
 
-#### 2. **Props no se pasan correctamente**
+#### 2. **Estilos no se aplican**
 ```tsx
-// Verificar tipos
-interface Props {
-  title: string
-  onAction: () => void
+// ✅ Verificar clases de Tailwind
+<Button className="bg-blue-500 hover:bg-blue-600">
+
+// ✅ Verificar CSS modules si se usan
+import styles from './Component.module.css'
+<Button className={styles.customButton}>
+
+// ✅ Verificar CSS-in-JS si se usan
+<Button style={{ backgroundColor: 'blue' }}>
+```
+
+#### 3. **Props no se pasan correctamente**
+```tsx
+// ✅ Verificar interface de props
+interface ButtonProps {
+  onClick?: () => void
+  disabled?: boolean
 }
 
-// Verificar uso
-<Component title="Test" onAction={() => {}} />
-```
+// ✅ Verificar uso de props
+<Button onClick={() => console.log('clicked')} disabled={false}>
 
-#### 3. **Estados no se actualizan**
-```tsx
-// Verificar setter
-const [value, setValue] = useState('')
-setValue('new value') // ✅ Correcto
-
-// Verificar dependencias en useEffect
-useEffect(() => {
-  // Effect
-}, [dependency]) // ✅ Incluir dependencias
-```
-
-#### 4. **Eventos no funcionan**
-```tsx
-// Verificar binding
-<button onClick={handleClick}>Click</button> // ✅ Correcto
-<button onClick={() => handleClick()}>Click</button> // ✅ También correcto
-
-// Verificar preventDefault
-const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault() // ✅ Para formularios
-  // Lógica
-}
-```
-
-### Performance
-
-#### 1. **Memoización de componentes**
-```tsx
-import React, { memo } from 'react'
-
-const ExpensiveComponent = memo(({ data }: Props) => {
-  return <div>{/* Renderizado costoso */}</div>
-})
-```
-
-#### 2. **Memoización de callbacks**
-```tsx
-import React, { useCallback } from 'react'
-
-const Component = ({ onAction }: Props) => {
-  const handleClick = useCallback(() => {
-    onAction()
-  }, [onAction])
-  
-  return <button onClick={handleClick}>Click</button>
-}
-```
-
-#### 3. **Memoización de valores**
-```tsx
-import React, { useMemo } from 'react'
-
-const Component = ({ data }: Props) => {
-  const expensiveValue = useMemo(() => {
-    return heavyCalculation(data)
-  }, [data])
-  
-  return <div>{expensiveValue}</div>
+// ✅ Verificar default props
+const Button = ({ onClick = () => {}, disabled = false }: ButtonProps) => {
+  return <button onClick={onClick} disabled={disabled} />
 }
 ```
 
@@ -907,21 +691,19 @@ const Component = ({ data }: Props) => {
 
 ## 📚 Recursos Adicionales
 
-### Documentación de React
-- [React Components](https://react.dev/learn/your-first-component)
-- [React Hooks](https://react.dev/reference/react)
-- [React Testing](https://testing-library.com/docs/react-testing-library/intro/)
+### 🔗 Enlaces Útiles
+- [React Component Patterns](https://react.dev/learn)
+- [ShadCN UI Components](https://ui.shadcn.com/)
+- [Tailwind CSS Utilities](https://tailwindcss.com/docs)
+- [TypeScript Interfaces](https://www.typescriptlang.org/docs/)
 
-### Herramientas de Desarrollo
-- [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools)
-- [Storybook](https://storybook.js.org/) - Para documentar componentes
-- [React Hook Form](https://react-hook-form.com/) - Para formularios
-
-### Guías de Estilo
-- [React Style Guide](https://github.com/airbnb/javascript/tree/master/react)
+### 📖 Guías de Referencia
+- [React Best Practices](https://react.dev/learn)
 - [Component Design Patterns](https://reactpatterns.com/)
+- [Accessibility Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 
 ---
 
-*Última actualización: Diciembre 2024*
-*Versión del documento: 1.0*
+**Última actualización**: Diciembre 2024
+**Versión del documento**: 1.0.0
+**Mantenido por**: Equipo de Desarrollo TamerCode

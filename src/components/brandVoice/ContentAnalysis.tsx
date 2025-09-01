@@ -3,7 +3,15 @@ import * as api from "../../services/brandVoice";
 
 type ViewMode = "main" | "upload" | "paste";
 
-export default function ContentAnalysis({ sessionId, userId, showToast }) {
+import type { ToastType } from '../../context/ToastContext';
+
+interface ContentAnalysisProps {
+  sessionId: string
+  userId: string
+  showToast: (message: string, type?: ToastType, ttlMs?: number) => void
+}
+
+export default function ContentAnalysis({ sessionId, userId, showToast }: ContentAnalysisProps) {
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
