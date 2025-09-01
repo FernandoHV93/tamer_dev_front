@@ -36,7 +36,7 @@ export default function BrandVoicePage() {
     await deleteBrand(id);
   };
 
-  const handleEditBrand = (brand: any) => {
+  const handleEditBrand = (_brand: any) => {
     // Implementar la lógica de edición según tu API
     showToast("Edit functionality to be implemented", "info");
   };

@@ -4,18 +4,17 @@ import WizardStep from './WizardStep';
 import ProgressNavigation from './ProgressNavigation';
 import SectionTransition from './SectionTransition';
 import AchievementToast from './AchievementToast';
-import SectionIndicator from './SectionIndicator';
 import CompletionCelebration from './CompletionCelebration';
-import { wizardSections, type WizardStep as WizardStepType, type WizardData } from '../../types/deepWizard';
+import { wizardSections, type WizardData } from '../../types/deepWizard';
 import { wizardSteps } from '../../lib/wizardData';
 
+import type { ToastType } from '../../context/ToastContext';
+
 interface DeepWizardProps {
-  sessionId: string;
-  userId: string;
-  showToast: (message: string, type: string) => void;
+  showToast: (message: string, type?: ToastType, ttlMs?: number) => void;
 }
 
-export default function DeepWizard({ sessionId, userId, showToast }: DeepWizardProps) {
+export default function DeepWizard({ showToast }: DeepWizardProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<WizardData>({});
   const [isSubmitting, setIsSubmitting] = useState(false);

@@ -18,7 +18,9 @@ export interface BrandVoiceData {
   brandIdentityInsights: string;
 }
 
-export default function useBrands(sessionId: string, userId: string, showToast: (message: string, type: string) => void) {
+import type { ToastType } from '../context/ToastContext';
+
+export default function useBrands(sessionId: string, userId: string, showToast: (message: string, type?: ToastType, ttlMs?: number) => void) {
   const [brands, setBrands] = useState<SavedBrand[]>([]);
   const [loading, setLoading] = useState(false);
 

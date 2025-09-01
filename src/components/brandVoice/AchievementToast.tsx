@@ -7,7 +7,7 @@ interface AchievementToastProps {
   message: string;
 }
 
-export default function AchievementToast({ icon: IconComponent, title, message }: AchievementToastProps) {
+export default function AchievementToast({ title, message }: AchievementToastProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}

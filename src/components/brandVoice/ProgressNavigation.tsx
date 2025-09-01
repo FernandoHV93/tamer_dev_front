@@ -8,11 +8,11 @@ interface ProgressNavigationProps {
   onStepClick: (step: number) => void;
 }
 
-export default function ProgressNavigation({ currentStep, totalSteps, progress, onStepClick }: ProgressNavigationProps) {
+export default function ProgressNavigation({ currentStep, progress }: ProgressNavigationProps) {
   // Calcular los límites de cada sección dinámicamente
   const sectionBoundaries = wizardSections.map(section => {
-    const firstStepIndex = wizardSteps.findIndex(step => step.section === section.id);
-    const lastStepIndex = wizardSteps.findLastIndex(step => step.section === section.id);
+    const firstStepIndex = wizardSteps.findIndex((step: any) => step.section === section.id);
+    const lastStepIndex = wizardSteps.findIndex((step: any) => step.section === section.id);
     return { firstStepIndex, lastStepIndex };
   });
 
