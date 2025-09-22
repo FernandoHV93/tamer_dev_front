@@ -12,10 +12,10 @@ export default function FeatureButton({ iconPath, title, description, badgeText,
     <button onClick={onClick} className="feature-btn">
       <img src={iconPath} alt="" className={`feature-icon ${isSearchIcon ? 'no-filter' : ''}`} style={{ width: 36, height: 36 }} />
       <div style={{ flex: 1 }}>
-        <div className="row">
+        <div className="row justify-between">
           <h3 style={{ margin: 0 }}>{title}</h3>
           {badgeText && (
-            <span className="feature-badge">{badgeText}</span>
+            <span className="feature-badge w-32 justify-center items-center">{badgeText}</span>
           )}
         </div>
         <p style={{ margin: '4px 0 0', color: 'var(--muted)' }}>{description}</p>
