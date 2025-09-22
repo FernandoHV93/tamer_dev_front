@@ -1,0 +1,27 @@
+# AWS Deployment Configuration
+# Para usar con AWS CLI, S3, CloudFront, etc.
+
+# 1. S3 Bucket Configuration
+bucket_name: "article-builder-frontend"
+region: "us-east-1"
+
+# 2. CloudFront Distribution
+cloudfront_distribution_id: "YOUR_DISTRIBUTION_ID"
+
+# 3. Build Commands
+build_commands:
+  - "npm ci"
+  - "npm run build"
+
+# 4. Files to upload
+upload_files:
+  - "dist/**/*"
+
+# 5. Cache Headers
+cache_headers:
+  - "*.html: no-cache"
+  - "*.js: max-age=31536000"
+  - "*.css: max-age=31536000"
+  - "*.png: max-age=31536000"
+  - "*.svg: max-age=31536000"
+  - "*.ttf: max-age=31536000"

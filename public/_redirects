@@ -1,0 +1,7 @@
+# Redirecciones para Single Page Application (SPA)
+# Todas las rutas que no sean archivos estáticos se redirigen a index.html
+
+/*    /index.html   200
+
+# Redirecciones específicas si las necesitas
+# /old-path    /new-path    301
